@@ -1,0 +1,535 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Casamento de Rafael & Anarita"
+  description="Celebre conosco o nosso grande dia! Confirme sua presença e fique por dentro de todos os detalhes do casamento de Rafael e Anarita."
+>
+
+  <!-- ── NAVBAR ──────────────────────────────────────────── -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="padding: 1.25rem 2rem;">
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <a href="#hero" class="font-cursive" style="font-size: 1.6rem; color: white; text-decoration: none; text-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+        R & A
+      </a>
+      <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <a href="#historia" class="nav-link">Nossa História</a>
+        <a href="#detalhes" class="nav-link">Detalhes</a>
+        <a href="#rsvp" class="btn-primary" style="padding: 0.55rem 1.4rem; font-size: 0.9rem;">
+          💌 Confirmar Presença
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────── -->
+  <section id="hero" style="
+    min-height: 100vh;
+    background: url('/hero-bg.png') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  ">
+    <!-- Overlay gradiente -->
+    <div style="
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(171,147,224,0.35) 0%, rgba(253,248,242,0.6) 50%, rgba(126,173,229,0.25) 100%);
+      backdrop-filter: blur(1px);
+    "></div>
+
+    <!-- Conteúdo Hero -->
+    <div style="position: relative; z-index: 1; max-width: 700px;">
+
+      <!-- Imagem do casal -->
+      <div class="animate-float" style="margin-bottom: 2rem;">
+        <img
+          src="/couple.png"
+          alt="Rafael e Anarita"
+          style="width: 220px; height: 220px; object-fit: cover; border-radius: 50%; border: 5px solid white; box-shadow: 0 12px 40px rgba(171,147,224,0.45);"
+        />
+      </div>
+
+      <p class="font-cursive animate-fade-up" style="font-size: 1.2rem; color: var(--lavanda-dark); margin-bottom: 0.5rem; opacity: 0; animation-delay: 0.1s;">
+        juntamos nossas histórias
+      </p>
+
+      <h1 class="font-cursive animate-fade-up" style="font-size: clamp(3rem, 8vw, 5.5rem); color: var(--lavanda-dark); line-height: 1.1; text-shadow: 0 2px 20px rgba(171,147,224,0.3); opacity: 0; animation-delay: 0.3s;">
+        Rafael &amp; Anarita
+      </h1>
+
+      <p class="animate-fade-up" style="font-size: 1.15rem; color: var(--texto-suave); margin: 1rem 0 0.5rem; font-weight: 600; letter-spacing: 0.1em; opacity: 0; animation-delay: 0.5s;">
+        ✦ &nbsp; 14 de Fevereiro de 2026 &nbsp; ✦
+      </p>
+      <p class="animate-fade-up" style="font-size: 1rem; color: var(--texto-suave); margin-bottom: 2.5rem; opacity: 0; animation-delay: 0.6s;">
+        Catedral Nossa Senhora de Lourdes · Natal, RN
+      </p>
+
+      <!-- Contador Regressivo -->
+      <div id="countdown-wrapper" class="glass-card animate-fade-up animate-pulse-glow" style="
+        display: inline-flex;
+        gap: 0.25rem;
+        padding: 1rem 1.5rem;
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        animation-delay: 0.8s;
+      ">
+        <div class="countdown-box">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">Dias</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 0 0.25rem; font-family: 'Dancing Script'; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;">:</div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">Horas</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 0 0.25rem; font-family: 'Dancing Script'; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;">:</div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">Min</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 0 0.25rem; font-family: 'Dancing Script'; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;">:</div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">Seg</div>
+        </div>
+      </div>
+
+      <div class="animate-fade-up" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation-delay: 1s;">
+        <a href="#rsvp" class="btn-primary" style="font-size: 1.05rem; padding: 1rem 2.2rem;">
+          💌 Confirmar Presença
+        </a>
+        <a href="#detalhes" class="btn-outline" style="background: rgba(255,255,255,0.8);">
+          📍 Ver Detalhes
+        </a>
+      </div>
+    </div>
+
+    <!-- Seta de scroll -->
+    <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: float 2s ease-in-out infinite;">
+      <a href="#historia" style="color: var(--lavanda); font-size: 1.5rem; text-decoration: none;">↓</a>
+    </div>
+  </section>
+
+  <!-- ── NOSSA HISTÓRIA ──────────────────────────────────── -->
+  <section id="historia" style="background: white; padding: 5rem 1.5rem;">
+    <div style="max-width: 900px; margin: 0 auto;">
+
+      <h2 class="section-title reveal">Nossa História</h2>
+      <div class="ornament reveal">
+        <span style="font-size: 1.4rem;">🌸</span>
+      </div>
+      <p class="section-subtitle reveal">Dois caminhos que se encontraram e nunca mais se separaram</p>
+
+      <!-- Timeline de momentos -->
+      <div style="display: flex; flex-direction: column; gap: 3rem; margin-top: 2rem;">
+
+        <div class="reveal" style="display: flex; gap: 2rem; align-items: flex-start;">
+          <div style="flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--lavanda-light), var(--azul-light)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(171,147,224,0.25);">
+            🌟
+          </div>
+          <div>
+            <h3 style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--lavanda-dark); margin-bottom: 0.5rem;">O Primeiro Encontro</h3>
+            <p class="reveal-delay" style="color: var(--texto-suave); line-height: 1.8;">
+              Foi num fim de tarde de outono que nossos olhares se cruzaram pela primeira vez.
+              Nenhum dos dois sabia que aquele momento simples seria o início de uma linda história de amor —
+              uma história que nos trouxe até aqui.
+            </p>
+          </div>
+        </div>
+
+        <div class="reveal" style="display: flex; gap: 2rem; align-items: flex-start;">
+          <div style="flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--azul-light), var(--menta)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(126,173,229,0.25);">
+            💙
+          </div>
+          <div>
+            <h3 style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--lavanda-dark); margin-bottom: 0.5rem;">Cada Dia Juntos</h3>
+            <p style="color: var(--texto-suave); line-height: 1.8;">
+              Com o passar do tempo, descobrimos que nos tornamos a parte favorita um do outro.
+              Cada aventura, cada risada e cada desafio superado fortaleceu ainda mais o nosso laço.
+              Somos o lar um do outro.
+            </p>
+          </div>
+        </div>
+
+        <div class="reveal" style="display: flex; gap: 2rem; align-items: flex-start;">
+          <div style="flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--menta), var(--lavanda-light)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(173,235,179,0.35);">
+            💍
+          </div>
+          <div>
+            <h3 style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--lavanda-dark); margin-bottom: 0.5rem;">O Pedido</h3>
+            <p style="color: var(--texto-suave); line-height: 1.8;">
+              Com o coração acelerado e um sorriso que não cabia no rosto, veio o pedido que selou
+              a promessa mais bonita das nossas vidas. E a resposta? Um "sim" cheio de lágrimas e alegria.
+              Agora queremos que você faça parte deste próximo capítulo!
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DETALHES DO EVENTO ──────────────────────────────── -->
+  <section id="detalhes" style="background: linear-gradient(135deg, var(--creme) 0%, var(--lavanda-light) 50%, var(--creme) 100%); padding: 5rem 1.5rem;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+
+      <h2 class="section-title reveal">Detalhes do Grande Dia</h2>
+      <div class="ornament reveal">
+        <span style="font-size: 1.4rem;">✨</span>
+      </div>
+      <p class="section-subtitle reveal">Tudo o que você precisa saber para celebrar conosco</p>
+
+      <div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+
+        <!-- Data e Hora -->
+        <div class="glass-card" style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
+          <h3 style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">Data & Hora</h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">14 de Fevereiro de 2026</p>
+          <p style="color: var(--texto-suave);">Cerimônia: 16h00</p>
+          <p style="color: var(--texto-suave);">Recepção: 18h30</p>
+        </div>
+
+        <!-- Local da Cerimônia -->
+        <div class="glass-card" style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">⛪</div>
+          <h3 style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">Cerimônia</h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">Catedral Nossa Senhora de Lourdes</p>
+          <p style="color: var(--texto-suave);">Natal, RN</p>
+          <a href="https://maps.google.com" target="_blank" style="display: inline-block; margin-top: 0.75rem; font-size: 0.85rem; color: var(--lavanda-dark); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--lavanda);">Ver no mapa →</a>
+        </div>
+
+        <!-- Local da Festa -->
+        <div class="glass-card" style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🥂</div>
+          <h3 style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">Recepção</h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">Espaço Villa Garden</p>
+          <p style="color: var(--texto-suave);">Natal, RN</p>
+          <a href="https://maps.google.com" target="_blank" style="display: inline-block; margin-top: 0.75rem; font-size: 0.85rem; color: var(--lavanda-dark); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--lavanda);">Ver no mapa →</a>
+        </div>
+
+        <!-- Dress Code -->
+        <div class="glass-card" style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">👗</div>
+          <h3 style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">Dress Code</h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">Black Tie Opcional</p>
+          <p style="color: var(--texto-suave);">Tons de lavanda e azul são bem-vindos! ✨</p>
+          <p style="color: var(--texto-suave); font-size: 0.85rem; margin-top: 0.5rem;">Evite branco e preto total.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RSVP ────────────────────────────────────────────── -->
+  <section id="rsvp" style="background: white; padding: 5rem 1.5rem;">
+    <div style="max-width: 650px; margin: 0 auto;">
+
+      <h2 class="section-title reveal">Confirme sua Presença</h2>
+      <div class="ornament reveal">
+        <span style="font-size: 1.4rem;">💌</span>
+      </div>
+      <p class="section-subtitle reveal">
+        Confirme até <strong>14 de Janeiro de 2026</strong>.
+        Sua presença é o nosso maior presente!
+      </p>
+
+      <!-- Componente React: RSVPForm -->
+      <div id="rsvp-form-container" class="reveal glass-card" style="padding: 2.5rem;">
+        <!-- Placeholder até o React carregar -->
+        <div id="rsvp-placeholder" style="text-align:center; color: var(--texto-suave);">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">💌</div>
+          <p style="font-size: 1rem; margin-bottom: 1.5rem;">Digite seu nome para buscarmos seu convite:</p>
+          <div style="display: flex; gap: 0.75rem; max-width: 450px; margin: 0 auto;">
+            <input
+              type="text"
+              id="rsvp-name-search"
+              placeholder="Seu nome completo..."
+              class="form-input"
+              style="flex:1;"
+              autocomplete="off"
+            />
+            <button
+              id="rsvp-search-btn"
+              class="btn-primary"
+              style="padding: 0.875rem 1.5rem; white-space: nowrap;"
+              onclick="handleRSVPSearch()"
+            >
+              Buscar
+            </button>
+          </div>
+          <div id="rsvp-result" style="margin-top: 1.5rem;"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────────────────────── -->
+  <footer style="
+    background: linear-gradient(135deg, var(--lavanda-dark) 0%, var(--azul) 100%);
+    color: white;
+    text-align: center;
+    padding: 3rem 1.5rem;
+  ">
+    <p class="font-cursive" style="font-size: 2.5rem; margin-bottom: 0.75rem; text-shadow: 0 2px 10px rgba(0,0,0,0.15);">
+      Rafael &amp; Anarita
+    </p>
+    <p style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 1.5rem;">
+      14 de Fevereiro de 2026 · Natal, RN
+    </p>
+    <p style="font-size: 1.1rem; opacity: 0.9; font-style: italic; max-width: 500px; margin: 0 auto 1.5rem;">
+      "E não há em mim outro amor — você é sempre o meu mais."
+    </p>
+    <div style="width: 60px; height: 1px; background: rgba(255,255,255,0.4); margin: 0 auto 1.25rem;"></div>
+    <p style="font-size: 0.8rem; opacity: 0.6;">
+      Feito com 💜 para o dia mais especial das nossas vidas
+    </p>
+  </footer>
+
+</Layout>
+
+<!-- ── SCRIPTS ─────────────────────────────────────────────── -->
+<style>
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .nav-link:hover { opacity: 1; }
+
+  #navbar.scrolled {
+    background: rgba(253, 248, 242, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px rgba(171,147,224,0.15);
+    padding: 0.75rem 2rem !important;
+  }
+  #navbar.scrolled .nav-link {
+    color: var(--lavanda-dark);
+    text-shadow: none;
+  }
+  #navbar.scrolled a.font-cursive {
+    color: var(--lavanda-dark) !important;
+    text-shadow: none !important;
+  }
+
+  @media (max-width: 640px) {
+    #navbar > div > div:last-child .nav-link { display: none; }
+  }
+</style>
+
+<script>
+  // ── Countdown ──────────────────────────────────────────── //
+  function updateCountdown() {
+    const weddingDate = new Date('2026-02-14T16:00:00');
+    const now = new Date();
+    const diff = weddingDate - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown-wrapper').innerHTML =
+        '<p class="font-cursive" style="font-size:2rem;color:var(--lavanda-dark);">🎉 Hoje é o grande dia! 🎉</p>';
+      return;
+    }
+
+    const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const pad = n => String(n).padStart(2, '0');
+    document.getElementById('days').textContent    = pad(days);
+    document.getElementById('hours').textContent   = pad(hours);
+    document.getElementById('minutes').textContent = pad(minutes);
+    document.getElementById('seconds').textContent = pad(seconds);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ── Navbar scroll ──────────────────────────────────────── //
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // ── Scroll Reveal ──────────────────────────────────────── //
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.05}s`;
+    revealObserver.observe(el);
+  });
+
+  // ── RSVP Busca ────────────────────────────────────────── //
+  async function handleRSVPSearch() {
+    const nameInput = document.getElementById('rsvp-name-search');
+    const resultDiv = document.getElementById('rsvp-result');
+    const name = nameInput.value.trim();
+
+    if (!name) {
+      resultDiv.innerHTML = '<p style="color:#e07b7b;">Por favor, digite seu nome.</p>';
+      return;
+    }
+
+    const btn = document.getElementById('rsvp-search-btn');
+    btn.textContent = 'Buscando...';
+    btn.disabled = true;
+
+    try {
+      // TODO: Trocar pela URL real da API quando o backend estiver pronto
+      const API_BASE = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+      const res = await fetch(`${API_BASE}/guests/search?name=${encodeURIComponent(name)}`);
+
+      if (!res.ok) {
+        if (res.status === 404) {
+          resultDiv.innerHTML = `
+            <div style="padding:1.5rem; background:rgba(224,147,147,0.1); border-radius:12px; border: 1px solid rgba(224,147,147,0.3);">
+              <p style="color:#c0504d; font-weight:600;">😕 Nome não encontrado na lista de convidados.</p>
+              <p style="color:var(--texto-suave); font-size:0.9rem; margin-top:0.5rem;">Verifique a grafia ou entre em contato com os noivos.</p>
+            </div>`;
+        } else {
+          throw new Error('Erro no servidor');
+        }
+        return;
+      }
+
+      const data = await res.json();
+      renderRSVPForm(data);
+
+    } catch (e) {
+      // Modo demo quando a API não está disponível
+      resultDiv.innerHTML = `
+        <div style="padding:1.5rem; background:rgba(171,147,224,0.1); border-radius:12px; border: 1px solid rgba(171,147,224,0.3);">
+          <p style="color:var(--lavanda-dark); font-weight:600;">⚠️ API ainda não disponível.</p>
+          <p style="color:var(--texto-suave); font-size:0.9rem; margin-top:0.5rem;">O sistema de confirmação estará disponível em breve. Obrigado pela paciência! 💜</p>
+        </div>`;
+    } finally {
+      btn.textContent = 'Buscar';
+      btn.disabled = false;
+    }
+  }
+
+  function renderRSVPForm(data) {
+    const resultDiv = document.getElementById('rsvp-result');
+    const members = data.members || [];
+
+    let membersHTML = members.map((m, i) => `
+      <label style="display:flex; align-items:center; gap:0.75rem; padding:0.75rem; border-radius:10px; cursor:pointer; transition:background 0.2s;" onmouseenter="this.style.background='rgba(171,147,224,0.08)'" onmouseleave="this.style.background='transparent'">
+        <input type="checkbox" name="member_${m.id}" value="${m.id}" checked style="width:18px;height:18px;accent-color:var(--lavanda-dark);" />
+        <span style="color:var(--texto); font-weight:500;">${m.nome_completo}</span>
+        ${m.eh_crianca ? '<span style="font-size:0.75rem;background:var(--lavanda-light);color:var(--lavanda-dark);padding:2px 8px;border-radius:20px;">Criança</span>' : ''}
+      </label>
+    `).join('');
+
+    resultDiv.innerHTML = `
+      <div style="text-align:left;">
+        <p style="color:var(--menta-dark); font-weight:700; font-size:1.05rem; margin-bottom:1rem;">
+          ✅ Encontramos seu convite — Grupo: <strong>${data.nome_grupo}</strong>
+        </p>
+
+        <p style="color:var(--texto-suave); font-size:0.9rem; margin-bottom:0.75rem;">Quem vai comparecer?</p>
+        <div id="members-list" style="margin-bottom:1.5rem;">${membersHTML}</div>
+
+        <div style="margin-bottom:1.25rem;">
+          <label style="display:block; font-size:0.9rem; color:var(--texto-suave); margin-bottom:0.4rem;">Restrições alimentares (opcional):</label>
+          <input type="text" id="food-restriction" placeholder="Ex: vegano, sem glúten, alergia a camarão..." class="form-input" />
+        </div>
+
+        <div style="margin-bottom:1.75rem;">
+          <label style="display:block; font-size:0.9rem; color:var(--texto-suave); margin-bottom:0.4rem;">Mensagem para os noivos (opcional):</label>
+          <textarea id="guest-message" placeholder="Escreva uma mensagem carinhosa... 💜" class="form-input" style="resize:vertical; min-height:90px;"></textarea>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <button class="btn-primary" onclick="submitRSVP(${data.grupo_id})" style="flex:1;">
+            💌 Confirmar Presença
+          </button>
+          <button class="btn-outline" onclick="submitDecline(${data.grupo_id})" style="color:#c0504d; border-color:#e0a0a0;">
+            😔 Não poderei ir
+          </button>
+        </div>
+      </div>`;
+  }
+
+  async function submitRSVP(grupoId) {
+    const checkedMembers = [...document.querySelectorAll('[name^="member_"]:checked')].map(el => Number(el.value));
+    const restriction = document.getElementById('food-restriction')?.value || '';
+    const message = document.getElementById('guest-message')?.value || '';
+
+    const API_BASE = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+
+    try {
+      const res = await fetch(`${API_BASE}/rsvp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          grupo_id: grupoId,
+          confirmados: checkedMembers,
+          restricao_alimentar: restriction,
+          mensagem: message,
+        }),
+      });
+
+      if (res.ok) {
+        document.getElementById('rsvp-result').innerHTML = `
+          <div style="text-align:center; padding:2rem; background:rgba(173,235,179,0.15); border-radius:16px; border:1px solid rgba(173,235,179,0.5);">
+            <div style="font-size:3rem; margin-bottom:1rem;">🎉</div>
+            <p style="font-family:'Dancing Script'; font-size:2rem; color:var(--menta-dark);">Presença Confirmada!</p>
+            <p style="color:var(--texto-suave); margin-top:0.5rem;">Mal podemos esperar para celebrar com você! 💜</p>
+          </div>`;
+      } else {
+        throw new Error('Erro ao confirmar');
+      }
+    } catch {
+      alert('Ocorreu um erro. Tente novamente ou entre em contato com os noivos.');
+    }
+  }
+
+  async function submitDecline(grupoId) {
+    const API_BASE = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+    try {
+      await fetch(`${API_BASE}/rsvp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ grupo_id: grupoId, confirmados: [], recusado: true }),
+      });
+    } catch {}
+    document.getElementById('rsvp-result').innerHTML = `
+      <div style="text-align:center; padding:2rem; background:rgba(224,147,147,0.08); border-radius:16px; border:1px solid rgba(224,147,147,0.3);">
+        <div style="font-size:3rem; margin-bottom:1rem;">💔</div>
+        <p style="font-family:'Dancing Script'; font-size:1.8rem; color:var(--texto-suave);">Sentiremos sua falta!</p>
+        <p style="color:var(--texto-suave); margin-top:0.5rem;">Obrigado por nos avisar. Você sempre estará em nossos corações. 💜</p>
+      </div>`;
+  }
+
+  // Permitir Enter no campo de busca
+  document.getElementById('rsvp-name-search')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleRSVPSearch();
+  });
+
+  // Expor para o onclick no HTML
+  window.handleRSVPSearch = handleRSVPSearch;
+  window.submitRSVP = submitRSVP;
+  window.submitDecline = submitDecline;
+</script>

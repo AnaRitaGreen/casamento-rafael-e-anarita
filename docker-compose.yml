@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres_casamento:
+    image: postgres:15-alpine
+    container_name: postgres_casamento
+    environment:
+      POSTGRES_USER: noivos_admin
+      POSTGRES_PASSWORD: SuaSenhaSuperSeguraAqui
+      POSTGRES_DB: casamento_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:

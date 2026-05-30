@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* ── Variáveis de design ─────────────────────────────────── */
+:root {
+  --lavanda:      #ab93e0;
+  --lavanda-dark: #8a6fd4;
+  --lavanda-light: #d4c6f0;
+  --azul:         #7eade5;
+  --azul-light:   #b8d4f5;
+  --menta:        #adebb3;
+  --menta-dark:   #7dd485;
+  --creme:        #fdf8f2;
+  --creme-dark:   #f5ede0;
+  --texto:        #4a4060;
+  --texto-suave:  #7a6e96;
+}
+
+/* ── Reset e base ────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: var(--creme);
+  color: var(--texto);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── Tipografia ──────────────────────────────────────────── */
+.font-cursive {
+  font-family: 'Dancing Script', cursive;
+}
+
+h1, h2, h3 {
+  font-family: 'Dancing Script', cursive;
+  color: var(--lavanda-dark);
+  line-height: 1.2;
+}
+
+/* ── Utilitários de cor ──────────────────────────────────── */
+.text-lavanda      { color: var(--lavanda-dark); }
+.text-azul         { color: var(--azul); }
+.text-menta        { color: var(--menta-dark); }
+.bg-lavanda        { background-color: var(--lavanda); }
+.bg-lavanda-light  { background-color: var(--lavanda-light); }
+.bg-creme          { background-color: var(--creme); }
+
+/* ── Botões ──────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--lavanda) 0%, var(--azul) 100%);
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(171, 147, 224, 0.4);
+  letter-spacing: 0.02em;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(171, 147, 224, 0.55);
+  filter: brightness(1.05);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--lavanda-dark);
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 50px;
+  border: 2px solid var(--lavanda);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: var(--lavanda);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(171, 147, 224, 0.35);
+}
+
+/* ── Cards / Glass ───────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(171, 147, 224, 0.12);
+}
+
+/* ── Divisor ornamental ──────────────────────────────────── */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem auto;
+}
+
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--lavanda));
+}
+
+.ornament::after {
+  background: linear-gradient(to left, transparent, var(--lavanda));
+}
+
+/* ── Animações ───────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(171, 147, 224, 0.3); }
+  50%       { box-shadow: 0 0 40px rgba(171, 147, 224, 0.6); }
+}
+
+.animate-float    { animation: float 4s ease-in-out infinite; }
+.animate-fade-up  { animation: fadeInUp 0.8s ease-out forwards; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+/* ── Scroll reveal ───────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Seções ──────────────────────────────────────────────── */
+.section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  color: var(--lavanda-dark);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--texto-suave);
+  font-size: 1.05rem;
+  margin-bottom: 3rem;
+}
+
+/* ── Countdown ───────────────────────────────────────────── */
+.countdown-box {
+  text-align: center;
+  padding: 1rem 1.5rem;
+  min-width: 80px;
+}
+
+.countdown-number {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--lavanda-dark);
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--texto-suave);
+  margin-top: 0.25rem;
+}
+
+/* ── Forms ───────────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  border: 2px solid var(--lavanda-light);
+  border-radius: 12px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  color: var(--texto);
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--lavanda);
+  box-shadow: 0 0 0 4px rgba(171, 147, 224, 0.15);
+}
+
+.form-input::placeholder {
+  color: #b8b0cc;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--creme); }
+::-webkit-scrollbar-thumb { background: var(--lavanda); border-radius: 3px; }

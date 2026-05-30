@@ -1,0 +1,140 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Login — Painel dos Noivos"
+  description="Acesso restrito ao painel de gerenciamento do casamento de Rafael e Anarita."
+>
+  <div style="
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--lavanda-light) 0%, var(--creme) 50%, var(--azul-light) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  ">
+
+    <div class="glass-card animate-fade-up" style="width: 100%; max-width: 420px; padding: 2.5rem;">
+
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="/" style="font-family:'Dancing Script'; font-size:2rem; color:var(--lavanda-dark); text-decoration:none;">
+          R & A
+        </a>
+        <h1 style="font-family:'Dancing Script'; font-size:2.2rem; color:var(--lavanda-dark); margin: 0.75rem 0 0.25rem;">
+          Painel dos Noivos
+        </h1>
+        <p style="color:var(--texto-suave); font-size:0.9rem;">Acesso restrito — apenas Rafael & Anarita</p>
+      </div>
+
+      <!-- Formulário -->
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div style="margin-bottom: 1.25rem;">
+          <label for="username" style="display:block; font-size:0.9rem; font-weight:600; color:var(--texto-suave); margin-bottom:0.4rem;">
+            Usuário
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-input"
+            placeholder="seu usuário"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div style="margin-bottom: 1.75rem;">
+          <label for="password" style="display:block; font-size:0.9rem; font-weight:600; color:var(--texto-suave); margin-bottom:0.4rem;">
+            Senha
+          </label>
+          <div style="position:relative;">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+              style="padding-right: 3rem;"
+            />
+            <button
+              type="button"
+              id="toggle-pass"
+              onclick="togglePassword()"
+              style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--texto-suave);font-size:1.1rem;"
+              aria-label="Mostrar/ocultar senha"
+            >👁</button>
+          </div>
+        </div>
+
+        <div id="login-error" style="display:none; padding:0.75rem 1rem; background:rgba(224,147,147,0.15); border-radius:10px; border:1px solid rgba(224,147,147,0.4); color:#c0504d; font-size:0.9rem; margin-bottom:1rem;">
+          ❌ Usuário ou senha incorretos.
+        </div>
+
+        <button
+          type="submit"
+          id="login-btn"
+          class="btn-primary"
+          style="width:100%; justify-content:center; font-size:1rem;"
+        >
+          Entrar no Painel
+        </button>
+      </form>
+
+      <p style="text-align:center; margin-top:1.5rem;">
+        <a href="/" style="color:var(--lavanda-dark); font-size:0.85rem; text-decoration:none; opacity:0.7;">
+          ← Voltar ao site
+        </a>
+      </p>
+
+    </div>
+  </div>
+</Layout>
+
+<script>
+  function togglePassword() {
+    const passInput = document.getElementById('password');
+    passInput.type = passInput.type === 'password' ? 'text' : 'password';
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    const btn = document.getElementById('login-btn');
+    const errDiv = document.getElementById('login-error');
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    btn.textContent = 'Entrando...';
+    btn.disabled = true;
+    errDiv.style.display = 'none';
+
+    const API_BASE = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (res.ok) {
+        window.location.href = '/admin/dashboard';
+      } else {
+        errDiv.style.display = 'block';
+      }
+    } catch {
+      errDiv.innerHTML = '⚠️ Servidor indisponível. Verifique a conexão.';
+      errDiv.style.display = 'block';
+    } finally {
+      btn.textContent = 'Entrar no Painel';
+      btn.disabled = false;
+    }
+  }
+
+  window.togglePassword = togglePassword;
+  window.handleLogin = handleLogin;
+</script>
