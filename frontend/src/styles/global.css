@@ -145,11 +145,11 @@ h1, h2, h3 {
 /* ── Animações ───────────────────────────────────────────── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+  50%       { transform: translateY(-8px); }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -158,15 +158,15 @@ h1, h2, h3 {
   50%       { box-shadow: 0 0 40px rgba(171, 147, 224, 0.6); }
 }
 
-.animate-float    { animation: float 4s ease-in-out infinite; }
-.animate-fade-up  { animation: fadeInUp 0.8s ease-out forwards; }
-.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+.animate-float    { animation: float 2.5s ease-in-out infinite; }
+.animate-fade-up  { animation: fadeInUp 0.45s ease-out forwards; }
+.animate-pulse-glow { animation: pulse-glow 1.5s ease-in-out infinite; }
 
 /* ── Scroll reveal ───────────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(24px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .reveal.visible {

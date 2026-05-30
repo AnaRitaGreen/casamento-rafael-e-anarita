@@ -15,6 +15,15 @@ CREATE TABLE convidados (
     eh_crianca BOOLEAN DEFAULT FALSE
 );
 
+-- Tabela de Mensagens dos Convidados (enviadas pelo formulário RSVP)
+CREATE TABLE mensagens (
+    id SERIAL PRIMARY KEY,
+    grupo_id INT REFERENCES grupos(id) ON DELETE CASCADE,
+    nome VARCHAR(150) NOT NULL,
+    mensagem TEXT NOT NULL,
+    data TIMESTAMP DEFAULT NOW()
+);
+
 -- Tabela de Usuários Admin (Para você acessar o Dashboard)
 CREATE TABLE administradores (
     id SERIAL PRIMARY KEY,
