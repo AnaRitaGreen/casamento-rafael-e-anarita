@@ -50,6 +50,14 @@ export const wedding = {
 
   frase_rodape: "\"E não há em mim outro amor — você é sempre o meu mais.\"",
 
+  // ── PIX (Lista de Presentes) ───────────────────────────────── //
+  pix: {
+    /** Chave PIX (CPF, e-mail, telefone ou chave aleatória) */
+    chave: "00000000000",       // ← Coloque sua chave PIX real aqui
+    /** Nome exibido na tela de pagamento */
+    titular: "Rafael Santos",   // ← Coloque o nome real do titular
+  },
+
 } as const;
 
 // ── Helpers ────────────────────────────────────────────────────── //

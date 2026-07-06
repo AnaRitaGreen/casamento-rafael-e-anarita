@@ -10,6 +10,16 @@ export default defineConfig({
   integrations: [react()],
 
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+    server: {
+      proxy: {
+        // Em desenvolvimento, /api/* é redirecionado ao backend Go
+        // Em produção, PUBLIC_API_URL aponta para o servidor real
+        '/api': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+        },
+      },
+    },
+  },
 });

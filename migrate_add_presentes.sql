@@ -1,34 +1,19 @@
--- Extensão necessária para busca sem acento (ex: "Joao" encontra "João")
+-- ═══════════════════════════════════════════════════════════════
+-- MIGRAÇÃO: Adicionar tabela de Presentes ao banco existente
+-- Execute UMA VEZ via Docker:
+--
+--   docker exec -i postgres_casamento psql -U noivos_admin -d casamento_db < migrate_add_presentes.sql
+--
+-- OU diretamente pelo container:
+--   docker exec -it postgres_casamento psql -U noivos_admin -d casamento_db
+--   (e depois cole o SQL abaixo)
+-- ═══════════════════════════════════════════════════════════════
+
+-- Extensão necessária para busca sem acento (pode já existir)
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
--- Tabela de Grupos (para juntar famílias/casais no mesmo convite)
-CREATE TABLE grupos (
-    id SERIAL PRIMARY KEY,
-    nome_grupo VARCHAR(100) NOT NULL -- Ex: "Família Silva", "Pedro & Par"
-);
-
--- Tabela de Convidados
-CREATE TABLE convidados (
-    id SERIAL PRIMARY KEY,
-    grupo_id INT REFERENCES grupos(id) ON DELETE CASCADE,
-    nome_completo VARCHAR(150) NOT NULL,
-    confirmado BOOLEAN DEFAULT NULL, -- NULL = Pendente, TRUE = Vai, FALSE = Não vai
-    data_confirmacao TIMESTAMP,
-    restricao_alimentar VARCHAR(255),
-    eh_crianca BOOLEAN DEFAULT FALSE
-);
-
--- Tabela de Mensagens dos Convidados (enviadas pelo formulário RSVP)
-CREATE TABLE mensagens (
-    id SERIAL PRIMARY KEY,
-    grupo_id INT REFERENCES grupos(id) ON DELETE CASCADE,
-    nome VARCHAR(150) NOT NULL,
-    mensagem TEXT NOT NULL,
-    data TIMESTAMP DEFAULT NOW()
-);
-
--- Tabela de Presentes (Lista de Casamento — estilo marketplace)
-CREATE TABLE presentes (
+-- Tabela de Presentes (Lista de Casamento)
+CREATE TABLE IF NOT EXISTS presentes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(200) NOT NULL,
     descricao TEXT DEFAULT '',
@@ -36,18 +21,14 @@ CREATE TABLE presentes (
     imagem_url VARCHAR(500) DEFAULT '',
     categoria VARCHAR(100) DEFAULT 'Outros',
     reservado BOOLEAN DEFAULT FALSE,
-    reservado_por VARCHAR(150),       -- Nome de quem reservou
+    reservado_por VARCHAR(150),
     data_reserva TIMESTAMP,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- Tabela de Usuários Admin (Para você acessar o Dashboard)
-CREATE TABLE administradores (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL
-);
-
+-- ═══════════════════════════════════════════════════════════════
+-- OPCIONAL: Inserir presentes de exemplo (remova se não quiser)
+-- ═══════════════════════════════════════════════════════════════
 INSERT INTO presentes (nome, descricao, preco, categoria) VALUES
   ('Jogo de Panelas Tramontina', 'Jogo com 5 peças antiaderentes, tampa de vidro', 349.90, 'Cozinha'),
   ('Air Fryer Digital 5,5L', 'Fritadeira elétrica sem óleo, display touch, 10 funções', 399.90, 'Eletrodomésticos'),
@@ -65,3 +46,5 @@ INSERT INTO presentes (nome, descricao, preco, categoria) VALUES
   ('Porta-Retratos (kit 3 peças)', 'Vidro frontal, estrutura em madeira', 119.90, 'Decoração'),
   ('Espelho de Corpo Inteiro', 'Moldura em madeira, 1,70m x 0,50m', 289.90, 'Decoração')
 ON CONFLICT DO NOTHING;
+
+SELECT 'Migração concluída com sucesso! ✅' AS status;

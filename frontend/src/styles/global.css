@@ -1,24 +1,27 @@
 @import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rochester&display=swap');
 
 /* ── Variáveis de design ─────────────────────────────────── */
 :root {
-  --lavanda:      #ab93e0;
+  --lavanda: #ab93e0;
   --lavanda-dark: #8a6fd4;
   --lavanda-light: #d4c6f0;
-  --azul:         #7eade5;
-  --azul-light:   #b8d4f5;
-  --menta:        #adebb3;
-  --menta-dark:   #7dd485;
-  --creme:        #fdf8f2;
-  --creme-dark:   #f5ede0;
-  --texto:        #4a4060;
-  --texto-suave:  #7a6e96;
+  --azul: #7eade5;
+  --azul-light: #b8d4f5;
+  --menta: #adebb3;
+  --menta-dark: #7dd485;
+  --creme: #fdf8f2;
+  --creme-dark: #f5ede0;
+  --texto: #4a4060;
+  --texto-suave: #7a6e96;
 }
 
 /* ── Reset e base ────────────────────────────────────────── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -39,22 +42,41 @@ body {
 
 /* ── Tipografia ──────────────────────────────────────────── */
 .font-cursive {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Rochester', cursive;
 }
 
-h1, h2, h3 {
-  font-family: 'Dancing Script', cursive;
+h1,
+h2,
+h3 {
+  font-family: 'Rochester', cursive;
   color: var(--lavanda-dark);
   line-height: 1.2;
 }
 
 /* ── Utilitários de cor ──────────────────────────────────── */
-.text-lavanda      { color: var(--lavanda-dark); }
-.text-azul         { color: var(--azul); }
-.text-menta        { color: var(--menta-dark); }
-.bg-lavanda        { background-color: var(--lavanda); }
-.bg-lavanda-light  { background-color: var(--lavanda-light); }
-.bg-creme          { background-color: var(--creme); }
+.text-lavanda {
+  color: var(--lavanda-dark);
+}
+
+.text-azul {
+  color: var(--azul);
+}
+
+.text-menta {
+  color: var(--menta-dark);
+}
+
+.bg-lavanda {
+  background-color: var(--lavanda);
+}
+
+.bg-lavanda-light {
+  background-color: var(--lavanda-light);
+}
+
+.bg-creme {
+  background-color: var(--creme);
+}
 
 /* ── Botões ──────────────────────────────────────────────── */
 .btn-primary {
@@ -105,7 +127,7 @@ h1, h2, h3 {
 
 .btn-outline:hover {
   background: var(--lavanda);
-  color: white;
+  /* color: white; */
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(171, 147, 224, 0.35);
 }
@@ -144,23 +166,52 @@ h1, h2, h3 {
 
 /* ── Animações ───────────────────────────────────────────── */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(171, 147, 224, 0.3); }
-  50%       { box-shadow: 0 0 40px rgba(171, 147, 224, 0.6); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(171, 147, 224, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(171, 147, 224, 0.6);
+  }
 }
 
-.animate-float    { animation: float 2.5s ease-in-out infinite; }
-.animate-fade-up  { animation: fadeInUp 0.45s ease-out forwards; }
-.animate-pulse-glow { animation: pulse-glow 1.5s ease-in-out infinite; }
+.animate-float {
+  animation: float 2.5s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fadeInUp 0.45s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
 
 /* ── Scroll reveal ───────────────────────────────────────── */
 .reveal {
@@ -182,7 +233,7 @@ h1, h2, h3 {
 }
 
 .section-title {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Rochester', cursive;
   font-size: clamp(2.2rem, 5vw, 3.5rem);
   color: var(--lavanda-dark);
   text-align: center;
@@ -204,7 +255,7 @@ h1, h2, h3 {
 }
 
 .countdown-number {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Rochester', cursive;
   font-size: 3rem;
   font-weight: 700;
   color: var(--lavanda-dark);
@@ -243,6 +294,15 @@ h1, h2, h3 {
 }
 
 /* ── Scrollbar ───────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--creme); }
-::-webkit-scrollbar-thumb { background: var(--lavanda); border-radius: 3px; }
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--creme);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lavanda);
+  border-radius: 3px;
+}

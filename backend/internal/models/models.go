@@ -89,3 +89,37 @@ type GroupListResponse struct {
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
+
+// ── Presentes ─────────────────────────────────────────────────── //
+
+// Presente representa um item da lista de casamento.
+type Presente struct {
+	ID          int        `json:"id"`
+	Nome        string     `json:"nome"`
+	Descricao   string     `json:"descricao"`
+	Preco       float64    `json:"preco"`
+	ImagemURL   string     `json:"imagem_url"`
+	Categoria   string     `json:"categoria"`
+	Reservado   bool       `json:"reservado"`
+	ReservadoPor *string   `json:"reservado_por,omitempty"` // só visível no admin
+	DataReserva  *time.Time `json:"data_reserva,omitempty"`
+}
+
+// PresenteListResponse é a resposta da listagem de presentes.
+type PresenteListResponse struct {
+	Presentes []Presente `json:"presentes"`
+}
+
+// ReservarPresenteRequest é o corpo da requisição de reserva de presente.
+type ReservarPresenteRequest struct {
+	Nome string `json:"nome"` // nome de quem presenteia
+}
+
+// AddPresenteRequest é o corpo para criar/editar um presente.
+type AddPresenteRequest struct {
+	Nome      string  `json:"nome"`
+	Descricao string  `json:"descricao"`
+	Preco     float64 `json:"preco"`
+	ImagemURL string  `json:"imagem_url"`
+	Categoria string  `json:"categoria"`
+}

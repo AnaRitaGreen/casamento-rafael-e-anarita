@@ -9,47 +9,12 @@ import {
 ---
 
 <Layout title={wedding.seo.title} description={wedding.seo.description}>
-  <!-- ── NAVBAR ──────────────────────────────────────────── -->
-  <nav
-    id="navbar"
-    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-    style="padding: 1.25rem 2rem;"
-  >
-    <div
-      style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;"
-    >
-      <a
-        href="#hero"
-        class="font-cursive"
-        style="font-size: 1.6rem; color: white; text-decoration: none; text-shadow: 0 2px 8px rgba(0,0,0,0.15);"
-      >
-        {wedding.noivo[0]} &amp; {
-          wedding.noiva
-            .split(" ")
-            .map((w: string) => w[0])
-            .join("")
-        }
-      </a>
-      <div style="display: flex; gap: 1.5rem; align-items: center;">
-        <a href="#historia" class="nav-link">Nossa História</a>
-        <a href="#detalhes" class="nav-link">Detalhes</a>
-        <a
-          href="#rsvp"
-          class="btn-primary"
-          style="padding: 0.55rem 1.4rem; font-size: 0.9rem;"
-        >
-          💌 Confirmar Presença
-        </a>
-      </div>
-    </div>
-  </nav>
-
   <!-- ── HERO ───────────────────────────────────────────── -->
   <section
     id="hero"
     style="
     min-height: 100vh;
-    background: url('/hero-bg.png') center/cover no-repeat;
+    background: url('/bg.png') center/cover no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,24 +26,44 @@ import {
   "
   >
     <!-- Overlay gradiente -->
-    <div
+    <!-- <div
       style="
       position: absolute; inset: 0;
       background: linear-gradient(160deg, rgba(171,147,224,0.35) 0%, rgba(253,248,242,0.6) 50%, rgba(126,173,229,0.25) 100%);
       backdrop-filter: blur(1px);
     "
     >
-    </div>
+    </div> -->
 
     <!-- Conteúdo Hero -->
     <div style="position: relative; z-index: 1; max-width: 700px;">
       <!-- Imagem do casal -->
-      <div class="animate-float" style="margin-bottom: 2rem;">
+      <!-- <div class="animate-float" style="margin-bottom: 2rem;">
         <img
-          src="/couple.png"
+          src="/monograma.png"
           alt={`${wedding.noivo} e ${wedding.noiva}`}
-          style="width: 220px; height: 220px; object-fit: cover; border-radius: 50%; border: 5px solid white; box-shadow: 0 12px 40px rgba(171,147,224,0.45);"
+          style="width: 100px; height: 100px; padding: 0.5rem; object-fit: cover; border-radius: 50%; border: 3px solid white; box-shadow: 0 12px 40px rgba(171,147,224,0.45);"
         />
+      </div> -->
+      <div
+        style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; align-items: center; margin-bottom: 3rem;"
+      >
+        <img
+          src="/monograma.png"
+          alt={`${wedding.noivo} e ${wedding.noiva}`}
+          style="width: 80px; height: 80px; object-fit: cover;"
+        />
+        <!-- <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <a href="#detalhes" class="nav-link">Detalhes</a>
+        <a href="#lista-de-presentes" class="nav-link">Lista de Presentes</a>
+        <a
+          href="#rsvp"
+          class="btn-primary"
+          style="padding: 0.55rem 1.4rem; font-size: 0.9rem;"
+        >
+          💌 Confirmar Presença
+        </a>
+      </div> -->
       </div>
 
       <p
@@ -90,7 +75,7 @@ import {
 
       <h1
         class="font-cursive animate-fade-up"
-        style="font-size: clamp(3rem, 8vw, 5.5rem); color: var(--lavanda-dark); line-height: 1.1; text-shadow: 0 2px 20px rgba(171,147,224,0.3); opacity: 0; animation-delay: 0.15s;"
+        style="font-size: clamp(3rem, 8vw, 5.5rem); color: var(--azul); line-height: 1.1; text-shadow: 0 2px 20px rgba(171,147,224,0.3); opacity: 0; animation-delay: 0.15s;"
       >
         {nomesCasal}
       </h1>
@@ -111,14 +96,12 @@ import {
       <!-- Contador Regressivo -->
       <div
         id="countdown-wrapper"
-        class="glass-card animate-fade-up animate-pulse-glow"
+        data-date={wedding.dataCerimonia}
         style="
         display: inline-flex;
         gap: 0.25rem;
         padding: 1rem 1.5rem;
         margin-bottom: 2.5rem;
-        opacity: 0;
-        animation-delay: 0.42s;
       "
       >
         <div class="countdown-box">
@@ -126,7 +109,7 @@ import {
           <div class="countdown-label">Dias</div>
         </div>
         <div
-          style="display: flex; align-items: center; padding: 0 0.25rem; font-family: 'Dancing Script'; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;"
+          style="display: flex; align-items: center; padding: 0 0.25rem; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;"
         >
           :
         </div>
@@ -135,7 +118,7 @@ import {
           <div class="countdown-label">Horas</div>
         </div>
         <div
-          style="display: flex; align-items: center; padding: 0 0.25rem; font-family: 'Dancing Script'; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;"
+          style="display: flex; align-items: center; padding: 0 0.25rem; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;"
         >
           :
         </div>
@@ -144,7 +127,7 @@ import {
           <div class="countdown-label">Min</div>
         </div>
         <div
-          style="display: flex; align-items: center; padding: 0 0.25rem; font-family: 'Dancing Script'; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;"
+          style="display: flex; align-items: center; padding: 0 0.25rem; font-size: 2rem; color: var(--lavanda); margin-top: -0.5rem;"
         >
           :
         </div>
@@ -159,6 +142,13 @@ import {
         style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation-delay: 0.52s;"
       >
         <a
+          href="#detalhes"
+          class="btn-outline"
+          style="background: rgba(255,255,255,0.8);"
+        >
+          📍 Ver Detalhes
+        </a>
+        <a
           href="#rsvp"
           class="btn-primary"
           style="font-size: 1.05rem; padding: 1rem 2.2rem;"
@@ -166,11 +156,11 @@ import {
           💌 Confirmar Presença
         </a>
         <a
-          href="#detalhes"
+          href="#lista-de-presentes"
           class="btn-outline"
           style="background: rgba(255,255,255,0.8);"
         >
-          📍 Ver Detalhes
+          🎁 Lista de Presentes
         </a>
       </div>
     </div>
@@ -180,103 +170,10 @@ import {
       style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: float 1.4s ease-in-out infinite;"
     >
       <a
-        href="#historia"
+        href="#detalhes"
         style="color: var(--lavanda); font-size: 1.5rem; text-decoration: none;"
         >↓</a
       >
-    </div>
-  </section>
-
-  <!-- ── NOSSA HISTÓRIA ──────────────────────────────────── -->
-  <section id="historia" style="background: white; padding: 5rem 1.5rem;">
-    <div style="max-width: 900px; margin: 0 auto;">
-      <h2 class="section-title reveal">Nossa História</h2>
-      <div class="ornament reveal">
-        <span style="font-size: 1.4rem;">🌸</span>
-      </div>
-      <p class="section-subtitle reveal">
-        Dois caminhos que se encontraram e nunca mais se separaram
-      </p>
-
-      <!-- Timeline de momentos -->
-      <div
-        style="display: flex; flex-direction: column; gap: 3rem; margin-top: 2rem;"
-      >
-        <div
-          class="reveal"
-          style="display: flex; gap: 2rem; align-items: flex-start;"
-        >
-          <div
-            style="flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--lavanda-light), var(--azul-light)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(171,147,224,0.25);"
-          >
-            🌟
-          </div>
-          <div>
-            <h3
-              style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--lavanda-dark); margin-bottom: 0.5rem;"
-            >
-              O Primeiro Encontro
-            </h3>
-            <p
-              class="reveal-delay"
-              style="color: var(--texto-suave); line-height: 1.8;"
-            >
-              Foi num fim de tarde de outono que nossos olhares se cruzaram pela
-              primeira vez. Nenhum dos dois sabia que aquele momento simples
-              seria o início de uma linda história de amor — uma história que
-              nos trouxe até aqui.
-            </p>
-          </div>
-        </div>
-
-        <div
-          class="reveal"
-          style="display: flex; gap: 2rem; align-items: flex-start;"
-        >
-          <div
-            style="flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--azul-light), var(--menta)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(126,173,229,0.25);"
-          >
-            💙
-          </div>
-          <div>
-            <h3
-              style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--lavanda-dark); margin-bottom: 0.5rem;"
-            >
-              Cada Dia Juntos
-            </h3>
-            <p style="color: var(--texto-suave); line-height: 1.8;">
-              Com o passar do tempo, descobrimos que nos tornamos a parte
-              favorita um do outro. Cada aventura, cada risada e cada desafio
-              superado fortaleceu ainda mais o nosso laço. Somos o lar um do
-              outro.
-            </p>
-          </div>
-        </div>
-
-        <div
-          class="reveal"
-          style="display: flex; gap: 2rem; align-items: flex-start;"
-        >
-          <div
-            style="flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--menta), var(--lavanda-light)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(173,235,179,0.35);"
-          >
-            💍
-          </div>
-          <div>
-            <h3
-              style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--lavanda-dark); margin-bottom: 0.5rem;"
-            >
-              O Pedido
-            </h3>
-            <p style="color: var(--texto-suave); line-height: 1.8;">
-              Com o coração acelerado e um sorriso que não cabia no rosto, veio
-              o pedido que selou a promessa mais bonita das nossas vidas. E a
-              resposta? Um "sim" cheio de lágrimas e alegria. Agora queremos que
-              você faça parte deste próximo capítulo!
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -307,7 +204,7 @@ import {
         >
           <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
           <h3
-            style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;"
+            style=" font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;"
           >
             Data & Hora
           </h3>
@@ -331,7 +228,7 @@ import {
         >
           <div style="font-size: 2.5rem; margin-bottom: 1rem;">⛪</div>
           <h3
-            style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;"
+            style=" font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;"
           >
             Cerimônia
           </h3>
@@ -357,7 +254,7 @@ import {
         >
           <div style="font-size: 2.5rem; margin-bottom: 1rem;">🥂</div>
           <h3
-            style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;"
+            style=" font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;"
           >
             Recepção
           </h3>
@@ -377,11 +274,105 @@ import {
         <!-- Dress Code -->
         <!-- <div class="glass-card" style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;" onmouseenter="this.style.transform='translateY(-6px)'" onmouseleave="this.style.transform='translateY(0)'">
             <div style="font-size: 2.5rem; margin-bottom: 1rem;">👗</div>
-            <h3 style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">Dress Code</h3>
+            <h3 style=" font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">Dress Code</h3>
             <p style="color: var(--texto-suave); font-weight: 600;">{wedding.dressCode.estilo}</p>
             <p style="color: var(--texto-suave);">{wedding.dressCode.dica}</p>
             <p style="color: var(--texto-suave); font-size: 0.85rem; margin-top: 0.5rem;">{wedding.dressCode.restricao}</p>
           </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LISTA DE PRESENTES ────────────────────────────────── -->
+  <section
+    id="lista-de-presentes"
+    style="background: linear-gradient(135deg, var(--creme) 0%, var(--azul-light) 50%, var(--creme) 100%); padding:5rem 1.5rem;"
+  >
+    <div style="max-width:800px; margin:0 auto; text-align:center;">
+      <h2 class="section-title reveal">Lista de Presentes</h2>
+      <div class="ornament reveal">
+        <span style="font-size:1.4rem;">🎁</span>
+      </div>
+
+      <!-- Aviso principal -->
+      <div
+        class="glass-card reveal"
+        style="padding:2rem; margin:2rem auto; max-width:620px; border:1.5px solid rgba(171,147,224,0.25); position:relative; overflow:hidden;"
+      >
+        <div
+          style="position:absolute; top:-15px; right:-15px; font-size:6rem; opacity:0.06; pointer-events:none;"
+        >
+          💜
+        </div>
+        <p
+          style="font-size:1.2rem; font-weight:700; color:var(--lavanda-dark); margin-bottom:0.75rem;"
+        >
+          💜 Sua presença é o nosso maior presente!
+        </p>
+        <p
+          style="color:var(--texto-suave); line-height:1.7; font-size:0.95rem;"
+        >
+          Para quem deseja nos dar um presente — seja um objeto, um PIX ou
+          qualquer gesto de carinho — preparamos uma lista de sugestões, mas <strong
+            >nada disso é obrigatório</strong
+          >. O que realmente importa é estar ao nosso lado nesse dia especial.
+          🥺💜
+        </p>
+      </div>
+
+      <!-- 3 opções rápidas -->
+      <div
+        class="reveal"
+        style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:2.5rem;"
+      >
+        <div
+          style="background:white; border:1px solid rgba(171,147,224,0.2); border-radius:14px; padding:1rem 1.25rem; text-align:center; min-width:140px; box-shadow:0 2px 12px rgba(171,147,224,0.1);"
+        >
+          <div style="font-size:1.75rem; margin-bottom:0.35rem;">🛍️</div>
+          <p
+            style="font-size:0.8rem; font-weight:700; color:var(--lavanda-dark);"
+          >
+            Lista de Itens
+          </p>
+          <p style="font-size:0.75rem; color:var(--texto-suave);">
+            Escolha e faça um PIX
+          </p>
+        </div>
+        <div
+          style="background:white; border:1px solid rgba(201,168,64,0.3); border-radius:14px; padding:1rem 1.25rem; text-align:center; min-width:140px; box-shadow:0 2px 12px rgba(201,168,64,0.08);"
+        >
+          <div style="font-size:1.75rem; margin-bottom:0.35rem;">💰</div>
+          <p style="font-size:0.8rem; font-weight:700; color:#a88520;">
+            Dinheiro
+          </p>
+          <p style="font-size:0.75rem; color:var(--texto-suave);">
+            PIX direto à sua escolha
+          </p>
+        </div>
+        <div
+          style="background:white; border:1px solid rgba(173,235,179,0.4); border-radius:14px; padding:1rem 1.25rem; text-align:center; min-width:140px; box-shadow:0 2px 12px rgba(173,235,179,0.1);"
+        >
+          <div style="font-size:1.75rem; margin-bottom:0.35rem;">📦</div>
+          <p
+            style="font-size:0.8rem; font-weight:700; color:var(--menta-dark);"
+          >
+            Presente Físico
+          </p>
+          <p style="font-size:0.75rem; color:var(--texto-suave);">
+            Entregue no dia!
+          </p>
+        </div>
+      </div>
+
+      <!-- Botão para a página completa -->
+      <div class="reveal">
+        <a
+          href="/presentes"
+          class="btn-primary"
+          style="font-size:1.05rem; padding:0.9rem 2.5rem; display:inline-flex; gap:0.5rem;"
+        >
+          🎁 Ver Lista de Presentes
+        </a>
       </div>
     </div>
   </section>
@@ -512,12 +503,26 @@ import {
 <script>
   // ── Countdown ──────────────────────────────────────────── //
   function updateCountdown() {
-    const weddingDate = new Date("2026-11-21T17:00:00");
+    const wrapper = document.getElementById("countdown-wrapper");
+    if (!wrapper) return;
+
+    const targetDateStr =
+      wrapper.getAttribute("data-date") || "2026-11-21T17:00:00";
+    // Parse safely in local time across all browsers
+    const parts = targetDateStr.split(/[-T:]/);
+    const weddingDate = new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2]),
+      Number(parts[3]),
+      Number(parts[4]),
+      Number(parts[5] || 0),
+    );
     const now = new Date();
-    const diff = weddingDate - now;
+    const diff = weddingDate.getTime() - now.getTime();
 
     if (diff <= 0) {
-      document.getElementById("countdown-wrapper").innerHTML =
+      wrapper.innerHTML =
         '<p class="font-cursive" style="font-size:2rem;color:var(--lavanda-dark);">🎉 Hoje é o grande dia! 🎉</p>';
       return;
     }
@@ -528,24 +533,30 @@ import {
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     const pad = (n) => String(n).padStart(2, "0");
-    document.getElementById("days").textContent = pad(days);
-    document.getElementById("hours").textContent = pad(hours);
-    document.getElementById("minutes").textContent = pad(minutes);
-    document.getElementById("seconds").textContent = pad(seconds);
+
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    if (daysEl) daysEl.textContent = pad(days);
+    if (hoursEl) hoursEl.textContent = pad(hours);
+    if (minutesEl) minutesEl.textContent = pad(minutes);
+    if (secondsEl) secondsEl.textContent = pad(seconds);
   }
 
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
   // ── Navbar scroll ──────────────────────────────────────── //
-  const navbar = document.getElementById("navbar");
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 60) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
-  });
+  // const navbar = document.getElementById("navbar");
+  // window.addEventListener("scroll", () => {
+  //   if (window.scrollY > 60) {
+  //     navbar.classList.add("scrolled");
+  //   } else {
+  //     navbar.classList.remove("scrolled");
+  //   }
+  // });
 
   // ── Scroll Reveal ──────────────────────────────────────── //
   const revealObserver = new IntersectionObserver(
@@ -689,7 +700,7 @@ import {
         document.getElementById("rsvp-result").innerHTML = `
           <div style="text-align:center; padding:2rem; background:rgba(173,235,179,0.15); border-radius:16px; border:1px solid rgba(173,235,179,0.5);">
             <div style="font-size:3rem; margin-bottom:1rem;">🎉</div>
-            <p style="font-family:'Dancing Script'; font-size:2rem; color:var(--menta-dark);">Presença Confirmada!</p>
+            <p style=" font-size:2rem; color:var(--menta-dark);">Presença Confirmada!</p>
             <p style="color:var(--texto-suave); margin-top:0.5rem;">Mal podemos esperar para celebrar com você! 💜</p>
           </div>`;
       } else {
@@ -718,7 +729,7 @@ import {
     document.getElementById("rsvp-result").innerHTML = `
       <div style="text-align:center; padding:2rem; background:rgba(224,147,147,0.08); border-radius:16px; border:1px solid rgba(224,147,147,0.3);">
         <div style="font-size:3rem; margin-bottom:1rem;">💔</div>
-        <p style="font-family:'Dancing Script'; font-size:1.8rem; color:var(--texto-suave);">Sentiremos sua falta!</p>
+        <p style=" font-size:1.8rem; color:var(--texto-suave);">Sentiremos sua falta!</p>
         <p style="color:var(--texto-suave); margin-top:0.5rem;">Obrigado por nos avisar. Você sempre estará em nossos corações. 💜</p>
       </div>`;
   }

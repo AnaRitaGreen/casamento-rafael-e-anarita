@@ -1,6 +1,5 @@
-version: '3.8'
-
 services:
+  # ── Banco de Dados ───────────────────────────────────────── #
   postgres_casamento:
     image: postgres:15-alpine
     container_name: postgres_casamento
@@ -13,6 +12,34 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql:ro
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noivos_admin -d casamento_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── API Go ──────────────────────────────────────────────── #
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: api_casamento
+    depends_on:
+      postgres_casamento:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres_casamento
+      DB_PORT: 5432
+      DB_USER: noivos_admin
+      DB_PASSWORD: SuaSenhaSuperSeguraAqui
+      DB_NAME: casamento_db
+      JWT_SECRET: ${JWT_SECRET:-casamento-rafael-anarita-dev-secret-2026}
+      PORT: 8080
+      # Em produção, coloque a URL do frontend Vercel aqui:
+      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN:-http://localhost:4321}
+    ports:
+      - "8080:8080"
     restart: always
 
 volumes:

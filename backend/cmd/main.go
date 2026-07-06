@@ -33,16 +33,17 @@ func main() {
 	log.Println("✅ Banco de dados conectado")
 
 	// ── Handlers ──────────────────────────────────────────── //
-	guestH  := handlers.NewGuestHandler(pool)
-	rsvpH   := handlers.NewRSVPHandler(pool)
-	adminH  := handlers.NewAdminHandler(pool, cfg.JWTSecret)
-	exportH := handlers.NewExportHandler(pool)
+	guestH    := handlers.NewGuestHandler(pool)
+	rsvpH     := handlers.NewRSVPHandler(pool)
+	adminH    := handlers.NewAdminHandler(pool, cfg.JWTSecret)
+	exportH   := handlers.NewExportHandler(pool)
+	presenteH := handlers.NewPresenteHandler(pool)
 
 	// ── Middlewares ───────────────────────────────────────── //
 	corsMiddleware := middleware.CORS(cfg.AllowedOrigin)
 	authMiddleware := middleware.Auth(cfg.JWTSecret)
 
-	// Wrapper para encadear middlewares auth + handler
+	// Wrappers para encadear middlewares
 	protected := func(h http.Handler) http.Handler {
 		return corsMiddleware(authMiddleware(h))
 	}
@@ -53,34 +54,41 @@ func main() {
 	// ── Rotas ─────────────────────────────────────────────── //
 	mux := http.NewServeMux()
 
-	// Públicas
-	mux.Handle("GET /guests/search",       public(http.HandlerFunc(guestH.SearchGuests)))
-	mux.Handle("POST /rsvp",               public(http.HandlerFunc(rsvpH.SubmitRSVP)))
-	mux.Handle("POST /admin/login",        public(http.HandlerFunc(adminH.Login)))
+	// Rotas públicas (prefixo /api)
+	mux.Handle("GET /api/guests/search",  public(http.HandlerFunc(guestH.SearchGuests)))
+	mux.Handle("POST /api/rsvp",          public(http.HandlerFunc(rsvpH.SubmitRSVP)))
+	mux.Handle("POST /api/admin/login",   public(http.HandlerFunc(adminH.Login)))
 
-	// Admin (protegidas por JWT)
-	mux.Handle("POST /admin/logout",              protected(http.HandlerFunc(adminH.Logout)))
-	mux.Handle("GET /admin/guests",               protected(http.HandlerFunc(guestH.ListGuests)))
-	mux.Handle("POST /admin/guests",              protected(http.HandlerFunc(guestH.AddGuest)))
-	mux.Handle("PUT /admin/guests/{id}",          protected(http.HandlerFunc(guestH.UpdateGuest)))
-	mux.Handle("DELETE /admin/guests/{id}",       protected(http.HandlerFunc(guestH.DeleteGuest)))
-	mux.Handle("GET /admin/groups",               protected(http.HandlerFunc(adminH.GetGroups)))
-	mux.Handle("GET /admin/messages",             protected(http.HandlerFunc(adminH.GetMessages)))
-	mux.Handle("GET /admin/export/csv",           protected(http.HandlerFunc(exportH.ExportCSV)))
+	// Lista de presentes — pública
+	mux.Handle("GET /api/presentes",                   public(http.HandlerFunc(presenteH.ListPresentes)))
+	mux.Handle("POST /api/presentes/{id}/reservar",    public(http.HandlerFunc(presenteH.ReservarPresente)))
 
-	// Preflight OPTIONS para todas as rotas admin
-	mux.Handle("OPTIONS /", corsMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusNoContent)
-	})))
+	// Rotas admin — protegidas por JWT (prefixo /api)
+	mux.Handle("POST /api/admin/logout",                    protected(http.HandlerFunc(adminH.Logout)))
+	mux.Handle("GET /api/admin/guests",                     protected(http.HandlerFunc(guestH.ListGuests)))
+	mux.Handle("POST /api/admin/guests",                    protected(http.HandlerFunc(guestH.AddGuest)))
+	mux.Handle("PUT /api/admin/guests/{id}",                protected(http.HandlerFunc(guestH.UpdateGuest)))
+	mux.Handle("DELETE /api/admin/guests/{id}",             protected(http.HandlerFunc(guestH.DeleteGuest)))
+	mux.Handle("GET /api/admin/groups",                     protected(http.HandlerFunc(adminH.GetGroups)))
+	mux.Handle("GET /api/admin/messages",                   protected(http.HandlerFunc(adminH.GetMessages)))
+	mux.Handle("GET /api/admin/export/csv",                 protected(http.HandlerFunc(exportH.ExportCSV)))
 
-	// ── Servidor ──────────────────────────────────────────── //
+	// Presentes — admin
+	mux.Handle("GET /api/admin/presentes",                  protected(http.HandlerFunc(presenteH.AdminListPresentes)))
+	mux.Handle("POST /api/admin/presentes",                 protected(http.HandlerFunc(presenteH.AdminAddPresente)))
+	mux.Handle("PUT /api/admin/presentes/{id}",             protected(http.HandlerFunc(presenteH.AdminUpdatePresente)))
+	mux.Handle("DELETE /api/admin/presentes/{id}",          protected(http.HandlerFunc(presenteH.AdminDeletePresente)))
+	mux.Handle("POST /api/admin/presentes/{id}/liberar",    protected(http.HandlerFunc(presenteH.AdminLiberarReserva)))
+
+	// ── Servidor com CORS global (intercepta OPTIONS preflight) //
 	addr := fmt.Sprintf(":%s", cfg.Port)
-	log.Printf("🚀 API rodando em http://localhost%s\n", addr)
+	log.Printf("🚀 API rodando em http://localhost%s/api/\n", addr)
 	log.Printf("   CORS: %s\n", cfg.AllowedOrigin)
 
 	srv := &http.Server{
-		Addr:    addr,
-		Handler: mux,
+		Addr: addr,
+		// Aplica CORS em todas as requisições, inclusive OPTIONS preflight
+		Handler: corsMiddleware(mux),
 	}
 
 	if err := srv.ListenAndServe(); err != nil {
