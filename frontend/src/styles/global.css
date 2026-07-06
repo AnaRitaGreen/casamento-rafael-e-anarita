@@ -132,6 +132,32 @@ h3 {
   box-shadow: 0 6px 20px rgba(171, 147, 224, 0.35);
 }
 
+/* ── Hero Buttons Container ──────────────────────────────── */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+    gap: 0.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .hero-buttons a {
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 /* ── Cards / Glass ───────────────────────────────────────── */
 .glass-card {
   background: rgba(255, 255, 255, 0.72);
