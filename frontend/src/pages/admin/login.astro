@@ -22,20 +22,11 @@ import Layout from "../../layouts/Layout.astro";
     >
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 2rem;">
-        <a
-          href="/"
-          style=" font-size:2rem; color:var(--lavanda-dark); text-decoration:none;"
-        >
-          R & A
-        </a>
         <h1
           style=" font-size:2.2rem; color:var(--lavanda-dark); margin: 0.75rem 0 0.25rem;"
         >
           Painel dos Noivos
         </h1>
-        <p style="color:var(--texto-suave); font-size:0.9rem;">
-          Acesso restrito — apenas Rafael & Anarita
-        </p>
       </div>
 
       <!-- Formulário -->
@@ -116,6 +107,8 @@ import Layout from "../../layouts/Layout.astro";
 </Layout>
 
 <script>
+  import { adminLogin } from '../../services/adminService';
+
   function togglePassword() {
     const passInput = document.getElementById("password");
     passInput.type = passInput.type === "password" ? "text" : "password";
@@ -132,23 +125,15 @@ import Layout from "../../layouts/Layout.astro";
     btn.disabled = true;
     errDiv.style.display = "none";
 
-    const API_BASE = import.meta.env.PUBLIC_API_URL ?? "";
-
     try {
-      const res = await fetch(`${API_BASE}/api/admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (res.ok) {
-        window.location.href = "/admin/dashboard";
+      await adminLogin(username, password);
+      window.location.href = "/admin/dashboard";
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        errDiv.innerHTML = "❌ Usuário ou senha incorretos.";
       } else {
-        errDiv.style.display = "block";
+        errDiv.innerHTML = "⚠️ Servidor indisponível. Verifique a conexão.";
       }
-    } catch {
-      errDiv.innerHTML = "⚠️ Servidor indisponível. Verifique a conexão.";
       errDiv.style.display = "block";
     } finally {
       btn.textContent = "Entrar no Painel";

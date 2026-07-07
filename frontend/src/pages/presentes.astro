@@ -1,8 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { wedding, nomesCasal, dataCerimoniaFormatada } from '../config/wedding';
+import Layout from "../layouts/Layout.astro";
+import { wedding, nomesCasal, dataCerimoniaFormatada } from "../config/wedding";
 
-const pixChave   = wedding.pix.chave;
+const pixChave = wedding.pix.chave;
 const pixTitular = wedding.pix.titular;
 ---
 
@@ -10,18 +10,29 @@ const pixTitular = wedding.pix.titular;
   title={`Lista de Presentes — ${nomesCasal}`}
   description={`Lista de presentes do casamento de ${wedding.noivo} e ${wedding.noiva}. Escolha um presente ou presenteie com um PIX à sua escolha.`}
 >
-  <div style="min-height:100vh; background:linear-gradient(160deg, var(--lavanda-light) 0%, var(--creme) 55%, var(--azul-light) 100%);">
-
+  <div
+    style="min-height:100vh; background:linear-gradient(160deg, var(--lavanda-light) 0%, var(--creme) 55%, var(--azul-light) 100%);"
+  >
     <!-- ── HEADER ──────────────────────────────────────────── -->
-    <header style="position:relative; text-align:center; padding:3.5rem 1.5rem 2.5rem; background:linear-gradient(180deg, rgba(171,147,224,0.18) 0%, transparent 100%);">
-      <a href="/"
+    <header
+      style="position:relative; text-align:center; padding:3.5rem 1.5rem 2.5rem; background:linear-gradient(180deg, rgba(171,147,224,0.18) 0%, transparent 100%);"
+    >
+      <a
+        href="/"
         style="position:absolute; left:1.5rem; top:50%; transform:translateY(-50%); color:var(--lavanda-dark); text-decoration:none; font-size:0.9rem; font-weight:600; display:flex; align-items:center; gap:0.4rem; opacity:0.8;"
         onmouseenter="this.style.opacity='1'"
-        onmouseleave="this.style.opacity='0.8'"
-      >← Voltar</a>
+        onmouseleave="this.style.opacity='0.8'">← Voltar</a
+      >
 
-      <p style="font-size:2.5rem; margin-bottom:0.5rem; animation:float 3s ease-in-out infinite; display:inline-block;">🎁</p>
-      <h1 class="font-cursive" style="font-size:clamp(2.5rem, 6vw, 4rem); color:var(--lavanda-dark); margin-bottom:0.5rem;">
+      <p
+        style="font-size:2.5rem; margin-bottom:0.5rem; animation:float 3s ease-in-out infinite; display:inline-block;"
+      >
+        🎁
+      </p>
+      <h1
+        class="font-cursive"
+        style="font-size:clamp(2.5rem, 6vw, 4rem); color:var(--lavanda-dark); margin-bottom:0.5rem;"
+      >
         Lista de Presentes
       </h1>
       <p style="color:var(--texto-suave); font-size:1rem;">
@@ -30,104 +41,181 @@ const pixTitular = wedding.pix.titular;
     </header>
 
     <div style="max-width:1100px; margin:0 auto; padding:0 1.5rem 5rem;">
-
       <!-- ── AVISO: PRESENÇA É O MAIOR PRESENTE ─────────────── -->
-      <div class="glass-card" style="text-align:center; padding:2.5rem; margin-bottom:2.5rem; border:2px solid rgba(171,147,224,0.3); position:relative; overflow:hidden;">
-        <div style="position:absolute; top:-20px; right:-20px; font-size:8rem; opacity:0.06; pointer-events:none;">💜</div>
+      <div
+        class="glass-card"
+        style="text-align:center; padding:2.5rem; margin-bottom:2.5rem; border:2px solid rgba(171,147,224,0.3); position:relative; overflow:hidden;"
+      >
+        <div
+          style="position:absolute; top:-20px; right:-20px; font-size:8rem; opacity:0.06; pointer-events:none;"
+        >
+          💜
+        </div>
         <div style="font-size:2.5rem; margin-bottom:1rem;">💜</div>
-        <h2 class="font-cursive" style="font-size:clamp(1.6rem,4vw,2.4rem); color:var(--lavanda-dark); margin-bottom:1rem;">
+        <h2
+          class="font-cursive"
+          style="font-size:clamp(1.6rem,4vw,2.4rem); color:var(--lavanda-dark); margin-bottom:1rem;"
+        >
           A sua presença é o maior presente!
         </h2>
-        <p style="color:var(--texto-suave); line-height:1.75; max-width:600px; margin:0 auto 1rem;">
-          Para nós, o que realmente importa é <strong>você estar lá conosco</strong> nesse momento tão especial.
-          Não se sinta obrigado a nos presentear — sua companhia já é o melhor que poderíamos receber.
+        <p
+          style="color:var(--texto-suave); line-height:1.75; max-width:600px; margin:0 auto 1rem;"
+        >
+          Para nós, o que realmente importa é <strong
+            >você estar lá conosco</strong
+          > nesse momento tão especial. Não se sinta obrigado a nos presentear — sua
+          companhia já é o melhor que poderíamos receber.
         </p>
         <p style="color:var(--texto-suave); font-size:0.9rem; opacity:0.8;">
-          Se ainda assim desejar nos dar um presente, seja ele um objeto, um envelope ou um PIX — 
+          Se ainda assim desejar nos dar um presente, seja ele um objeto, um
+          envelope ou um PIX —
           <strong>receberemos com muito carinho e gratidão! 🙏</strong>
         </p>
       </div>
 
       <!-- ── COMO FUNCIONA ───────────────────────────────────── -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-bottom:3rem;">
-
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-bottom:3rem;"
+      >
         <!-- Opção 1: Lista de Presentes -->
-        <div class="glass-card" style="padding:2rem; border-left:4px solid var(--lavanda);">
+        <div
+          class="glass-card"
+          style="padding:2rem; border-left:4px solid var(--lavanda);"
+        >
           <div style="font-size:2rem; margin-bottom:0.75rem;">🛍️</div>
-          <h3 style="font-size:1.2rem; color:var(--lavanda-dark); margin-bottom:0.75rem;">Presentes da Lista</h3>
-          <p style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;">
-            Escolha um item da nossa lista abaixo, clique em <strong>"Presentear"</strong>,
-            informe seu nome e realize um PIX para os noivos com o valor sugerido.
-            O item ficará marcado como reservado para evitar presentes duplicados.
+          <h3
+            style="font-size:1.2rem; color:var(--lavanda-dark); margin-bottom:0.75rem;"
+          >
+            Presentes da Lista
+          </h3>
+          <p
+            style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;"
+          >
+            Escolha um item da nossa lista abaixo, clique em <strong
+              >"Presentear"</strong
+            >, informe seu nome e realize um PIX para os noivos com o valor
+            sugerido. O item ficará marcado como reservado para evitar presentes
+            duplicados.
           </p>
-          <div style="margin-top:1rem; padding:0.75rem; background:rgba(171,147,224,0.1); border-radius:10px; font-size:0.8rem; color:var(--texto-suave);">
-            💡 Integração com Mercado Pago em breve para geração automática de QR Code!
+          <div
+            style="margin-top:1rem; padding:0.75rem; background:rgba(171,147,224,0.1); border-radius:10px; font-size:0.8rem; color:var(--texto-suave);"
+          >
+            💡 Integração com Mercado Pago em breve para geração automática de
+            QR Code!
           </div>
         </div>
 
         <!-- Opção 2: Presente em Dinheiro -->
-        <div class="glass-card" style="padding:2rem; border-left:4px solid #c9a840;" id="pix-direto-card">
+        <div
+          class="glass-card"
+          style="padding:2rem; border-left:4px solid #c9a840;"
+          id="pix-direto-card"
+        >
           <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
-          <h3 style="font-size:1.2rem; color:#a88520; margin-bottom:0.75rem;">Presente em Dinheiro</h3>
-          <p style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65; margin-bottom:1rem;">
-            Prefere presentear com um valor à sua escolha? Use nossa chave PIX diretamente,
-            sem precisar escolher nenhum item da lista.
+          <h3 style="font-size:1.2rem; color:#a88520; margin-bottom:0.75rem;">
+            Presente em Dinheiro
+          </h3>
+          <p
+            style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65; margin-bottom:1rem;"
+          >
+            Prefere presentear com um valor à sua escolha? Use nossa chave PIX
+            diretamente, sem precisar escolher nenhum item da lista.
           </p>
 
-          <div style="background:rgba(201,168,64,0.1); border:1px solid rgba(201,168,64,0.35); border-radius:12px; padding:1rem;">
-            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.5rem;">Chave PIX</p>
-            <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
-              <code id="pix-key-display" style="font-size:1rem; font-weight:700; color:var(--texto); flex:1; word-break:break-all;">{pixChave}</code>
+          <div
+            style="background:rgba(201,168,64,0.1); border:1px solid rgba(201,168,64,0.35); border-radius:12px; padding:1rem;"
+          >
+            <p
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.5rem;"
+            >
+              Chave PIX
+            </p>
+            <div
+              style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;"
+            >
+              <code
+                id="pix-key-display"
+                style="font-size:1rem; font-weight:700; color:var(--texto); flex:1; word-break:break-all;"
+                >{pixChave}</code
+              >
               <button
                 id="copy-pix-btn"
                 onclick="copyPix()"
                 style="background:var(--lavanda); color:white; border:none; border-radius:8px; padding:0.5rem 1rem; cursor:pointer; font-size:0.85rem; font-weight:600; transition:all 0.2s; white-space:nowrap;"
                 onmouseenter="this.style.background='var(--lavanda-dark)'"
                 onmouseleave="this.style.background='var(--lavanda)'"
-              >📋 Copiar</button>
+                >📋 Copiar</button
+              >
             </div>
-            <p style="font-size:0.8rem; color:var(--texto-suave); margin-top:0.5rem;">
+            <p
+              style="font-size:0.8rem; color:var(--texto-suave); margin-top:0.5rem;"
+            >
               Titular: <strong>{pixTitular}</strong>
             </p>
           </div>
         </div>
 
         <!-- Opção 3: Presente Físico -->
-        <div class="glass-card" style="padding:2rem; border-left:4px solid var(--menta);">
+        <div
+          class="glass-card"
+          style="padding:2rem; border-left:4px solid var(--menta);"
+        >
           <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
-          <h3 style="font-size:1.2rem; color:var(--menta-dark); margin-bottom:0.75rem;">Presente Físico</h3>
-          <p style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;">
-            Gosta de presentear com objetos? Ótimo! Você pode entregar pessoalmente
-            no dia do casamento ou combinar conosco. Qualquer gesto de carinho é muito bem-vindo! 🌸
+          <h3
+            style="font-size:1.2rem; color:var(--menta-dark); margin-bottom:0.75rem;"
+          >
+            Presente Físico
+          </h3>
+          <p
+            style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;"
+          >
+            Gosta de presentear com objetos? Ótimo! Você pode entregar
+            pessoalmente no dia do casamento ou combinar conosco. Qualquer gesto
+            de carinho é muito bem-vindo! 🌸
           </p>
-          <p style="color:var(--texto-suave); font-size:0.85rem; margin-top:1rem; font-style:italic;">
+          <p
+            style="color:var(--texto-suave); font-size:0.85rem; margin-top:1rem; font-style:italic;"
+          >
             Use a lista abaixo como inspiração de itens que precisamos. 💜
           </p>
         </div>
-
       </div>
 
       <!-- ── LISTA DE PRESENTES ─────────────────────────────── -->
       <section>
         <div style="text-align:center; margin-bottom:2rem;">
-          <h2 class="font-cursive section-title" style="margin-bottom:0.5rem;">Nossos Desejos ✨</h2>
-          <p style="color:var(--texto-suave);">Clique em qualquer item para reservar e nos presentear</p>
+          <h2 class="font-cursive section-title" style="margin-bottom:0.5rem;">
+            Nossos Desejos ✨
+          </h2>
+          <p style="color:var(--texto-suave);">
+            Clique em qualquer item para reservar e nos presentear
+          </p>
         </div>
-
-        <!-- Filtros de categoria -->
-        <div id="category-filters" style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:2rem;"></div>
 
         <!-- Grid de presentes -->
-        <div id="presentes-loading" style="text-align:center; padding:3rem; color:var(--texto-suave);">
-          <div style="font-size:2rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;">🎁</div>
+        <div
+          id="presentes-loading"
+          style="text-align:center; padding:3rem; color:var(--texto-suave);"
+        >
+          <div
+            style="font-size:2rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;"
+          >
+            🎁
+          </div>
           <p>Carregando presentes...</p>
         </div>
-        <div id="presentes-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; display:none;"></div>
-        <div id="presentes-empty" style="display:none; text-align:center; padding:3rem; color:var(--texto-suave);">
+        <div
+          id="presentes-grid"
+          style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; display:none;"
+        >
+        </div>
+        <div
+          id="presentes-empty"
+          style="display:none; text-align:center; padding:3rem; color:var(--texto-suave);"
+        >
           <p>Nenhum presente cadastrado ainda. Volte em breve! 💜</p>
         </div>
       </section>
-
     </div>
   </div>
 
@@ -136,24 +224,51 @@ const pixTitular = wedding.pix.titular;
     id="reserve-modal"
     style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;"
   >
-    <div class="glass-card" style="width:100%; max-width:480px; padding:2rem; animation:fadeInUp 0.3s ease; max-height:90vh; overflow-y:auto;">
-
+    <div
+      class="glass-card"
+      style="width:100%; max-width:480px; padding:2rem; animation:fadeInUp 0.3s ease; max-height:90vh; overflow-y:auto;"
+    >
       <!-- Etapa 1: Formulário -->
       <div id="modal-step-1">
         <div style="text-align:center; margin-bottom:1.5rem;">
-          <div id="modal-gift-icon" style="font-size:3rem; margin-bottom:0.5rem;">🎁</div>
-          <h2 class="font-cursive" style="font-size:1.8rem; color:var(--lavanda-dark); margin-bottom:0.25rem;" id="modal-gift-name">Nome do Presente</h2>
-          <p style="color:var(--texto-suave); font-size:0.9rem;" id="modal-gift-desc"></p>
-          <div style="margin-top:0.75rem; display:inline-block; background:linear-gradient(135deg,var(--lavanda),var(--azul)); color:white; padding:0.4rem 1.25rem; border-radius:20px; font-weight:700; font-size:1.1rem;" id="modal-gift-price">R$ 0,00</div>
+          <div
+            id="modal-gift-icon"
+            style="font-size:3rem; margin-bottom:0.5rem;"
+          >
+            🎁
+          </div>
+          <h2
+            class="font-cursive"
+            style="font-size:1.8rem; color:var(--lavanda-dark); margin-bottom:0.25rem;"
+            id="modal-gift-name"
+          >
+            Nome do Presente
+          </h2>
+          <p
+            style="color:var(--texto-suave); font-size:0.9rem;"
+            id="modal-gift-desc"
+          >
+          </p>
+          <div
+            style="margin-top:0.75rem; display:inline-block; background:linear-gradient(135deg,var(--lavanda),var(--azul)); color:white; padding:0.4rem 1.25rem; border-radius:20px; font-weight:700; font-size:1.1rem;"
+            id="modal-gift-price"
+          >
+            R$ 0,00
+          </div>
         </div>
 
-        <div style="background:rgba(171,147,224,0.1); border-radius:12px; padding:1rem; margin-bottom:1.25rem; font-size:0.85rem; color:var(--texto-suave); line-height:1.5;">
-          ℹ️ Após confirmar, você receberá os dados do PIX para realizar o pagamento.
-          O presente será reservado em seu nome.
+        <div
+          style="background:rgba(171,147,224,0.1); border-radius:12px; padding:1rem; margin-bottom:1.25rem; font-size:0.85rem; color:var(--texto-suave); line-height:1.5;"
+        >
+          ℹ️ Após confirmar, você receberá os dados do PIX para realizar o
+          pagamento. O presente será reservado em seu nome.
         </div>
 
         <div style="margin-bottom:1.25rem;">
-          <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--texto-suave); margin-bottom:0.4rem;">Seu nome (ou "De: fulano & sicrana")</label>
+          <label
+            style="display:block; font-size:0.85rem; font-weight:600; color:var(--texto-suave); margin-bottom:0.4rem;"
+            >Seu nome (ou "De: fulano & sicrana")</label
+          >
           <input
             type="text"
             id="presenteador-nome"
@@ -168,61 +283,114 @@ const pixTitular = wedding.pix.titular;
             onclick="confirmReserva()"
             id="confirm-btn"
             class="btn-primary"
-            style="flex:1; justify-content:center;"
-          >🎁 Confirmar Reserva</button>
+            style="flex:1; justify-content:center;">🎁 Confirmar Reserva</button
+          >
           <button
             onclick="closeModal()"
             class="btn-outline"
-            style="flex:1; justify-content:center;"
-          >Cancelar</button>
+            style="flex:1; justify-content:center;">Cancelar</button
+          >
         </div>
       </div>
 
       <!-- Etapa 2: Instruções PIX -->
       <div id="modal-step-2" style="display:none; text-align:center;">
-        <div style="font-size:3rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;">✅</div>
-        <h2 class="font-cursive" style="font-size:1.8rem; color:var(--menta-dark); margin-bottom:0.5rem;">Reservado com sucesso!</h2>
-        <p style="color:var(--texto-suave); margin-bottom:1.5rem; font-size:0.9rem;">
+        <div
+          style="font-size:3rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;"
+        >
+          ✅
+        </div>
+        <h2
+          class="font-cursive"
+          style="font-size:1.8rem; color:var(--menta-dark); margin-bottom:0.5rem;"
+        >
+          Reservado com sucesso!
+        </h2>
+        <p
+          style="color:var(--texto-suave); margin-bottom:1.5rem; font-size:0.9rem;"
+        >
           Agora realize o PIX para concluir o presente:
         </p>
 
-        <div style="background:linear-gradient(135deg, rgba(201,168,64,0.12), rgba(201,168,64,0.05)); border:1px solid rgba(201,168,64,0.4); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; text-align:left;">
+        <div
+          style="background:linear-gradient(135deg, rgba(201,168,64,0.12), rgba(201,168,64,0.05)); border:1px solid rgba(201,168,64,0.4); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; text-align:left;"
+        >
           <div style="margin-bottom:0.75rem;">
-            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Chave PIX</p>
-            <code id="pix-confirm-key" style="font-size:1.05rem; font-weight:700; color:var(--texto); word-break:break-all;">{pixChave}</code>
+            <p
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
+            >
+              Chave PIX
+            </p>
+            <code
+              id="pix-confirm-key"
+              style="font-size:1.05rem; font-weight:700; color:var(--texto); word-break:break-all;"
+              >{pixChave}</code
+            >
           </div>
           <div style="margin-bottom:0.75rem;">
-            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Titular</p>
+            <p
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
+            >
+              Titular
+            </p>
             <p style="font-weight:600; color:var(--texto);">{pixTitular}</p>
           </div>
           <div style="margin-bottom:0.75rem;">
-            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Valor Sugerido</p>
-            <p style="font-size:1.3rem; font-weight:700; color:var(--lavanda-dark);" id="pix-confirm-price">R$ 0,00</p>
+            <p
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
+            >
+              Valor Sugerido
+            </p>
+            <p
+              style="font-size:1.3rem; font-weight:700; color:var(--lavanda-dark);"
+              id="pix-confirm-price"
+            >
+              R$ 0,00
+            </p>
           </div>
           <div>
-            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Descrição do PIX</p>
-            <p style="color:var(--texto); font-size:0.9rem;" id="pix-confirm-desc">Presente: — (Seu nome)</p>
+            <p
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
+            >
+              Descrição do PIX
+            </p>
+            <p
+              style="color:var(--texto); font-size:0.9rem;"
+              id="pix-confirm-desc"
+            >
+              Presente: — (Seu nome)
+            </p>
           </div>
         </div>
 
-        <div style="background:rgba(173,235,179,0.15); border:1px solid rgba(173,235,179,0.5); border-radius:12px; padding:1rem; margin-bottom:1.5rem; font-size:0.85rem; color:var(--texto-suave);">
-          💚 Você pode copiar a chave PIX e usar no aplicativo do seu banco.
-          O valor é uma sugestão — qualquer quantia é muito bem-vinda!
+        <div
+          style="background:rgba(173,235,179,0.15); border:1px solid rgba(173,235,179,0.5); border-radius:12px; padding:1rem; margin-bottom:1.5rem; font-size:0.85rem; color:var(--texto-suave);"
+        >
+          💚 Você pode copiar a chave PIX e usar no aplicativo do seu banco. O
+          valor é uma sugestão — qualquer quantia é muito bem-vinda!
         </div>
 
         <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-          <button onclick="copyPixModal()" class="btn-primary" style="flex:1; justify-content:center;">📋 Copiar Chave PIX</button>
-          <button onclick="closeModal()" class="btn-outline" style="flex:1; justify-content:center;">Fechar</button>
+          <button
+            onclick="copyPixModal()"
+            class="btn-primary"
+            style="flex:1; justify-content:center;">📋 Copiar Chave PIX</button
+          >
+          <button
+            onclick="closeModal()"
+            class="btn-outline"
+            style="flex:1; justify-content:center;">Fechar</button
+          >
         </div>
 
-        <p style="margin-top:1.25rem; color:var(--texto-suave); font-size:0.85rem;">
+        <p
+          style="margin-top:1.25rem; color:var(--texto-suave); font-size:0.85rem;"
+        >
           Muito obrigados pelo carinho! 💜
         </p>
       </div>
-
     </div>
   </div>
-
 </Layout>
 
 <style>
@@ -253,7 +421,11 @@ const pixTitular = wedding.pix.titular;
     align-items: center;
     justify-content: center;
     font-size: 4rem;
-    background: linear-gradient(135deg, var(--lavanda-light) 0%, var(--azul-light) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--lavanda-light) 0%,
+      var(--azul-light) 100%
+    );
   }
 
   .gift-body {
@@ -320,9 +492,10 @@ const pixTitular = wedding.pix.titular;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Quicksand", sans-serif;
   }
-  .filter-btn:hover, .filter-btn.active {
+  .filter-btn:hover,
+  .filter-btn.active {
     background: var(--lavanda);
     color: white;
     border-color: var(--lavanda);
@@ -343,106 +516,88 @@ const pixTitular = wedding.pix.titular;
 </style>
 
 <script define:vars={{ pixChave, pixTitular }}>
-  const API_BASE = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+  import { getPresentes, reservarPresente } from "../services/presenteService";
 
   const CATEGORY_ICONS = {
-    'Cozinha':          '🍳',
-    'Quarto':           '🛏️',
-    'Banheiro':         '🛁',
-    'Casa':             '🏡',
-    'Eletrodomésticos': '⚡',
-    'Decoração':        '🌸',
-    'Outros':           '🎁',
+    Cozinha: "🍳",
+    Quarto: "🛏️",
+    Banheiro: "🛁",
+    Casa: "🏡",
+    Eletrodomésticos: "⚡",
+    Decoração: "🌸",
+    Outros: "🎁",
   };
 
   let allPresentes = [];
-  let selectedCategory = '';
+  let selectedCategory = "";
   let selectedPresente = null;
 
   // ── Formatar preço ──────────────────────────────────────── //
   function formatPreco(value) {
-    return Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    return Number(value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
   }
 
   // ── Carregar presentes ──────────────────────────────────── //
   async function loadPresentes() {
     try {
-      const res = await fetch(`${API_BASE}/api/presentes`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      allPresentes = data.presentes || [];
+      allPresentes = await getPresentes();
     } catch {
       allPresentes = [];
     }
 
-    document.getElementById('presentes-loading').style.display = 'none';
+    document.getElementById("presentes-loading").style.display = "none";
 
     if (allPresentes.length === 0) {
-      document.getElementById('presentes-empty').style.display = 'block';
+      document.getElementById("presentes-empty").style.display = "block";
       return;
     }
 
-    document.getElementById('presentes-grid').style.display = 'grid';
+    document.getElementById("presentes-grid").style.display = "grid";
     renderCategoryFilters();
     renderPresentes();
   }
 
-  // ── Filtros de categoria ────────────────────────────────── //
-  function renderCategoryFilters() {
-    const categories = ['Todos', ...new Set(allPresentes.map(p => p.categoria).filter(Boolean))];
-    const container = document.getElementById('category-filters');
-    container.innerHTML = categories.map(cat => `
-      <button
-        class="filter-btn${cat === 'Todos' ? ' active' : ''}"
-        onclick="filterByCategory('${cat}')"
-        id="filter-${cat.replace(/[^a-z0-9]/gi, '-')}"
-      >${CATEGORY_ICONS[cat] || '🏷️'} ${cat}</button>
-    `).join('');
-  }
-
   function filterByCategory(cat) {
-    selectedCategory = cat === 'Todos' ? '' : cat;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    const id = `filter-${cat.replace(/[^a-z0-9]/gi, '-')}`;
-    document.getElementById(id)?.classList.add('active');
+    selectedCategory = cat === "Todos" ? "" : cat;
+    document
+      .querySelectorAll(".filter-btn")
+      .forEach((b) => b.classList.remove("active"));
+    const id = `filter-${cat.replace(/[^a-z0-9]/gi, "-")}`;
+    document.getElementById(id)?.classList.add("active");
     renderPresentes();
   }
 
   // ── Renderizar grid ─────────────────────────────────────── //
   function renderPresentes() {
-    const filtered = selectedCategory
-      ? allPresentes.filter(p => p.categoria === selectedCategory)
-      : allPresentes;
+    const grid = document.getElementById("presentes-grid");
 
-    const grid = document.getElementById('presentes-grid');
+    grid.innerHTML = allPresentes
+      .map((p) => {
+        const bgColor = p.reservado
+          ? "linear-gradient(135deg, #e0e0e0, #d0d0d0)"
+          : `linear-gradient(135deg, var(--lavanda-light), var(--azul-light))`;
 
-    if (filtered.length === 0) {
-      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:var(--texto-suave);">Nenhum presente nessa categoria.</div>`;
-      return;
-    }
-
-    grid.innerHTML = filtered.map(p => {
-      const icon = CATEGORY_ICONS[p.categoria] || '🎁';
-      const bgColor = p.reservado
-        ? 'linear-gradient(135deg, #e0e0e0, #d0d0d0)'
-        : `linear-gradient(135deg, var(--lavanda-light), var(--azul-light))`;
-
-      return `
-        <div class="gift-card${p.reservado ? ' reservado' : ''}" id="present-card-${p.id}">
+        return `
+        <div class="gift-card${p.reservado ? " reservado" : ""}" id="present-card-${p.id}">
           <div class="gift-img" style="background:${bgColor};">
-            ${p.imagem_url
-              ? `<img src="${p.imagem_url}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${icon}'" />`
-              : icon}
+            ${
+              p.imagem_url
+                ? `<img src="${p.imagem_url}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${icon}'" />`
+                : icon
+            }
           </div>
           <div class="gift-body">
-            <span class="gift-category">${p.categoria}</span>
             <p class="gift-name">${p.nome}</p>
-            <p class="gift-desc">${p.descricao || 'Sem descrição'}</p>
+            <p class="gift-desc">${p.descricao || "Sem descrição"}</p>
             <div class="gift-footer">
               <span class="gift-price">${formatPreco(p.preco)}</span>
-              ${p.reservado
-                ? `<span class="badge-reservado">✅ Reservado</span>`
-                : `<button
+              ${
+                p.reservado
+                  ? `<span class="badge-reservado">✅ Reservado</span>`
+                  : `<button
                     class="btn-primary"
                     style="padding:0.45rem 1rem; font-size:0.85rem;"
                     onclick="openReserveModal(${p.id})"
@@ -451,69 +606,74 @@ const pixTitular = wedding.pix.titular;
             </div>
           </div>
         </div>`;
-    }).join('');
+      })
+      .join("");
   }
 
   // ── Modal ───────────────────────────────────────────────── //
   function openReserveModal(id) {
-    selectedPresente = allPresentes.find(p => p.id === id);
+    selectedPresente = allPresentes.find((p) => p.id === id);
     if (!selectedPresente) return;
 
-    const icon = CATEGORY_ICONS[selectedPresente.categoria] || '🎁';
-    document.getElementById('modal-gift-icon').textContent = icon;
-    document.getElementById('modal-gift-name').textContent = selectedPresente.nome;
-    document.getElementById('modal-gift-desc').textContent = selectedPresente.descricao || '';
-    document.getElementById('modal-gift-price').textContent = formatPreco(selectedPresente.preco);
-    document.getElementById('presenteador-nome').value = '';
+    document.getElementById("modal-gift-name").textContent =
+      selectedPresente.nome;
+    document.getElementById("modal-gift-desc").textContent =
+      selectedPresente.descricao || "";
+    document.getElementById("modal-gift-price").textContent = formatPreco(
+      selectedPresente.preco,
+    );
+    document.getElementById("presenteador-nome").value = "";
 
-    document.getElementById('modal-step-1').style.display = 'block';
-    document.getElementById('modal-step-2').style.display = 'none';
-    document.getElementById('reserve-modal').style.display = 'flex';
+    document.getElementById("modal-step-1").style.display = "block";
+    document.getElementById("modal-step-2").style.display = "none";
+    document.getElementById("reserve-modal").style.display = "flex";
   }
 
   function closeModal() {
-    document.getElementById('reserve-modal').style.display = 'none';
+    document.getElementById("reserve-modal").style.display = "none";
     selectedPresente = null;
     loadPresentes(); // Recarregar para refletir estado atualizado
   }
 
   async function confirmReserva() {
-    const nome = document.getElementById('presenteador-nome').value.trim();
+    const nome = document.getElementById("presenteador-nome").value.trim();
     if (!nome) {
-      document.getElementById('presenteador-nome').focus();
-      document.getElementById('presenteador-nome').style.borderColor = '#e07b7b';
+      document.getElementById("presenteador-nome").focus();
+      document.getElementById("presenteador-nome").style.borderColor =
+        "#e07b7b";
       return;
     }
-    document.getElementById('presenteador-nome').style.borderColor = '';
+    document.getElementById("presenteador-nome").style.borderColor = "";
 
-    const btn = document.getElementById('confirm-btn');
-    btn.textContent = 'Reservando...';
+    const btn = document.getElementById("confirm-btn");
+    btn.textContent = "Reservando...";
     btn.disabled = true;
 
     try {
-      const res = await fetch(`${API_BASE}/api/presentes/${selectedPresente.id}/reservar`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome }),
-      });
+      await reservarPresente(selectedPresente.id, { nome });
 
-      if (res.ok) {
-        // Mostrar etapa 2: instruções PIX
-        document.getElementById('pix-confirm-key').textContent  = pixChave;
-        document.getElementById('pix-confirm-price').textContent = formatPreco(selectedPresente.preco);
-        document.getElementById('pix-confirm-desc').textContent  = `Presente: ${selectedPresente.nome} (${nome})`;
-        document.getElementById('modal-step-1').style.display = 'none';
-        document.getElementById('modal-step-2').style.display = 'block';
-      } else if (res.status === 409) {
-        alert('Ops! Esse presente acabou de ser reservado por outra pessoa. Escolha outro! 😊');
+      // Mostrar etapa 2: instruções PIX
+      document.getElementById("pix-confirm-key").textContent = pixChave;
+      document.getElementById("pix-confirm-price").textContent = formatPreco(
+        selectedPresente.preco,
+      );
+      document.getElementById("pix-confirm-desc").textContent =
+        `Presente: ${selectedPresente.nome} (${nome})`;
+      document.getElementById("modal-step-1").style.display = "none";
+      document.getElementById("modal-step-2").style.display = "block";
+    } catch (err) {
+      if (err?.response?.status === 409) {
+        alert(
+          "Ops! Esse presente acabou de ser reservado por outra pessoa. Escolha outro! 😊",
+        );
         closeModal();
       } else {
-        throw new Error();
+        alert(
+          "Erro ao reservar. Tente novamente ou entre em contato com os noivos.",
+        );
       }
-    } catch {
-      alert('Erro ao reservar. Tente novamente ou entre em contato com os noivos.');
     } finally {
-      btn.textContent = '🎁 Confirmar Reserva';
+      btn.textContent = "🎁 Confirmar Reserva";
       btn.disabled = false;
     }
   }
@@ -521,34 +681,38 @@ const pixTitular = wedding.pix.titular;
   // ── Copiar PIX ──────────────────────────────────────────── //
   function copyPix() {
     navigator.clipboard.writeText(pixChave).then(() => {
-      const btn = document.getElementById('copy-pix-btn');
-      btn.textContent = '✅ Copiado!';
-      btn.style.background = 'var(--menta-dark)';
+      const btn = document.getElementById("copy-pix-btn");
+      btn.textContent = "✅ Copiado!";
+      btn.style.background = "var(--menta-dark)";
       setTimeout(() => {
-        btn.textContent = '📋 Copiar';
-        btn.style.background = 'var(--lavanda)';
+        btn.textContent = "📋 Copiar";
+        btn.style.background = "var(--lavanda)";
       }, 2000);
     });
   }
 
   function copyPixModal() {
     navigator.clipboard.writeText(pixChave).then(() => {
-      alert('Chave PIX copiada! 📋 Abra seu banco e realize o pagamento. Muito obrigados! 💜');
+      alert(
+        "Chave PIX copiada! 📋 Abra seu banco e realize o pagamento. Muito obrigados! 💜",
+      );
     });
   }
 
   // ── Fechar modal ao clicar fora ─────────────────────────── //
-  document.getElementById('reserve-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
+  document
+    .getElementById("reserve-modal")
+    .addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
 
   // ── Expor funções para o HTML ───────────────────────────── //
-  window.filterByCategory  = filterByCategory;
-  window.openReserveModal  = openReserveModal;
-  window.confirmReserva    = confirmReserva;
-  window.closeModal        = closeModal;
-  window.copyPix           = copyPix;
-  window.copyPixModal      = copyPixModal;
+  window.filterByCategory = filterByCategory;
+  window.openReserveModal = openReserveModal;
+  window.confirmReserva = confirmReserva;
+  window.closeModal = closeModal;
+  window.copyPix = copyPix;
+  window.copyPixModal = copyPixModal;
 
   // ── Init ────────────────────────────────────────────────── //
   loadPresentes();

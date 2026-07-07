@@ -25,26 +25,9 @@ import {
     overflow: hidden;
   "
   >
-    <!-- Overlay gradiente -->
-    <!-- <div
-      style="
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, rgba(171,147,224,0.35) 0%, rgba(253,248,242,0.6) 50%, rgba(126,173,229,0.25) 100%);
-      backdrop-filter: blur(1px);
-    "
-    >
-    </div> -->
-
     <!-- Conteúdo Hero -->
     <div style="position: relative; z-index: 1; max-width: 700px;">
       <!-- Imagem do casal -->
-      <!-- <div class="animate-float" style="margin-bottom: 2rem;">
-        <img
-          src="/monograma.png"
-          alt={`${wedding.noivo} e ${wedding.noiva}`}
-          style="width: 100px; height: 100px; padding: 0.5rem; object-fit: cover; border-radius: 50%; border: 3px solid white; box-shadow: 0 12px 40px rgba(171,147,224,0.45);"
-        />
-      </div> -->
       <div
         style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; align-items: center; margin-bottom: 3rem;"
       >
@@ -53,17 +36,6 @@ import {
           alt={`${wedding.noivo} e ${wedding.noiva}`}
           style="width: 80px; height: 80px; object-fit: cover;"
         />
-        <!-- <div style="display: flex; gap: 1.5rem; align-items: center;">
-        <a href="#detalhes" class="nav-link">Detalhes</a>
-        <a href="#lista-de-presentes" class="nav-link">Lista de Presentes</a>
-        <a
-          href="#rsvp"
-          class="btn-primary"
-          style="padding: 0.55rem 1.4rem; font-size: 0.9rem;"
-        >
-          💌 Confirmar Presença
-        </a>
-      </div> -->
       </div>
 
       <p
@@ -124,32 +96,26 @@ import {
         class="hero-buttons animate-fade-up"
         style="opacity: 0; animation-delay: 0.52s;"
       >
-        <a
+        <!-- <a
           href="#detalhes"
           class="btn-outline"
           style="background: rgba(255,255,255,0.8);"
         >
           📍 Ver Detalhes
-        </a>
-        <a
-          href="#rsvp"
-          class="btn-primary"
-          style="font-size: 1.05rem; padding: 1rem 2.2rem;"
-        >
-          💌 Confirmar Presença
-        </a>
-        <a
+        </a> -->
+        <a href="#rsvp" class="btn-primary"> 💌 Confirmar Presença </a>
+        <!-- <a
           href="#lista-de-presentes"
           class="btn-outline"
           style="background: rgba(255,255,255,0.8);"
         >
           🎁 Lista de Presentes
-        </a>
+        </a> -->
       </div>
     </div>
 
     <!-- Seta de scroll -->
-    <div
+    <!-- <div
       style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: float 1.4s ease-in-out infinite;"
     >
       <a
@@ -157,13 +123,13 @@ import {
         style="color: var(--lavanda); font-size: 1.5rem; text-decoration: none;"
         >↓</a
       >
-    </div>
+    </div> -->
   </section>
 
   <!-- ── DETALHES DO EVENTO ──────────────────────────────── -->
   <section
     id="detalhes"
-    style="background: linear-gradient(135deg, var(--creme) 0%, var(--lavanda-light) 50%, var(--creme) 100%); padding: 5rem 1.5rem;"
+    style="background: linear-gradient(135deg, var(--creme) 0%, var(--lavanda-light) 50%, var(--creme) 100%); padding: 4rem 1.5rem;"
   >
     <div style="max-width: 1000px; margin: 0 auto;">
       <h2 class="section-title reveal">Detalhes do Grande Dia</h2>
@@ -269,7 +235,7 @@ import {
   <!-- ── LISTA DE PRESENTES ────────────────────────────────── -->
   <section
     id="lista-de-presentes"
-    style="background: linear-gradient(135deg, var(--creme) 0%, var(--azul-light) 50%, var(--creme) 100%); padding:5rem 1.5rem;"
+    style="background: linear-gradient(135deg, var(--creme) 0%, var(--azul-light) 50%, var(--creme) 100%); padding:4rem 1.5rem;"
   >
     <div style="max-width:800px; margin:0 auto; text-align:center;">
       <h2 class="section-title reveal">Lista de Presentes</h2>
@@ -465,6 +431,7 @@ import {
 </style>
 
 <script>
+  import { searchGuest, submitRsvp } from '../services/guestService';
   // ── Countdown ──────────────────────────────────────────── //
   function updateCountdown() {
     const wrapper = document.getElementById("countdown-wrapper");
@@ -557,35 +524,22 @@ import {
     btn.disabled = true;
 
     try {
-      // TODO: Trocar pela URL real da API quando o backend estiver pronto
-      const API_BASE =
-        import.meta.env.PUBLIC_API_URL || "http://localhost:8080";
-      const res = await fetch(
-        `${API_BASE}/guests/search?name=${encodeURIComponent(name)}`,
-      );
-
-      if (!res.ok) {
-        if (res.status === 404) {
-          resultDiv.innerHTML = `
-            <div style="padding:1.5rem; background:rgba(224,147,147,0.1); border-radius:12px; border: 1px solid rgba(224,147,147,0.3);">
-              <p style="color:#c0504d; font-weight:600;">😕 Nome não encontrado na lista de convidados.</p>
-              <p style="color:var(--texto-suave); font-size:0.9rem; margin-top:0.5rem;">Verifique a grafia ou entre em contato com os noivos.</p>
-            </div>`;
-        } else {
-          throw new Error("Erro no servidor");
-        }
-        return;
-      }
-
-      const data = await res.json();
+      const data = await searchGuest(name);
       renderRSVPForm(data);
-    } catch (e) {
-      // Modo demo quando a API não está disponível
-      resultDiv.innerHTML = `
-        <div style="padding:1.5rem; background:rgba(171,147,224,0.1); border-radius:12px; border: 1px solid rgba(171,147,224,0.3);">
-          <p style="color:var(--lavanda-dark); font-weight:600;">⚠️ API ainda não disponível.</p>
-          <p style="color:var(--texto-suave); font-size:0.9rem; margin-top:0.5rem;">O sistema de confirmação estará disponível em breve. Obrigado pela paciência! 💜</p>
-        </div>`;
+    } catch (err) {
+      if (err?.response?.status === 404) {
+        resultDiv.innerHTML = `
+          <div style="padding:1.5rem; background:rgba(224,147,147,0.1); border-radius:12px; border: 1px solid rgba(224,147,147,0.3);">
+            <p style="color:#c0504d; font-weight:600;">😕 Nome não encontrado na lista de convidados.</p>
+            <p style="color:var(--texto-suave); font-size:0.9rem; margin-top:0.5rem;">Verifique a grafia ou entre em contato com os noivos.</p>
+          </div>`;
+      } else {
+        resultDiv.innerHTML = `
+          <div style="padding:1.5rem; background:rgba(171,147,224,0.1); border-radius:12px; border: 1px solid rgba(171,147,224,0.3);">
+            <p style="color:var(--lavanda-dark); font-weight:600;">⚠️ API ainda não disponível.</p>
+            <p style="color:var(--texto-suave); font-size:0.9rem; margin-top:0.5rem;">O sistema de confirmação estará disponível em breve. Obrigado pela paciência! 💜</p>
+          </div>`;
+      }
     } finally {
       btn.textContent = "Buscar";
       btn.disabled = false;
@@ -646,30 +600,20 @@ import {
       document.getElementById("food-restriction")?.value || "";
     const message = document.getElementById("guest-message")?.value || "";
 
-    const API_BASE = import.meta.env.PUBLIC_API_URL || "http://localhost:8080";
-
     try {
-      const res = await fetch(`${API_BASE}/rsvp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          grupo_id: grupoId,
-          confirmados: checkedMembers,
-          restricao_alimentar: restriction,
-          mensagem: message,
-        }),
+      await submitRsvp({
+        grupo_id: grupoId,
+        confirmados: checkedMembers,
+        restricao_alimentar: restriction,
+        mensagem: message,
       });
 
-      if (res.ok) {
-        document.getElementById("rsvp-result").innerHTML = `
-          <div style="text-align:center; padding:2rem; background:rgba(173,235,179,0.15); border-radius:16px; border:1px solid rgba(173,235,179,0.5);">
-            <div style="font-size:3rem; margin-bottom:1rem;">🎉</div>
-            <p style=" font-size:2rem; color:var(--menta-dark);">Presença Confirmada!</p>
-            <p style="color:var(--texto-suave); margin-top:0.5rem;">Mal podemos esperar para celebrar com você! 💜</p>
-          </div>`;
-      } else {
-        throw new Error("Erro ao confirmar");
-      }
+      document.getElementById("rsvp-result").innerHTML = `
+        <div style="text-align:center; padding:2rem; background:rgba(173,235,179,0.15); border-radius:16px; border:1px solid rgba(173,235,179,0.5);">
+          <div style="font-size:3rem; margin-bottom:1rem;">🎉</div>
+          <p style=" font-size:2rem; color:var(--menta-dark);">Presença Confirmada!</p>
+          <p style="color:var(--texto-suave); margin-top:0.5rem;">Mal podemos esperar para celebrar com você! 💜</p>
+        </div>`;
     } catch {
       alert(
         "Ocorreu um erro. Tente novamente ou entre em contato com os noivos.",
@@ -678,17 +622,8 @@ import {
   }
 
   async function submitDecline(grupoId) {
-    const API_BASE = import.meta.env.PUBLIC_API_URL || "http://localhost:8080";
     try {
-      await fetch(`${API_BASE}/rsvp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          grupo_id: grupoId,
-          confirmados: [],
-          recusado: true,
-        }),
-      });
+      await submitRsvp({ grupo_id: grupoId, confirmados: [], recusado: true });
     } catch {}
     document.getElementById("rsvp-result").innerHTML = `
       <div style="text-align:center; padding:2rem; background:rgba(224,147,147,0.08); border-radius:16px; border:1px solid rgba(224,147,147,0.3);">

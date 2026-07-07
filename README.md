@@ -3,14 +3,13 @@
 ## Pré-requisitos
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (para o banco de dados)
-- [Go 1.22+](https://go.dev/dl/)
-- [Node.js 18+](https://nodejs.org/)
+- [Node.js 20+](https://nodejs.org/)
 
 ---
 
 ## 1. Banco de dados
 
-Abra o Docker Desktop e então suba o PostgreSQL:
+Suba apenas o PostgreSQL via Docker:
 
 ```bash
 docker-compose up -d postgres_casamento
@@ -20,11 +19,13 @@ docker-compose up -d postgres_casamento
 
 ---
 
-## 2. Backend (API Go)
+## 2. Backend (API Fastify)
 
 ```bash
 cd backend
-go run ./cmd/main.go
+cp .env.example .env   # ajuste as variáveis se necessário
+npm install
+npm run dev
 ```
 
 A API estará em **http://localhost:8080/api/**
@@ -33,12 +34,14 @@ A API estará em **http://localhost:8080/api/**
 
 ## 3. Criar o primeiro usuário admin
 
-Com o banco rodando:
+Com o banco rodando, execute o script de seed diretamente no PostgreSQL:
 
 ```bash
-cd backend
-go run ./cmd/create-admin/main.go -username rafael -password SuaSenhaSegura123
+docker exec -i postgres_casamento psql -U noivos_admin -d casamento_db \
+  -c "INSERT INTO administradores (username, password_hash) VALUES ('rafael', '<bcrypt-hash>');"
 ```
+
+> Gere o hash com `node -e "const b=require('bcryptjs');b.hash('SuaSenha123',12).then(console.log)"` dentro da pasta `backend/`.
 
 ---
 
@@ -66,18 +69,49 @@ Abra **http://localhost:4321/admin/login** e use as credenciais criadas no passo
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `backend/.env` | Configuração do backend (DB, JWT, CORS) |
+| `backend/.env` | Configuração do backend (DB, JWT, CORS) — copie de `.env.example` |
 | `frontend/.env` | Configuração do frontend (`PUBLIC_API_URL` vazio = proxy local) |
-| `.env` (raiz) | Sobrescreve `JWT_SECRET` e `ALLOWED_ORIGIN` no docker-compose |
 
-### Produção (Vercel + VPS)
+---
 
-No Vercel, configure:
+## Produção
+
+### Banco de dados
+
+O PostgreSQL continua rodando em Docker na VPS:
+
+```bash
+docker-compose up -d postgres_casamento
+```
+
+### Backend (pm2)
+
+O backend Node.js roda diretamente na VPS gerenciado pelo **pm2**:
+
+```bash
+cd backend
+npm install --omit=dev
+
+# Iniciar (ou reiniciar) com pm2
+pm2 start src/server.js --name casamento-api
+
+# Salvar para sobreviver a reboots
+pm2 save
+pm2 startup
+```
+
+Para atualizar após um deploy:
+
+```bash
+git pull
+cd backend && npm install --omit=dev
+pm2 restart casamento-api
+```
+
+### Frontend
+
+Deploy automático na **Vercel**. Configure a variável de ambiente:
+
 ```
 PUBLIC_API_URL=https://seu-backend.com
-```
-
-No servidor VPS, use docker-compose com:
-```bash
-JWT_SECRET=chave-forte-aqui docker-compose up -d
 ```
