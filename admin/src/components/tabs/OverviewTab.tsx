@@ -1,4 +1,35 @@
+import { useState, useEffect } from 'react';
+import { getAdminGuests } from '../../services/adminService';
+import { useNavigate } from 'react-router-dom';
+
 export function OverviewTab() {
+  const [loading, setLoading] = useState(false);
+  const [metrics, setMetrics] = useState({ total: 0, confirmed: 0, declined: 0, pending: 0, pct: 0 });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadOverview();
+  }, []);
+
+  const loadOverview = async () => {
+    setLoading(true);
+    try {
+      const guestsData = await getAdminGuests();
+      const total = guestsData.length;
+      const confirmed = guestsData.filter((g) => g.confirmed === true).length;
+      const declined = guestsData.filter((g) => g.confirmed === false).length;
+      const pending = guestsData.filter((g) => g.confirmed === null).length;
+      const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0;
+      setMetrics({ total, confirmed, declined, pending, pct });
+    } catch (err: any) {
+      if (err?.response?.status === 401) {
+        navigate('/admin/login');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="tab-content animate-fade-up">
       <h1 style={{ fontSize: '2.5rem', color: 'var(--lavanda-dark)', marginBottom: '0.25rem' }}>Visão Geral</h1>
@@ -39,5 +70,5 @@ export function OverviewTab() {
 
       {loading && <div style={{ textAlign: 'center', color: 'var(--texto-suave)', padding: '2rem' }}>Carregando dados... 💜</div>}
     </div>
-  )
+  );
 }

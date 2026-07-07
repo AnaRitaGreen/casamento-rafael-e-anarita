@@ -1,176 +1,61 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  getAdminGuests,
-  deleteGuest as deleteGuestApi,
-  getAdminGroups,
-  getAdminMessages,
-  exportGuestsCSV,
-  adminLogout,
-  deletePresente as deletePresenteApi,
-  liberarReservaPresente,
-  getAdminPresentes
-} from '../services/adminService';
+import { adminLogout } from '../services/adminService';
 
-import type {
-  AdminGuest,
-  AdminGroup,
-  AdminMessage,
-  AdminPresente,
-  AdminPresentePayload
-} from '../services/adminService';
-import { PresenteModal } from '../components/modal/PresenteModal';
-import { GuestModal } from '../components/modal/GuestModal';
-import { PresentesTab } from '../components/tabs/PresentesTab';
-import { ExportTab } from '../components/tabs/ExportTab';
-import { MessagesTab } from '../components/tabs/MessagesTab';
-import { GuestsTab } from '../components/tabs/GuestsTab';
 import { OverviewTab } from '../components/tabs/OverviewTab';
-import { Sidebar } from '../components/Sidebar';
+import { GuestsTab } from '../components/tabs/GuestsTab';
+import { MessagesTab } from '../components/tabs/MessagesTab';
+import { ExportTab } from '../components/tabs/ExportTab';
+import { PresentesTab } from '../components/tabs/PresentesTab';
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
-  const [loading, setLoading] = useState(false);
 
-  // Overview Data
-  const [metrics, setMetrics] = useState({ total: 0, confirmed: 0, declined: 0, pending: 0, pct: 0 });
-
-  // Guests Data
-  const [allGuests, setAllGuests] = useState<AdminGuest[]>([]);
-  const [filteredGuests, setFilteredGuests] = useState<AdminGuest[]>([]);
-  const [groups, setGroups] = useState<AdminGroup[]>([]);
-  const [guestSearch, setGuestSearch] = useState('');
-  const [guestFilterStatus, setGuestFilterStatus] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const PER_PAGE = 15;
-
-  // Messages Data
-  const [messages, setMessages] = useState<AdminMessage[]>([]);
-  const [messagesLoading, setMessagesLoading] = useState(false);
-
-  // Presentes Data
-  const [presentes, setPresentes] = useState<AdminPresente[]>([]);
-  const [presentesMetrics, setPresentesMetrics] = useState({ total: 0, reservados: 0, disponiveis: 0 });
-  const [presentesLoading, setPresentesLoading] = useState(false);
-
-  const redirectToLogin = () => navigate('/login');
-
-  // --- OVERVIEW ---
-  const loadOverview = async () => {
-    setLoading(true);
+  const handleLogout = async () => {
     try {
-      const guestsData = await getAdminGuests();
-      const total = guestsData.length;
-      const confirmed = guestsData.filter((g) => g.confirmado === true).length;
-      const declined = guestsData.filter((g) => g.confirmado === false).length;
-      const pending = guestsData.filter((g) => g.confirmado === null).length;
-      const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0;
-      setMetrics({ total, confirmed, declined, pending, pct });
-    } catch (err: any) {
-      if (err?.response?.status === 401) redirectToLogin();
-    } finally {
-      setLoading(false);
-    }
+      await adminLogout();
+    } catch {}
+    navigate('/admin/login');
   };
-
-  // --- GUESTS ---
-  const loadGuests = async () => {
-    try {
-      const data = await getAdminGuests();
-      setAllGuests(data);
-      setFilteredGuests(data);
-      const groupsData = await getAdminGroups();
-      setGroups(groupsData);
-    } catch (err: any) {
-      if (err?.response?.status === 401) redirectToLogin();
-    }
-  };
-
-  // --- MESSAGES ---
-  const loadMessages = async () => {
-    setMessagesLoading(true);
-    try {
-      const msgs = await getAdminMessages();
-      setMessages(msgs);
-    } catch (err: any) {
-      if (err?.response?.status === 401) redirectToLogin();
-    } finally {
-      setMessagesLoading(false);
-    }
-  };
-
-  // --- PRESENTES ---
-  const loadPresentes = async () => {
-    setPresentesLoading(true);
-    try {
-      const data = await getAdminPresentes();
-      setPresentes(data);
-      const reservados = data.filter((p) => p.reservado).length;
-      setPresentesMetrics({ total: data.length, reservados, disponiveis: data.length - reservados });
-    } catch (err: any) {
-      if (err?.response?.status === 401) redirectToLogin();
-    } finally {
-      setPresentesLoading(false);
-    }
-  };
-
-  // Pagination Helper
-  const startIdx = (currentPage - 1) * PER_PAGE;
-  const pageGuests = filteredGuests.slice(startIdx, startIdx + PER_PAGE);
-  const totalPages = Math.ceil(filteredGuests.length / PER_PAGE);
-
-  useEffect(() => {
-    loadOverview();
-  }, []);
-
-  useEffect(() => {
-    if (activeTab === 'guests') loadGuests();
-    if (activeTab === 'messages') loadMessages();
-    if (activeTab === 'presentes') loadPresentes();
-  }, [activeTab]);
-
-  useEffect(() => {
-    const search = guestSearch.toLowerCase();
-    const filtered = allGuests.filter((g) => {
-      const matchName = g.nome_completo.toLowerCase().includes(search);
-      const matchStatus = guestFilterStatus === ""
-        ? true
-        : guestFilterStatus === "null"
-          ? g.confirmado === null
-          : g.confirmado === (guestFilterStatus === "true");
-      return matchName && matchStatus;
-    });
-    setFilteredGuests(filtered);
-    setCurrentPage(1);
-  }, [guestSearch, guestFilterStatus, allGuests]);
 
   return (
     <div id="dashboard-app" style={{ display: 'flex', minHeight: '100vh', background: 'var(--creme)' }}>
       {/* SIDEBAR */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <aside style={{ width: '260px', background: 'linear-gradient(180deg, var(--lavanda-dark) 0%, #6b50bb 100%)', color: 'white', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', flexShrink: 0, position: 'sticky', top: 0, height: '100vh', overflowY: 'auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <p className="font-cursive" style={{ fontSize: '2rem', color: 'rgba(255,255,255,0.95)' }}>R & A</p>
+          <p style={{ fontSize: '0.75rem', opacity: 0.65, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Painel dos Noivos</p>
+        </div>
+        <nav style={{ flex: 1 }}>
+          {[
+            { id: 'overview', icon: '📊', label: 'Visão Geral' },
+            { id: 'guests', icon: '👥', label: 'Convidados' },
+            { id: 'messages', icon: '💌', label: 'Mensagens' },
+            { id: 'export', icon: '📥', label: 'Exportar' },
+            { id: 'presentes', icon: '🎁', label: 'Presentes' }
+          ].map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`sidebar-link ${activeTab === tab.id ? 'active-link' : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem', borderRadius: '10px', color: activeTab === tab.id ? 'white' : 'rgba(255,255,255,0.75)', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem', marginBottom: '0.25rem', transition: 'all 0.2s ease', cursor: 'pointer', border: 'none', background: activeTab === tab.id ? 'rgba(255,255,255,0.15)' : 'none', width: '100%', textAlign: 'left' }}>
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </nav>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '1.25rem', marginTop: 'auto' }}>
+          <a href="/" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', textDecoration: 'none' }}>← Ver Site</a>
+          <br />
+          <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '0.5rem', fontFamily: 'Quicksand', padding: 0 }}>
+            🚪 Sair
+          </button>
+        </div>
+      </aside>
 
       {/* MAIN CONTENT */}
       <main style={{ flex: 1, padding: '2.5rem', overflowX: 'hidden' }}>
-        {activeTab === 'overview' && (
-          <OverviewTab />
-        )}
-
-        {activeTab === 'guests' && (
-          <GuestsTab />
-        )}
-
-        {activeTab === 'messages' && (
-          <MessagesTab />
-        )}
-
-        {activeTab === 'export' && (
-          <ExportTab />
-        )}
-
-        {activeTab === 'presentes' && (
-          <PresentesTab />
-        )}
+        {activeTab === 'overview' && <OverviewTab />}
+        {activeTab === 'guests' && <GuestsTab />}
+        {activeTab === 'messages' && <MessagesTab />}
+        {activeTab === 'export' && <ExportTab />}
+        {activeTab === 'presentes' && <PresentesTab />}
       </main>
     </div>
   );

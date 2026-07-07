@@ -1,32 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAdminPresentes, deletePresente as deletePresenteApi, liberarReservaPresente, type AdminPresente } from "../../services/adminService";
 import { PresenteModal } from "../modal/PresenteModal";
-import { liberarReservaPresente, type AdminPresentePayload } from "../../services/adminService";
+import { useNavigate } from "react-router-dom";
 
-interface PresentesTabProps {
+export function PresentesTab() {
+  const [presentes, setPresentes] = useState<AdminPresente[]>([]);
+  const [presentesMetrics, setPresentesMetrics] = useState({ total: 0, reservados: 0, disponiveis: 0 });
+  const [presentesLoading, setPresentesLoading] = useState(false);
 
-}
-
-export function PresentesTab({}: PresentesTabProps) {
   const [isPresenteModalOpen, setIsPresenteModalOpen] = useState(false);
-  const [editingPresenteId, setEditingPresenteId] = useState<number | null>(null);
-  const [presenteForm, setPresenteForm] = useState({} as AdminPresentePayload);
+  const [editingPresenteId, setEditingPresenteId] = useState<string | null>(null);
+  const [initialPresenteData, setInitialPresenteData] = useState<any>(undefined);
 
-  const openAddPresenteModal = () => {
-    setEditingPresenteId(null);
-    setPresenteForm({ title: '', description: '', value: 0, image: '' });
-    setIsPresenteModalOpen(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadPresentes();
+  }, []);
+
+  const loadPresentes = async () => {
+    setPresentesLoading(true);
+    try {
+      const data = await getAdminPresentes();
+      setPresentes(data);
+      const reservados = data.filter((p) => p.reserved).length;
+      setPresentesMetrics({ total: data.length, reservados, disponiveis: data.length - reservados });
+    } catch (err: any) {
+      if (err?.response?.status === 401) navigate('/admin/login');
+    } finally {
+      setPresentesLoading(false);
+    }
   };
 
-  const editPresente = (id: number) => {
-    const p = presentes.find((x) => x.id === id);
-    if (!p) return;
-    setEditingPresenteId(id);
-    setPresenteForm({ title: p.title, description: p.description || '', value: p.value, image: p.image || '' });
-    setIsPresenteModalOpen(true);
-  };
-
-  const deletePresente = async (id: number, nome: string) => {
-    if (!window.confirm(`Remover "${nome}" da lista?`)) return;
+  const deletePresente = async (id: string, title: string) => {
+    if (!window.confirm(`Remover "${title}" da lista?`)) return;
     try {
       await deletePresenteApi(id);
       loadPresentes();
@@ -35,7 +42,7 @@ export function PresentesTab({}: PresentesTabProps) {
     }
   };
 
-  const liberarReserva = async (id: number) => {
+  const liberarReserva = async (id: string) => {
     if (!window.confirm("Liberar a reserva desse presente? Ele voltará a ficar disponível.")) return;
     try {
       await liberarReservaPresente(id);
@@ -43,6 +50,25 @@ export function PresentesTab({}: PresentesTabProps) {
     } catch {
       alert("Erro ao liberar reserva.");
     }
+  };
+
+  const openAddPresenteModal = () => {
+    setEditingPresenteId(null);
+    setInitialPresenteData(undefined);
+    setIsPresenteModalOpen(true);
+  };
+
+  const editPresente = (id: string) => {
+    const p = presentes.find((x) => x.id === id);
+    if (!p) return;
+    setEditingPresenteId(id);
+    setInitialPresenteData({
+      title: p.title,
+      description: p.description || '',
+      value: p.value,
+      image: p.image || ''
+    });
+    setIsPresenteModalOpen(true);
   };
 
   return (
@@ -54,6 +80,7 @@ export function PresentesTab({}: PresentesTabProps) {
         </div>
         <button className="btn-primary" onClick={openAddPresenteModal}>+ Adicionar Presente</button>
       </div>
+
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
         <div style={{ background: 'linear-gradient(135deg,var(--lavanda),var(--azul))', color: 'white', borderRadius: '14px', padding: '1rem 1.5rem', flex: 1, minWidth: '120px' }}>
           <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{presentesMetrics.total}</div>
@@ -68,6 +95,7 @@ export function PresentesTab({}: PresentesTabProps) {
           <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>Disponíveis</div>
         </div>
       </div>
+
       <div className="glass-card" style={{ overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -86,19 +114,19 @@ export function PresentesTab({}: PresentesTabProps) {
               {presentes.map(p => (
                 <tr key={p.id} style={{ transition: 'background 0.15s', borderBottom: '1px solid rgba(171,147,224,0.1)' }}>
                   <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
-                    <strong>{p.nome}</strong><br/><span style={{ fontSize: '0.8rem', color: 'var(--texto-suave)' }}>{p.descricao}</span>
+                    <strong>{p.title}</strong><br /><span style={{ fontSize: '0.8rem', color: 'var(--texto-suave)' }}>{p.description}</span>
                   </td>
                   <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--lavanda-dark)', verticalAlign: 'middle', fontWeight: 700 }}>
-                    {Number(p.preco).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    {Number(p.value).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </td>
                   <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', verticalAlign: 'middle' }}>
-                    {p.reservado ? <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Reservado</span> : <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⬜ Disponível</span>}
+                    {p.reserved ? <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Reservado</span> : <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⬜ Disponível</span>}
                   </td>
-                  <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.85rem', color: 'var(--texto-suave)', verticalAlign: 'middle' }}>{p.reservado_por || '—'}</td>
+                  <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.85rem', color: 'var(--texto-suave)', verticalAlign: 'middle' }}>{p.reserved_by || '—'}</td>
                   <td style={{ padding: '0.875rem 1.25rem', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
                     <button onClick={() => editPresente(p.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 6px' }} title="Editar">✏️</button>
-                    {p.reservado && <button onClick={() => liberarReserva(p.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 6px' }} title="Liberar reserva">🔓</button>}
-                    <button onClick={() => deletePresente(p.id, p.nome)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 6px' }} title="Remover">🗑️</button>
+                    {p.reserved && <button onClick={() => liberarReserva(p.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 6px' }} title="Liberar reserva">🔓</button>}
+                    <button onClick={() => deletePresente(p.id, p.title)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 6px' }} title="Remover">🗑️</button>
                   </td>
                 </tr>
               ))}
@@ -106,15 +134,17 @@ export function PresentesTab({}: PresentesTabProps) {
           </table>
         </div>
       </div>
-      {isPresenteModalOpen && (
-        <PresenteModal 
-          editingPresenteId={editingPresenteId}
-          presenteForm={presenteForm}
-          setPresenteForm={setPresenteForm}
-          loadPresentes={loadPresentes}
-          setIsPresenteModalOpen={setIsPresenteModalOpen}
-        />
-      )}
+
+      <PresenteModal
+        isOpen={isPresenteModalOpen}
+        onClose={() => setIsPresenteModalOpen(false)}
+        onSave={() => {
+          setIsPresenteModalOpen(false);
+          loadPresentes();
+        }}
+        editingPresenteId={editingPresenteId}
+        initialData={initialPresenteData}
+      />
     </div>
-  )
+  );
 }

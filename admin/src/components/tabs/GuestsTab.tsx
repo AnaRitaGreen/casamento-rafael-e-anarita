@@ -1,48 +1,85 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { getAdminGuests, deleteGuest as deleteGuestApi, type AdminGuest } from "../../services/adminService";
 import { GuestModal } from "../modal/GuestModal";
+import { useNavigate } from "react-router-dom";
 
-interface GuestTabProps {
-}
+export function GuestsTab() {
+  const [allGuests, setAllGuests] = useState<AdminGuest[]>([]);
+  const [filteredGuests, setFilteredGuests] = useState<AdminGuest[]>([]);
+  const [guestSearch, setGuestSearch] = useState('');
+  const [guestFilterStatus, setGuestFilterStatus] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const PER_PAGE = 15;
 
-export function GuestsTab({}: GuestTabProps) {
-  const [editingGuestId, setEditingGuestId] = useState<number | null>(null);
   const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
+  const [editingGuestId, setEditingGuestId] = useState<string | null>(null);
+  const [initialGuestData, setInitialGuestData] = useState<any>(undefined);
 
-  const openAddGuestModal = () => {
-    setEditingGuestId(null);
-    setGuestForm({ nome: '', grupo_id: '', novo_grupo: '', restricao: '', eh_crianca: false });
-    setIsGuestModalOpen(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadGuests();
+  }, []);
+
+  const loadGuests = async () => {
+    try {
+      const data = await getAdminGuests();
+      setAllGuests(data);
+      setFilteredGuests(data);
+    } catch (err: any) {
+      if (err?.response?.status === 401) navigate('/admin/login');
+    }
   };
 
-  const editGuest = (id: number) => {
-      const g = allGuests.find((x) => x.id === id);
-      if (!g) return;
-      setEditingGuestId(id);
-      setGuestForm({
-        nome: g.nome_completo,
-        grupo_id: g.grupo_id ? String(g.grupo_id) : '',
-        novo_grupo: '',
-        restricao: g.restricao_alimentar || '',
-        eh_crianca: g.eh_crianca,
-      });
-      setIsGuestModalOpen(true);
-    };
+  useEffect(() => {
+    const search = guestSearch.toLowerCase();
+    const filtered = allGuests.filter((g) => {
+      const matchName = g.name.toLowerCase().includes(search);
+      const matchStatus = guestFilterStatus === ""
+        ? true
+        : guestFilterStatus === "null"
+          ? g.confirmed === null
+          : g.confirmed === (guestFilterStatus === "true");
+      return matchName && matchStatus;
+    });
+    setFilteredGuests(filtered);
+    setCurrentPage(1);
+  }, [guestSearch, guestFilterStatus, allGuests]);
 
-  const deleteGuest = async (id: number, nome: string) => {
-    if (!window.confirm(`Remover "${nome}" da lista?`)) return;
+  const deleteGuest = async (id: string, name: string) => {
+    if (!window.confirm(`Remover "${name}" da lista?`)) return;
     try {
       await deleteGuestApi(id);
       loadGuests();
-      loadOverview();
     } catch {
       alert("Erro ao remover convidado.");
     }
   };
 
-  useEffect(() => {
-    if (activeTab === 'guests') loadGuests();
-  }, [activeTab]);
-  
+  const openAddGuestModal = () => {
+    setEditingGuestId(null);
+    setInitialGuestData(undefined);
+    setIsGuestModalOpen(true);
+  };
+
+  const editGuest = (id: string) => {
+    const g = allGuests.find((x) => x.id === id);
+    if (!g) return;
+    setEditingGuestId(id);
+    setInitialGuestData({
+      name: g.name,
+      group_id: g.group_id ? g.group_id : '',
+      group_name: '',
+      restriction: g.restriction || '',
+      is_child: g.is_child,
+    });
+    setIsGuestModalOpen(true);
+  };
+
+  const startIdx = (currentPage - 1) * PER_PAGE;
+  const pageGuests = filteredGuests.slice(startIdx, startIdx + PER_PAGE);
+  const totalPages = Math.ceil(filteredGuests.length / PER_PAGE);
+
   return (
     <div className="tab-content animate-fade-up">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
@@ -82,19 +119,19 @@ export function GuestsTab({}: GuestTabProps) {
                 pageGuests.map((g) => (
                   <tr key={g.id} style={{ transition: 'background 0.15s', borderBottom: '1px solid rgba(171, 147, 224, 0.1)' }}>
                     <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
-                      <strong>{g.nome_completo}</strong>
-                      {g.eh_crianca && <span style={{ fontSize: '0.7rem', background: 'var(--lavanda-light)', color: 'var(--lavanda-dark)', padding: '2px 7px', borderRadius: '20px', marginLeft: '4px' }}>criança</span>}
+                      <strong>{g.name}</strong>
+                      {g.is_child && <span style={{ fontSize: '0.7rem', background: 'var(--lavanda-light)', color: 'var(--lavanda-dark)', padding: '2px 7px', borderRadius: '20px', marginLeft: '4px' }}>criança</span>}
                     </td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>{g.nome_grupo || "—"}</td>
+                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>{g.group_name || "—"}</td>
                     <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
-                      {g.confirmado === true && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Confirmado</span>}
-                      {g.confirmado === false && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 147, 147, 0.25)', color: '#c0504d' }}>❌ Não vai</span>}
-                      {g.confirmado === null && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⏳ Pendente</span>}
+                      {g.confirmed === true && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Confirmado</span>}
+                      {g.confirmed === false && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 147, 147, 0.25)', color: '#c0504d' }}>❌ Não vai</span>}
+                      {g.confirmed === null && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⏳ Pendente</span>}
                     </td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto-suave)', verticalAlign: 'middle' }}>{g.restricao_alimentar || "—"}</td>
+                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto-suave)', verticalAlign: 'middle' }}>{g.restriction || "—"}</td>
                     <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle', textAlign: 'center' }}>
                       <button onClick={() => editGuest(g.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Editar">✏️</button>
-                      <button onClick={() => deleteGuest(g.id, g.nome_completo)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Remover">🗑️</button>
+                      <button onClick={() => deleteGuest(g.id, g.name)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Remover">🗑️</button>
                     </td>
                   </tr>
                 ))
@@ -112,9 +149,16 @@ export function GuestsTab({}: GuestTabProps) {
         </div>
       </div>
 
-      {isGuestModalOpen && (
-        <GuestModal />
-      )}
+      <GuestModal
+        isOpen={isGuestModalOpen}
+        onClose={() => setIsGuestModalOpen(false)}
+        onSave={() => {
+          setIsGuestModalOpen(false);
+          loadGuests();
+        }}
+        editingGuestId={editingGuestId}
+        initialData={initialGuestData}
+      />
     </div>
-  )
+  );
 }
