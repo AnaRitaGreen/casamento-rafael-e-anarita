@@ -34,19 +34,19 @@ export interface AdminMessage {
 
 export interface AdminPresente {
   id: number
-  nome: string
-  descricao: string
-  preco: number
-  imagem_url: string
-  reservado: boolean
-  reservado_por: string | null
+  title: string
+  description: string
+  value: number
+  image: string
+  // reservado: boolean
+  // reservado_por: string | null
 }
 
 export interface AdminPresentePayload {
-  nome: string
-  descricao: string
-  preco: number
-  imagem_url: string
+  title: string
+  description: string
+  image: string
+  value: number
 }
 
 // ── Auth ───────────────────────────────────────────────────────── //
