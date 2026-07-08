@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 
@@ -290,7 +289,8 @@ h3 {
 }
 
 .countdown-number {
-  font-family: 'Quicksand', cursive;
+  font-family: "Inconsolata", monospace;
+  font-optical-sizing: auto;
   font-size: clamp(2rem, 8vw, 3rem);
   font-weight: 700;
   color: var(--lavanda-dark);
