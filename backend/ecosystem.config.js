@@ -1,7 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 
-module.exports = {
+export default {
   apps: [
     {
       name: 'casamento-rafael-e-anarita-api',
