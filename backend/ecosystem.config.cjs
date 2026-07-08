@@ -5,7 +5,7 @@ module.exports = {
   apps: [
     {
       name: 'casamento-rafael-e-anarita-api',
-      script: './build/server.js',
+      script: './build/server.cjs',
       env: {
         NODE_ENV: 'production',
         ...process.env,
