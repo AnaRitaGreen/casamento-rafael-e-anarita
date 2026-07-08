@@ -37,19 +37,19 @@ export function OverviewTab() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
         <div style={{ padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', background: 'linear-gradient(135deg,var(--lavanda),var(--azul))', color: 'white' }}>
-          <div style={{ fontFamily: '"Dancing Script", cursive', fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.total}</div>
+          <div style={{ fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.total}</div>
           <div style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: 600 }}>Total de Convidados</div>
         </div>
         <div style={{ padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', background: 'linear-gradient(135deg,var(--menta-dark),#52c77a)', color: 'white' }}>
-          <div style={{ fontFamily: '"Dancing Script", cursive', fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.confirmed}</div>
+          <div style={{ fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.confirmed}</div>
           <div style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: 600 }}>Confirmados ✅</div>
         </div>
         <div style={{ padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', background: 'linear-gradient(135deg,#e07b7b,#d45f5f)', color: 'white' }}>
-          <div style={{ fontFamily: '"Dancing Script", cursive', fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.declined}</div>
+          <div style={{ fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.declined}</div>
           <div style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: 600 }}>Não vão ❌</div>
         </div>
         <div style={{ padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', background: 'linear-gradient(135deg,#e0c07b,#c9a840)', color: 'white' }}>
-          <div style={{ fontFamily: '"Dancing Script", cursive', fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.pending}</div>
+          <div style={{ fontSize: '3rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem' }}>{loading ? '—' : metrics.pending}</div>
           <div style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: 600 }}>Pendentes ⏳</div>
         </div>
       </div>
