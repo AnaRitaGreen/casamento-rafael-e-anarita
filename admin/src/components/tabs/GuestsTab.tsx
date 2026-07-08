@@ -143,7 +143,7 @@ export function GuestsTab() {
           <span style={{ fontSize: '0.85rem', color: 'var(--texto-suave)' }}>Exibindo {Math.min(startIdx + 1, filteredGuests.length)}–{Math.min(startIdx + PER_PAGE, filteredGuests.length)} de {filteredGuests.length} convidados</span>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {Array.from({ length: totalPages }).map((_, i) => (
-              <button key={i} onClick={() => setCurrentPage(i + 1)} style={{ width: '32px', height: '32px', borderRadius: '8px', border: '1px solid var(--lavanda-light)', background: i + 1 === currentPage ? 'var(--lavanda)' : 'white', color: i + 1 === currentPage ? 'white' : 'var(--lavanda-dark)', cursor: 'pointer', fontSize: '0.85rem', fontFamily: 'Quicksand', fontWeight: 600 }}>{i + 1}</button>
+              <button key={i} onClick={() => setCurrentPage(i + 1)} style={{ width: '32px', height: '32px', borderRadius: '8px', border: '1px solid var(--lavanda-light)', background: i + 1 === currentPage ? 'var(--lavanda)' : 'white', color: i + 1 === currentPage ? 'white' : 'var(--lavanda-dark)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600 }}>{i + 1}</button>
             ))}
           </div>
         </div>
