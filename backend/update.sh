@@ -18,7 +18,7 @@ npx knex migrate:latest
 
 echo "Reiniciando o backend no PM2..."
 pm2 restart casamento-rafael-e-anarita-api
-pm2 start ecosystem.config.js
+pm2 start ecosystem.config.cjs
 pm2 save
 
 echo "Restartando o apache..."
