@@ -1,0 +1,519 @@
+---
+// Rota catch-all: [...slug].astro
+// / → slug = undefined → exibe a seção RSVP genérica
+// /:slug → slug = "joao-e-familia" → carrega e exibe o formulário do grupo
+
+import Layout from "../layouts/Layout.astro";
+import {
+  wedding,
+  nomesCasal,
+  dataCerimoniaFormatada,
+  dataLimiteRsvpFormatada,
+} from "../config/wedding";
+
+const slug = Astro.params.slug ?? null; // undefined para "/" → null
+const hasSlug = Boolean(slug);
+---
+
+<Layout title={wedding.seo.title} description={wedding.seo.description}>
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+  <section
+    id="hero"
+    style="
+    min-height: 100vh;
+    background: url('/bg.png') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  "
+  >
+    <div style="position: relative; z-index: 1; max-width: 700px;">
+      <div
+        style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; align-items: center; margin-bottom: 3rem;"
+      >
+        <img
+          src="/monograma.png"
+          alt={`${wedding.noivo} e ${wedding.noiva}`}
+          style="width: 80px; height: 80px; object-fit: cover;"
+        />
+      </div>
+
+      <p
+        class="font-cursive animate-fade-up"
+        style="font-size: 1.2rem; color: var(--lavanda-dark); margin-bottom: 0.5rem; opacity: 0; animation-delay: 0.05s;"
+      >
+        juntamos nossas histórias
+      </p>
+
+      <h1
+        class="font-cursive animate-fade-up"
+        style="font-size: clamp(3rem, 8vw, 5.5rem); color: var(--azul); line-height: 1.1; text-shadow: 0 2px 20px rgba(171,147,224,0.3); opacity: 0; animation-delay: 0.15s;"
+      >
+        {nomesCasal}
+      </h1>
+
+      <p
+        class="animate-fade-up"
+        style="font-size: 1.15rem; color: var(--texto-suave); margin: 1rem 0 0.5rem; font-weight: 600; letter-spacing: 0.1em; opacity: 0; animation-delay: 0.25s;"
+      >
+        ✦ &nbsp; {dataCerimoniaFormatada} &nbsp; ✦
+      </p>
+      <p
+        class="animate-fade-up"
+        style="font-size: 1rem; color: var(--texto-suave); margin-bottom: 2.5rem; opacity: 0; animation-delay: 0.32s;"
+      >
+        {wedding.cerimonia.nome} · {wedding.cerimonia.cidade}
+      </p>
+
+      <!-- Contador Regressivo -->
+      <div
+        id="countdown-wrapper"
+        data-date={wedding.dataCerimonia}
+        class="countdown-container"
+      >
+        <div class="countdown-box">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">Dias</div>
+        </div>
+        <div class="countdown-colon">:</div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">Horas</div>
+        </div>
+        <div class="countdown-colon">:</div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">Min</div>
+        </div>
+        <div class="countdown-colon">:</div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">Seg</div>
+        </div>
+      </div>
+
+      <div
+        class="hero-buttons animate-fade-up"
+        style="opacity: 0; animation-delay: 0.52s;"
+      >
+        <a href="#rsvp" class="btn-primary"> 💌 Confirmar Presença </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DETALHES DO EVENTO ──────────────────────────────── -->
+  <section
+    id="detalhes"
+    style="background: linear-gradient(135deg, var(--creme) 0%, var(--lavanda-light) 50%, var(--creme) 100%); padding: 4rem 1.5rem;"
+  >
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <h2 class="section-title reveal">Detalhes do Grande Dia</h2>
+      <div class="ornament reveal">
+        <span style="font-size: 1.4rem;">✨</span>
+      </div>
+      <p class="section-subtitle reveal">
+        Tudo o que você precisa saber para celebrar conosco
+      </p>
+
+      <div
+        class="reveal"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1rem;"
+      >
+        <!-- Data e Hora -->
+        <div
+          class="glass-card"
+          style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;"
+          onmouseenter="this.style.transform='translateY(-6px)'"
+          onmouseleave="this.style.transform='translateY(0)'"
+        >
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
+          <h3 style="font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">
+            Data & Hora
+          </h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">{dataCerimoniaFormatada}</p>
+          <p style="color: var(--texto-suave);">Cerimônia: {wedding.cerimonia.horario}</p>
+          <p style="color: var(--texto-suave);">Recepção: {wedding.recepcao.horario}</p>
+        </div>
+
+        <!-- Local da Cerimônia -->
+        <div
+          class="glass-card"
+          style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;"
+          onmouseenter="this.style.transform='translateY(-6px)'"
+          onmouseleave="this.style.transform='translateY(0)'"
+        >
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">⛪</div>
+          <h3 style="font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">
+            Cerimônia
+          </h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">{wedding.cerimonia.nome}</p>
+          <p style="color: var(--texto-suave);">{wedding.cerimonia.cidade}</p>
+          <a
+            href={wedding.cerimonia.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display: inline-block; margin-top: 0.75rem; font-size: 0.85rem; color: var(--lavanda-dark); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--lavanda);"
+            >Ver no mapa →</a
+          >
+        </div>
+
+        <!-- Local da Festa -->
+        <div
+          class="glass-card"
+          style="padding: 2rem; text-align: center; transition: transform 0.3s ease; cursor: default;"
+          onmouseenter="this.style.transform='translateY(-6px)'"
+          onmouseleave="this.style.transform='translateY(0)'"
+        >
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🥂</div>
+          <h3 style="font-size: 1.5rem; color: var(--lavanda-dark); margin-bottom: 0.75rem;">
+            Recepção
+          </h3>
+          <p style="color: var(--texto-suave); font-weight: 600;">{wedding.recepcao.nome}</p>
+          <p style="color: var(--texto-suave);">{wedding.recepcao.cidade}</p>
+          <a
+            href={wedding.recepcao.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display: inline-block; margin-top: 0.75rem; font-size: 0.85rem; color: var(--lavanda-dark); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--lavanda);"
+            >Ver no mapa →</a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LISTA DE PRESENTES ────────────────────────────────── -->
+  <section
+    id="lista-de-presentes"
+    style="background: linear-gradient(135deg, var(--creme) 0%, var(--azul-light) 50%, var(--creme) 100%); padding:4rem 1.5rem;"
+  >
+    <div style="max-width:800px; margin:0 auto; text-align:center;">
+      <h2 class="section-title reveal">Lista de Presentes</h2>
+      <div class="ornament reveal"><span style="font-size:1.4rem;">🎁</span></div>
+
+      <div
+        class="glass-card reveal"
+        style="padding:2rem; margin:2rem auto; max-width:620px; border:1.5px solid rgba(171,147,224,0.25); position:relative; overflow:hidden;"
+      >
+        <div style="position:absolute; top:-15px; right:-15px; font-size:6rem; opacity:0.06; pointer-events:none;">💜</div>
+        <p style="font-size:1.2rem; font-weight:700; color:var(--lavanda-dark); margin-bottom:0.75rem;">
+          💜 Sua presença é o nosso maior presente!
+        </p>
+        <p style="color:var(--texto-suave); line-height:1.7; font-size:0.95rem;">
+          Para quem deseja nos dar um presente — seja um objeto, um PIX ou qualquer gesto de carinho — preparamos uma lista de sugestões, mas <strong>nada disso é obrigatório</strong>. O que realmente importa é estar ao nosso lado nesse dia especial. 🥺💜
+        </p>
+      </div>
+
+      <div class="gift-quick-options reveal">
+        <div class="gift-quick-card items">
+          <div class="gift-icon">🛍️</div>
+          <div class="gift-content">
+            <p class="gift-title">Lista de Itens</p>
+            <p class="gift-desc">Escolha e faça um PIX</p>
+          </div>
+        </div>
+        <div class="gift-quick-card money">
+          <div class="gift-icon">💰</div>
+          <div class="gift-content">
+            <p class="gift-title">Dinheiro</p>
+            <p class="gift-desc">PIX direto à sua escolha</p>
+          </div>
+        </div>
+        <div class="gift-quick-card physical">
+          <div class="gift-icon">📦</div>
+          <div class="gift-content">
+            <p class="gift-title">Presente Físico</p>
+            <p class="gift-desc">Entregue no dia!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <a href="/presentes" class="btn-primary" style="font-size:1.05rem; padding:0.9rem 2.5rem; display:inline-flex; gap:0.5rem;">
+          🎁 Ver Lista de Presentes
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RSVP ──────────────────────────────────────────────── -->
+  <section id="rsvp" style="background: white; padding: 5rem 1.5rem;">
+    <div style="max-width: 650px; margin: 0 auto;">
+      <h2 class="section-title reveal">Confirme sua Presença</h2>
+      <div class="ornament reveal"><span style="font-size: 1.4rem;">💌</span></div>
+      <p class="section-subtitle reveal">
+        Confirme até <strong>{dataLimiteRsvpFormatada}</strong>. Sua presença é o nosso maior presente!
+      </p>
+
+      {hasSlug ? (
+        <!-- ── Com slug: formulário do grupo ─────────────────── -->
+        <div
+          id="rsvp-root"
+          data-slug={slug}
+          class="reveal glass-card"
+          style="padding: 2.5rem;"
+        >
+          <!-- Carregando -->
+          <div id="state-loading" style="text-align:center; color:var(--texto-suave);">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">💌</div>
+            <p style="font-size: 1rem; margin-bottom: 1rem;">Buscando seu convite...</p>
+            <div style="display:flex;justify-content:center;gap:6px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--lavanda);animation:pulse-dot 1.2s ease-in-out 0s infinite;display:inline-block;"></span>
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--lavanda);animation:pulse-dot 1.2s ease-in-out 0.2s infinite;display:inline-block;"></span>
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--lavanda);animation:pulse-dot 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>
+            </div>
+          </div>
+
+          <!-- Erro -->
+          <div id="state-error" style="display:none; text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">😕</div>
+            <p style="font-weight:600; color:#c0504d; margin-bottom:0.5rem;">Convite não encontrado</p>
+            <p style="color:var(--texto-suave); font-size:0.9rem;">Verifique o link ou entre em contato com os noivos.</p>
+          </div>
+
+          <!-- Formulário -->
+          <div id="state-form" style="display:none;">
+            <div style="margin-bottom:1.5rem;">
+              <p style="color:var(--menta-dark);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.2rem;">Seu convite</p>
+              <h3 id="group-name-display" class="font-cursive" style="font-size:1.8rem;color:var(--lavanda-dark);">—</h3>
+              <p style="color:var(--texto-suave);font-size:0.9rem;margin-top:0.3rem;">Confirme quem do seu grupo irá comparecer 💜</p>
+            </div>
+            <div style="height:1px;background:linear-gradient(to right,transparent,var(--lavanda-light),transparent);margin-bottom:1.5rem;"></div>
+
+            <p style="font-size:0.82rem;font-weight:700;color:var(--texto-suave);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">Quem vai comparecer?</p>
+            <div id="members-list" style="margin-bottom:1.5rem;"></div>
+
+            <div style="margin-bottom:1.25rem;">
+              <label for="food-restriction" style="display:block;font-size:0.85rem;font-weight:600;color:var(--texto-suave);margin-bottom:0.4rem;">
+                Restrição alimentar <span style="font-weight:400;opacity:0.7;">(opcional)</span>
+              </label>
+              <input id="food-restriction" type="text" class="form-input" placeholder="Ex: vegetariano, alergia a glúten..." />
+            </div>
+
+            <div style="margin-bottom:2rem;">
+              <label for="guest-message" style="display:block;font-size:0.85rem;font-weight:600;color:var(--texto-suave);margin-bottom:0.4rem;">
+                Mensagem para os noivos <span style="font-weight:400;opacity:0.7;">(opcional)</span>
+              </label>
+              <textarea id="guest-message" class="form-input" placeholder="Escreva algo carinhoso... 💜" style="resize:vertical;min-height:90px;"></textarea>
+            </div>
+
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+              <button id="btn-confirm" class="btn-primary" style="flex:1;min-width:160px;justify-content:center;" onclick="handleConfirm()">
+                💌 Confirmar Presença
+              </button>
+              <button id="btn-decline" class="btn-outline" style="color:#c0504d;border-color:#e0a0a0;" onclick="handleDecline()">
+                😔 Não poderei ir
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirmado -->
+          <div id="state-confirmed" style="display:none; text-align:center; padding:1rem 0;">
+            <div style="font-size:3.5rem;margin-bottom:1rem;animation:float 2.5s ease-in-out infinite;">🎉</div>
+            <h3 class="font-cursive" style="font-size:2rem;color:var(--menta-dark);margin-bottom:0.75rem;">Presença Confirmada!</h3>
+            <p style="color:var(--texto-suave);line-height:1.7;">Que alegria! Mal podemos esperar para celebrar com você esse dia especial. 💜</p>
+          </div>
+
+          <!-- Recusado -->
+          <div id="state-declined" style="display:none; text-align:center; padding:1rem 0;">
+            <div style="font-size:3.5rem;margin-bottom:1rem;">💔</div>
+            <h3 class="font-cursive" style="font-size:2rem;color:var(--texto-suave);margin-bottom:0.75rem;">Sentiremos sua falta!</h3>
+            <p style="color:var(--texto-suave);line-height:1.7;">Obrigado por nos avisar. Você sempre estará em nossos corações. 💜</p>
+          </div>
+        </div>
+      ) : (
+        <!-- ── Sem slug: aviso de link personalizado ──────────── -->
+        <div class="reveal glass-card" style="padding: 2.5rem; text-align: center; background: linear-gradient(135deg, var(--lavanda-light) 0%, var(--azul-light) 100%);">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">💌</div>
+          <p style="font-size: 1rem; color: var(--texto-suave); line-height: 1.7; max-width: 440px; margin: 0 auto;">
+            Cada convidado recebe um <strong>link personalizado</strong> com seu convite. Se você ainda não recebeu o seu, entre em contato com os noivos. 💜
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────────────────────── -->
+  <footer
+    style="
+    background: linear-gradient(135deg, var(--lavanda-dark) 0%, var(--azul) 100%);
+    color: white;
+    text-align: center;
+    padding: 3rem 1.5rem;
+  "
+  >
+    <p class="font-cursive" style="font-size: 2.5rem; margin-bottom: 0.75rem; text-shadow: 0 2px 10px rgba(0,0,0,0.15);">
+      {nomesCasal}
+    </p>
+    <p style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 1.5rem;">
+      {dataCerimoniaFormatada} · {wedding.cerimonia.cidade}
+    </p>
+    <p style="font-size: 1.1rem; opacity: 0.9; font-style: italic; max-width: 500px; margin: 0 auto 1.5rem;">
+      {wedding.frase_rodape}
+    </p>
+    <div style="width: 60px; height: 1px; background: rgba(255,255,255,0.4); margin: 0 auto 1.25rem;"></div>
+    <p style="font-size: 0.8rem; opacity: 0.6;">Feito com 💜 para o dia mais especial das nossas vidas</p>
+  </footer>
+</Layout>
+
+<style>
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50%       { opacity: 1;   transform: scale(1.2); }
+  }
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 0.4rem;
+    border: 1.5px solid transparent;
+  }
+  .member-row:hover { background: rgba(171,147,224,0.08); }
+  .member-row.selected {
+    background: rgba(171,147,224,0.1);
+    border-color: rgba(171,147,224,0.3);
+  }
+  .member-checkbox {
+    width: 20px; height: 20px;
+    accent-color: var(--lavanda-dark);
+    flex-shrink: 0; cursor: pointer;
+  }
+  .member-name { font-weight: 600; color: var(--texto); flex: 1; }
+  .badge-child {
+    font-size: 0.72rem;
+    background: var(--lavanda-light);
+    color: var(--lavanda-dark);
+    padding: 2px 10px; border-radius: 20px; font-weight: 600;
+  }
+</style>
+
+<script>
+  import { getGroupBySlug, submitRsvp } from '../services/guestService.ts'
+
+  // ── Countdown ─────────────────────────────────────────── //
+  function updateCountdown() {
+    const wrapper = document.getElementById('countdown-wrapper')
+    if (!wrapper) return
+    const targetDateStr = wrapper.getAttribute('data-date') || '2026-11-21T17:00:00'
+    const parts = targetDateStr.split(/[-T:]/)
+    const weddingDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), Number(parts[3]), Number(parts[4]), Number(parts[5] || 0))
+    const diff = weddingDate.getTime() - Date.now()
+    if (diff <= 0) {
+      wrapper.innerHTML = '<p class="font-cursive" style="font-size:2rem;color:var(--lavanda-dark);">🎉 Hoje é o grande dia! 🎉</p>'
+      return
+    }
+    const pad = (n) => String(n).padStart(2, '0')
+    const d = document.getElementById('days'), h = document.getElementById('hours')
+    const m = document.getElementById('minutes'), s = document.getElementById('seconds')
+    if (d) d.textContent = pad(Math.floor(diff / 86400000))
+    if (h) h.textContent = pad(Math.floor((diff % 86400000) / 3600000))
+    if (m) m.textContent = pad(Math.floor((diff % 3600000) / 60000))
+    if (s) s.textContent = pad(Math.floor((diff % 60000) / 1000))
+  }
+  updateCountdown()
+  setInterval(updateCountdown, 1000)
+
+  // ── Scroll Reveal ──────────────────────────────────────── //
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+        revealObserver.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' })
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    ;(el as HTMLElement).style.transitionDelay = `${i * 0.03}s`
+    revealObserver.observe(el)
+  })
+
+  // ── RSVP com slug ─────────────────────────────────────── //
+  const root = document.getElementById('rsvp-root')
+  if (root) {
+    const slug = root.dataset.slug ?? ''
+    let groupData = null
+
+    function showState(id) {
+      ;['loading','error','form','confirmed','declined'].forEach(s => {
+        const el = document.getElementById(`state-${s}`)
+        if (el) el.style.display = s === id ? 'block' : 'none'
+      })
+    }
+
+    function renderMembers(guests) {
+      const container = document.getElementById('members-list')
+      if (!guests.length) {
+        container.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Nenhum convidado neste grupo.</p>'
+        return
+      }
+      container.innerHTML = guests.map(g => `
+        <label class="member-row ${g.rsvp_status === 'attending' ? 'selected' : ''}" for="member-${g.id}">
+          <input class="member-checkbox" type="checkbox" id="member-${g.id}" value="${g.id}" ${g.rsvp_status === 'attending' ? 'checked' : ''} />
+          <span class="member-name">${g.name}</span>
+          ${g.is_child ? '<span class="badge-child">Criança</span>' : ''}
+        </label>
+      `).join('')
+      container.querySelectorAll('.member-row').forEach(row => {
+        row.addEventListener('click', () => {
+          const cb = row.querySelector('.member-checkbox') as HTMLInputElement
+          cb.checked = !cb.checked
+          row.classList.toggle('selected', cb.checked)
+        })
+        ;(row.querySelector('.member-checkbox') as HTMLElement).addEventListener('click', e => {
+          e.stopPropagation()
+          row.classList.toggle('selected', (e.target as HTMLInputElement).checked)
+        })
+      })
+    }
+
+    window.handleConfirm = async function() {
+      const btn = document.getElementById('btn-confirm') as HTMLButtonElement
+      btn.textContent = 'Enviando...'
+      btn.disabled = true
+      const confirmed = [...document.querySelectorAll('.member-checkbox:checked')].map(el => (el as HTMLInputElement).value)
+      const restriction = (document.getElementById('food-restriction') as HTMLInputElement)?.value || ''
+      const message = (document.getElementById('guest-message') as HTMLTextAreaElement)?.value || ''
+      try {
+        await submitRsvp({ group_id: groupData.group.id, confirmed, restriction, message })
+        showState('confirmed')
+      } catch {
+        alert('Ocorreu um erro. Tente novamente ou entre em contato com os noivos.')
+        btn.textContent = '💌 Confirmar Presença'
+        btn.disabled = false
+      }
+    }
+
+    window.handleDecline = async function() {
+      const btn = document.getElementById('btn-decline') as HTMLButtonElement
+      btn.textContent = 'Enviando...'
+      btn.disabled = true
+      try {
+        await submitRsvp({ group_id: groupData.group.id, declined: true, confirmed: [] })
+      } catch {}
+      showState('declined')
+    }
+
+    async function init() {
+      showState('loading')
+      try {
+        groupData = await getGroupBySlug(slug)
+        document.getElementById('group-name-display').textContent = groupData.group.name
+        renderMembers(groupData.guests)
+        showState('form')
+      } catch {
+        showState('error')
+      }
+    }
+
+    init()
+  }
+</script>

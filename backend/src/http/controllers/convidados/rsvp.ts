@@ -4,6 +4,8 @@ import { randomUUID } from 'crypto'
 
 import { knex } from '@/database'
 
+// rsvp_status: 'pending' | 'attending' | 'declined'
+
 // POST /api/rsvp — confirmação de presença pública
 export async function submitRsvp(request: FastifyRequest, reply: FastifyReply) {
   const schema = z.object({
@@ -20,16 +22,20 @@ export async function submitRsvp(request: FastifyRequest, reply: FastifyReply) {
 
   if (declined || confirmed.length === 0) {
     // Grupo inteiro recusou
-    await knex('guests').where({ group_id }).update({ confirmed: false, confirmed_at: now })
+    await knex('guests')
+      .where({ group_id })
+      .update({ rsvp_status: 'declined', rsvp_responded_at: now })
   } else {
-    // Marca todos como recusado primeiro
-    await knex('guests').where({ group_id }).update({ confirmed: false, confirmed_at: now })
+    // Todos recusados por padrão…
+    await knex('guests')
+      .where({ group_id })
+      .update({ rsvp_status: 'declined', rsvp_responded_at: now })
 
-    // Confirma apenas os selecionados (com a restrição alimentar)
+    // …exceto os selecionados
     for (const guestId of confirmed) {
       await knex('guests')
         .where({ id: guestId, group_id })
-        .update({ confirmed: true, confirmed_at: now, restriction })
+        .update({ rsvp_status: 'attending', rsvp_responded_at: now, restriction })
     }
   }
 

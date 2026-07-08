@@ -2,43 +2,50 @@ import { api } from '../lib/axios'
 
 // ── Tipos ─────────────────────────────────────────────────────── //
 
-export interface GuestMember {
-  id: number
-  nome_completo: string
-  eh_crianca: boolean
+export interface Guest {
+  id: string
+  group_id: string
+  name: string
+  is_child: boolean
+  rsvp_status: 'pending' | 'attending' | 'declined'
+  rsvp_responded_at: string | null
+  restriction: string | null
 }
 
-export interface GuestGroup {
-  grupo_id: number
-  nome_grupo: string
-  members: GuestMember[]
+export interface Group {
+  id: string
+  name: string
+  slug: string
+}
+
+export interface GroupWithGuests {
+  group: Group
+  guests: Guest[]
 }
 
 export interface RsvpPayload {
-  grupo_id: number
-  confirmados: number[]
-  restricao_alimentar?: string
-  mensagem?: string
-  recusado?: boolean
+  group_id: string
+  declined?: boolean
+  confirmed: string[]
+  restriction?: string
+  message?: string
 }
 
 // ── Endpoints ─────────────────────────────────────────────────── //
 
 /**
- * Busca um grupo de convidados pelo nome.
- * GET /guests/search?name=...
+ * Busca grupo e convidados pelo slug.
+ * GET /api/convidados/:slug
  */
-export async function searchGuest(name: string): Promise<GuestGroup> {
-  const { data } = await api.get<GuestGroup>('/guests/search', {
-    params: { name },
-  })
+export async function getGroupBySlug(slug: string): Promise<GroupWithGuests> {
+  const { data } = await api.get<GroupWithGuests>(`/api/convidados/${slug}`)
   return data
 }
 
 /**
- * Confirma ou recusa a presença de um grupo de convidados.
- * POST /rsvp
+ * Confirma ou recusa presença do grupo.
+ * POST /api/rsvp
  */
 export async function submitRsvp(payload: RsvpPayload): Promise<void> {
-  await api.post('/rsvp', payload)
+  await api.post('/api/rsvp', payload)
 }

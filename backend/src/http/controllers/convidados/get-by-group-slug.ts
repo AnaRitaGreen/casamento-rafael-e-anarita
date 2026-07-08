@@ -15,7 +15,7 @@ export async function getByGroupSlug(request: FastifyRequest, reply: FastifyRepl
 
   const guests = await knex('guests')
     .where({ group_id: group.id })
-    .select('id', 'name', 'is_child', 'confirmed', 'confirmed_at', 'restriction')
+    .select('id', 'name', 'is_child', 'rsvp_status', 'rsvp_responded_at', 'restriction')
     .orderBy('name')
 
   return reply.send({

@@ -13,8 +13,8 @@ export async function listGuests(_: FastifyRequest, reply: FastifyReply) {
       'gr.slug as group_slug',
       'g.name',
       'g.is_child',
-      'g.confirmed',
-      'g.confirmed_at',
+      'g.rsvp_status',
+      'g.rsvp_responded_at',
       'g.restriction',
     )
     .orderBy(['gr.name', 'g.name'])
