@@ -16,9 +16,9 @@ export function OverviewTab() {
     try {
       const guestsData = await getAdminGuests();
       const total = guestsData.length;
-      const confirmed = guestsData.filter((g) => g.confirmed === true).length;
-      const declined = guestsData.filter((g) => g.confirmed === false).length;
-      const pending = guestsData.filter((g) => g.confirmed === null).length;
+      const confirmed = guestsData.filter((g) => g.rsvp_status === 'attending').length;
+      const declined = guestsData.filter((g) => g.rsvp_status === 'declined').length;
+      const pending = guestsData.filter((g) => g.rsvp_status === 'pending').length;
       const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0;
       setMetrics({ total, confirmed, declined, pending, pct });
     } catch (err: any) {
