@@ -9,9 +9,8 @@ export interface AdminGuest {
   group_slug: string | null
   name: string
   is_child: boolean
-  confirmed: boolean | null
-  confirmed_at: string | null
-  restriction: string | null
+  rsvp_status: 'pending' | 'attending' | 'declined'
+  rsvp_responded_at: string | null
 }
 
 export interface AdminGuestPayload {
@@ -19,7 +18,6 @@ export interface AdminGuestPayload {
   group_id?: string
   group_name?: string
   is_child: boolean
-  restriction?: string
 }
 
 export interface AdminGroup {

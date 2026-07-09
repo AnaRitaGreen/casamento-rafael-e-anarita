@@ -10,7 +10,6 @@ interface GuestModalProps {
     name: string;
     group_id: string;
     group_name: string;
-    restriction: string;
     is_child: boolean;
   };
 }
@@ -22,7 +21,7 @@ export function GuestModal({
   editingGuestId,
   initialData
 }: GuestModalProps) {
-  const [guestForm, setGuestForm] = useState({ name: '', group_id: '', group_name: '', restriction: '', is_child: false });
+  const [guestForm, setGuestForm] = useState({ name: '', group_id: '', group_name: '', is_child: false });
   const [groups, setGroups] = useState<AdminGroup[]>([]);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export function GuestModal({
       if (initialData) {
         setGuestForm(initialData);
       } else {
-        setGuestForm({ name: '', group_id: '', group_name: '', restriction: '', is_child: false });
+        setGuestForm({ name: '', group_id: '', group_name: '', is_child: false });
       }
       loadGroups();
     }
@@ -47,9 +46,8 @@ export function GuestModal({
     e.preventDefault();
     const payload = {
       name: guestForm.name,
-      group_id: guestForm.group_id ? guestForm.group_id : undefined,
+      group_id: guestForm.group_id || undefined,
       group_name: guestForm.group_name || undefined,
-      restriction: guestForm.restriction || undefined,
       is_child: guestForm.is_child,
     };
 
@@ -83,10 +81,6 @@ export function GuestModal({
           <div style={{ marginBottom: '1.1rem' }}>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--texto-suave)', marginBottom: '0.35rem' }}>Nome do Novo Grupo (se criar)</label>
             <input type="text" className="form-input" value={guestForm.group_name} onChange={e => setGuestForm({ ...guestForm, group_name: e.target.value })} />
-          </div>
-          <div style={{ marginBottom: '1.1rem' }}>
-            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--texto-suave)', marginBottom: '0.35rem' }}>Restrição Alimentar</label>
-            <input type="text" className="form-input" value={guestForm.restriction} onChange={e => setGuestForm({ ...guestForm, restriction: e.target.value })} />
           </div>
           <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <input type="checkbox" id="g-crianca" style={{ width: '18px', height: '18px', accentColor: 'var(--lavanda-dark)' }} checked={guestForm.is_child} onChange={e => setGuestForm({ ...guestForm, is_child: e.target.checked })} />

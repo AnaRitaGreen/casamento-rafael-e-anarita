@@ -34,12 +34,11 @@ export function GuestsTab() {
   useEffect(() => {
     const search = guestSearch.toLowerCase();
     const filtered = allGuests.filter((g) => {
-      const matchName = g.name.toLowerCase().includes(search);
-      const matchStatus = guestFilterStatus === ""
+      const matchName = g.name.toLowerCase().includes(search) ||
+        (g.group_name ?? '').toLowerCase().includes(search);
+      const matchStatus = guestFilterStatus === ''
         ? true
-        : guestFilterStatus === "null"
-          ? g.confirmed === null
-          : g.confirmed === (guestFilterStatus === "true");
+        : g.rsvp_status === guestFilterStatus;
       return matchName && matchStatus;
     });
     setFilteredGuests(filtered);
@@ -68,9 +67,8 @@ export function GuestsTab() {
     setEditingGuestId(id);
     setInitialGuestData({
       name: g.name,
-      group_id: g.group_id ? g.group_id : '',
+      group_id: g.group_id ?? '',
       group_name: '',
-      restriction: g.restriction || '',
       is_child: g.is_child,
     });
     setIsGuestModalOpen(true);
@@ -91,12 +89,12 @@ export function GuestsTab() {
       </div>
 
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <input type="text" placeholder="Buscar por nome..." className="form-input" style={{ flex: 1, minWidth: '200px' }} value={guestSearch} onChange={(e) => setGuestSearch(e.target.value)} />
+        <input type="text" placeholder="Buscar por nome ou grupo..." className="form-input" style={{ flex: 1, minWidth: '200px' }} value={guestSearch} onChange={(e) => setGuestSearch(e.target.value)} />
         <select className="form-input" style={{ width: 'auto', minWidth: '160px' }} value={guestFilterStatus} onChange={(e) => setGuestFilterStatus(e.target.value)}>
           <option value="">Todos os status</option>
-          <option value="true">Confirmados</option>
-          <option value="false">Recusados</option>
-          <option value="null">Pendentes</option>
+          <option value="attending">✅ Confirmados</option>
+          <option value="declined">❌ Não vão</option>
+          <option value="pending">⏳ Pendentes</option>
         </select>
       </div>
 
@@ -108,7 +106,7 @@ export function GuestsTab() {
                 <th className="guests-th">Nome</th>
                 <th className="guests-th">Grupo</th>
                 <th className="guests-th">Status</th>
-                <th className="guests-th">Restrição</th>
+                <th className="guests-th">Respondido em</th>
                 <th className="guests-th">Ações</th>
               </tr>
             </thead>
@@ -122,16 +120,18 @@ export function GuestsTab() {
                       <strong>{g.name}</strong>
                       {g.is_child && <span style={{ fontSize: '0.7rem', background: 'var(--lavanda-light)', color: 'var(--lavanda-dark)', padding: '2px 7px', borderRadius: '20px', marginLeft: '4px' }}>criança</span>}
                     </td>
-                    <td className="guests-td">{g.group_name || "—"}</td>
+                    <td className="guests-td">{g.group_name || '—'}</td>
                     <td className="guests-td">
-                      {g.confirmed === true && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Confirmado</span>}
-                      {g.confirmed === false && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 147, 147, 0.25)', color: '#c0504d' }}>❌ Não vai</span>}
-                      {g.confirmed === null && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⏳ Pendente</span>}
+                      {g.rsvp_status === 'attending' && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173,235,179,0.35)', color: 'var(--menta-dark)' }}>✅ Confirmado</span>}
+                      {g.rsvp_status === 'declined'  && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224,147,147,0.25)', color: '#c0504d' }}>❌ Não vai</span>}
+                      {g.rsvp_status === 'pending'   && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224,192,123,0.3)', color: '#9a7820' }}>⏳ Pendente</span>}
                     </td>
-                    <td className="guests-td" >
-                      {g.restriction || "—"}
+                    <td className="guests-td" style={{ fontSize: '0.82rem', color: 'var(--texto-suave)' }}>
+                      {g.rsvp_responded_at
+                        ? new Date(g.rsvp_responded_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                        : '—'}
                     </td>
-                    <td className="guests-td" >
+                    <td className="guests-td">
                       <button onClick={() => editGuest(g.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Editar">✏️</button>
                       <button onClick={() => deleteGuest(g.id, g.name)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Remover">🗑️</button>
                     </td>
