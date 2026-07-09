@@ -60,7 +60,7 @@ export function PresenteModal({
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 1001, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(e) => { if(e.target === e.currentTarget) onClose() }}>
-      <div className="glass-card" style={{ width: '100%', maxWidth: '480px', padding: '2rem', margin: '1rem', animation: 'fadeInUp 0.3s ease', maxHeight: '90vh', overflowY: 'auto' }}>
+      <div className="modal-card" style={{ width: '100%', maxWidth: '480px', padding: '2rem', margin: '1rem', animation: 'fadeInUp 0.3s ease', maxHeight: '90vh', overflowY: 'auto' }}>
         <h2 style={{ fontSize: '1.8rem', color: 'var(--lavanda-dark)', marginBottom: '1.5rem' }}>{editingPresenteId ? 'Editar Presente' : 'Adicionar Presente'}</h2>
         <form onSubmit={savePresente} style={{ display: 'grid', gap: '0.5rem' }}>
           <div>

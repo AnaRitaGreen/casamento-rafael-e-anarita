@@ -291,7 +291,7 @@ const hasSlug = Boolean(slug);
               <label for="guest-message" style="display:block;font-size:0.85rem;font-weight:600;color:var(--texto-suave);margin-bottom:0.4rem;">
                 Mensagem para os noivos <span style="font-weight:400;opacity:0.7;">(opcional)</span>
               </label>
-              <textarea id="guest-message" class="form-input" placeholder="Escreva algo carinhoso... 💜" style="resize:vertical;min-height:90px;"></textarea>
+              <textarea id="guest-message" class="form-input" placeholder="Caso deseje escrever algo…" style="resize:vertical;min-height:90px;"></textarea>
             </div>
 
             <button id="btn-submit" class="btn-primary" style="width:100%;justify-content:center;opacity:0.45;cursor:not-allowed;" onclick="handleSubmit()" disabled>
@@ -459,12 +459,12 @@ const hasSlug = Boolean(slug);
             <div class="radio-group" role="radiogroup" aria-label="Presen\u00e7a de ${g.name}">
               <input type="radio" class="opt-attending" name="rsvp-${g.id}" id="rsvp-${g.id}-attending" value="attending" ${s === 'attending' ? 'checked' : ''} />
               <label class="radio-label" for="rsvp-${g.id}-attending">
-                <span class="dot"></span> Vai
+                <span class="dot"></span> Vou
               </label>
               <span class="radio-divider"></span>
               <input type="radio" class="opt-declined" name="rsvp-${g.id}" id="rsvp-${g.id}-declined" value="declined" ${s === 'declined' ? 'checked' : ''} />
               <label class="radio-label" for="rsvp-${g.id}-declined">
-                <span class="dot"></span> N\u00e3o vai
+                <span class="dot"></span> N\u00e3o vou
               </label>
             </div>
           </div>

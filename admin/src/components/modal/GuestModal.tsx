@@ -64,7 +64,7 @@ export function GuestModal({
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(e) => { if (e.target === e.currentTarget) onClose() }}>
-      <div className="glass-card" style={{ width: '100%', maxWidth: '480px', padding: '2rem', margin: '1rem', animation: 'fadeInUp 0.3s ease' }}>
+      <div className="modal-card" style={{ width: '100%', maxWidth: '480px', padding: '2rem', margin: '1rem', animation: 'fadeInUp 0.3s ease' }}>
         <h2 style={{ fontSize: '2rem', color: 'var(--lavanda-dark)', marginBottom: '1.5rem' }}>{editingGuestId ? 'Editar Convidado' : 'Adicionar Convidado'}</h2>
         <form onSubmit={saveGuest}>
           <div style={{ marginBottom: '1.1rem' }}>
@@ -87,8 +87,8 @@ export function GuestModal({
             <label htmlFor="g-crianca" style={{ fontSize: '0.9rem', color: 'var(--texto)', cursor: 'pointer' }}>É criança?</label>
           </div>
           <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button type="submit" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>💾 Salvar</button>
             <button type="button" className="btn-outline" onClick={onClose} style={{ flex: 1, justifyContent: 'center' }}>Cancelar</button>
+            <button type="submit" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>💾 Salvar</button>
           </div>
         </form>
       </div>
