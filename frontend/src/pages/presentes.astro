@@ -46,14 +46,14 @@ const pixTitular = wedding.pix.titular;
       <!-- ── AVISO: PRESENÇA É O MAIOR PRESENTE ─────────────── -->
       <div
         class="glass-card"
-        style="text-align:center; padding:2.5rem; margin-bottom:2.5rem; border:2px solid rgba(171,147,224,0.3); position:relative; overflow:hidden;"
+        style="text-align:center; padding:1.5rem; margin-bottom:2.5rem; border:2px solid rgba(171,147,224,0.3); position:relative; overflow:hidden;"
       >
         <div
           style="position:absolute; top:-20px; right:-20px; font-size:8rem; opacity:0.06; pointer-events:none;"
         >
           💜
         </div>
-        <div style="font-size:2.5rem; margin-bottom:1rem;">💜</div>
+        <div style="font-size:2.5rem;">💜</div>
         <h2
           class="font-cursive"
           style="font-size:clamp(1.6rem,4vw,2.4rem); color:var(--lavanda-dark); margin-bottom:1rem;"
@@ -82,14 +82,15 @@ const pixTitular = wedding.pix.titular;
         <!-- Opção 1: Lista de Presentes -->
         <div
           class="glass-card"
-          style="padding:2rem; border-left:4px solid var(--lavanda);"
+          style="padding:1rem; border-left:4px solid var(--lavanda);"
         >
-          <div style="font-size:2rem; margin-bottom:0.75rem;">🛍️</div>
-          <h3
-            style="font-size:1.2rem; color:var(--lavanda-dark); margin-bottom:0.75rem;"
-          >
-            Presentes da Lista
-          </h3>
+          <div style="font-size:2rem; margin-bottom:0.75rem;">
+            🛍️
+            <span style="font-size:1.2rem; color:var(--lavanda-dark);">
+              Presentes da Lista
+            </span>
+          </div>
+
           <p
             style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;"
           >
@@ -99,24 +100,21 @@ const pixTitular = wedding.pix.titular;
             sugerido. O item ficará marcado como reservado para evitar presentes
             duplicados.
           </p>
-          <div
-            style="margin-top:1rem; padding:0.75rem; background:rgba(171,147,224,0.1); border-radius:10px; font-size:0.8rem; color:var(--texto-suave);"
-          >
-            💡 Integração com Mercado Pago em breve para geração automática de
-            QR Code!
-          </div>
         </div>
 
         <!-- Opção 2: Presente em Dinheiro -->
         <div
           class="glass-card"
-          style="padding:2rem; border-left:4px solid #c9a840;"
+          style="padding:1rem; border-left:4px solid #c9a840;"
           id="pix-direto-card"
         >
-          <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
-          <h3 style="font-size:1.2rem; color:#a88520; margin-bottom:0.75rem;">
-            Presente em Dinheiro
-          </h3>
+          <div style="font-size:2rem; margin-bottom:0.75rem;">
+            💰
+            <span style="font-size:1.2rem; color:#a88520;">
+              Presente em Dinheiro
+            </span>
+          </div>
+
           <p
             style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65; margin-bottom:1rem;"
           >
@@ -128,7 +126,7 @@ const pixTitular = wedding.pix.titular;
             style="background:rgba(201,168,64,0.1); border:1px solid rgba(201,168,64,0.35); border-radius:12px; padding:1rem;"
           >
             <p
-              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.5rem;"
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520;"
             >
               Chave PIX
             </p>
@@ -149,9 +147,7 @@ const pixTitular = wedding.pix.titular;
                 >📋 Copiar</button
               >
             </div>
-            <p
-              style="font-size:0.8rem; color:var(--texto-suave); margin-top:0.5rem;"
-            >
+            <p style="font-size:0.8rem; color:var(--texto-suave);">
               Titular: <strong>{pixTitular}</strong>
             </p>
           </div>
@@ -160,14 +156,15 @@ const pixTitular = wedding.pix.titular;
         <!-- Opção 3: Presente Físico -->
         <div
           class="glass-card"
-          style="padding:2rem; border-left:4px solid var(--menta);"
+          style="padding:1rem; border-left:4px solid var(--menta);"
         >
-          <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
-          <h3
-            style="font-size:1.2rem; color:var(--menta-dark); margin-bottom:0.75rem;"
-          >
-            Presente Físico
-          </h3>
+          <div style="font-size:2rem; margin-bottom:0.75rem;">
+            📦
+            <span style="font-size:1.2rem; color:var(--menta-dark);">
+              Presente Físico
+            </span>
+          </div>
+
           <p
             style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;"
           >
@@ -218,6 +215,14 @@ const pixTitular = wedding.pix.titular;
           <p>Nenhum presente cadastrado ainda. Volte em breve! 💜</p>
         </div>
       </section>
+    </div>
+
+    <div
+      id="config-data"
+      style="display:none;"
+      data-pix-chave={pixChave}
+      data-pix-titular={pixTitular}
+    >
     </div>
   </div>
 
@@ -395,143 +400,14 @@ const pixTitular = wedding.pix.titular;
   </div>
 </Layout>
 
-<style>
-  .gift-card {
-    background: white;
-    border-radius: 20px;
-    border: 1px solid rgba(171, 147, 224, 0.15);
-    box-shadow: 0 4px 20px rgba(171, 147, 224, 0.08);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-  }
-  .gift-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 40px rgba(171, 147, 224, 0.2);
-    border-color: rgba(171, 147, 224, 0.35);
-  }
-  .gift-card.reservado {
-    opacity: 0.65;
-    pointer-events: none;
-  }
-
-  .gift-img {
-    width: 100%;
-    height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    background: linear-gradient(
-      135deg,
-      var(--lavanda-light) 0%,
-      var(--azul-light) 100%
-    );
-  }
-
-  .gift-body {
-    padding: 1.25rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .gift-category {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--lavanda-dark);
-    background: var(--lavanda-light);
-    padding: 2px 8px;
-    border-radius: 20px;
-    display: inline-block;
-    margin-bottom: 0.75rem;
-  }
-
-  .gift-name {
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--texto);
-    margin-bottom: 0.4rem;
-    line-height: 1.3;
-  }
-
-  .gift-desc {
-    font-size: 0.82rem;
-    color: var(--texto-suave);
-    flex: 1;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .gift-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-top: auto;
-  }
-
-  .gift-price {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--lavanda-dark);
-  }
-
-  .filter-btn {
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    border: 1px solid rgba(171, 147, 224, 0.35);
-    background: white;
-    color: var(--texto-suave);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: "Quicksand", sans-serif;
-  }
-  .filter-btn:hover,
-  .filter-btn.active {
-    background: var(--lavanda);
-    color: white;
-    border-color: var(--lavanda);
-  }
-
-  .badge-reservado {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--menta-dark);
-    background: rgba(173, 235, 179, 0.25);
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid rgba(173, 235, 179, 0.5);
-  }
-</style>
-
-<script define:vars={{ pixChave, pixTitular }}>
+<script>
   import { getPresentes, reservarPresente } from "../services/presenteService";
 
-  const CATEGORY_ICONS = {
-    Cozinha: "🍳",
-    Quarto: "🛏️",
-    Banheiro: "🛁",
-    Casa: "🏡",
-    Eletrodomésticos: "⚡",
-    Decoração: "🌸",
-    Outros: "🎁",
-  };
+  const configEl = document.getElementById("config-data");
+  const pixChave = configEl?.getAttribute("data-pix-chave") || "";
+  const pixTitular = configEl?.getAttribute("data-pix-titular") || "";
 
   let allPresentes = [];
-  let selectedCategory = "";
   let selectedPresente = null;
 
   // ── Formatar preço ──────────────────────────────────────── //
@@ -558,17 +434,6 @@ const pixTitular = wedding.pix.titular;
     }
 
     document.getElementById("presentes-grid").style.display = "grid";
-    renderCategoryFilters();
-    renderPresentes();
-  }
-
-  function filterByCategory(cat) {
-    selectedCategory = cat === "Todos" ? "" : cat;
-    document
-      .querySelectorAll(".filter-btn")
-      .forEach((b) => b.classList.remove("active"));
-    const id = `filter-${cat.replace(/[^a-z0-9]/gi, "-")}`;
-    document.getElementById(id)?.classList.add("active");
     renderPresentes();
   }
 
@@ -578,31 +443,33 @@ const pixTitular = wedding.pix.titular;
 
     grid.innerHTML = allPresentes
       .map((p) => {
-        const bgColor = p.reservado
+        const bgColor = p.reserved
           ? "linear-gradient(135deg, #e0e0e0, #d0d0d0)"
           : `linear-gradient(135deg, var(--lavanda-light), var(--azul-light))`;
 
+        const fallbackIcon = "🎁";
+
         return `
-        <div class="gift-card${p.reservado ? " reservado" : ""}" id="present-card-${p.id}">
+        <div class="gift-card${p.reserved ? " reservado" : ""}" id="present-card-${p.id}">
           <div class="gift-img" style="background:${bgColor};">
             ${
-              p.imagem_url
-                ? `<img src="${p.imagem_url}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${icon}'" />`
-                : icon
+              p.image
+                ? `<img src="${p.image}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${fallbackIcon}'" />`
+                : fallbackIcon
             }
           </div>
           <div class="gift-body">
-            <p class="gift-name">${p.nome}</p>
-            <p class="gift-desc">${p.descricao || "Sem descrição"}</p>
+            <p class="gift-name">${p.title}</p>
+            <p class="gift-desc">${p.description || "Sem descrição"}</p>
             <div class="gift-footer">
-              <span class="gift-price">${formatPreco(p.preco)}</span>
+              <span class="gift-price">${formatPreco(p.value)}</span>
               ${
-                p.reservado
+                p.reserved
                   ? `<span class="badge-reservado">✅ Reservado</span>`
                   : `<button
                     class="btn-primary"
                     style="padding:0.45rem 1rem; font-size:0.85rem;"
-                    onclick="openReserveModal(${p.id})"
+                    onclick="openReserveModal('${p.id}')"
                    >🎁 Presentear</button>`
               }
             </div>
@@ -614,15 +481,15 @@ const pixTitular = wedding.pix.titular;
 
   // ── Modal ───────────────────────────────────────────────── //
   function openReserveModal(id) {
-    selectedPresente = allPresentes.find((p) => p.id === id);
+    selectedPresente = allPresentes.find((p) => String(p.id) === String(id));
     if (!selectedPresente) return;
 
     document.getElementById("modal-gift-name").textContent =
-      selectedPresente.nome;
+      selectedPresente.title;
     document.getElementById("modal-gift-desc").textContent =
-      selectedPresente.descricao || "";
+      selectedPresente.description || "";
     document.getElementById("modal-gift-price").textContent = formatPreco(
-      selectedPresente.preco,
+      selectedPresente.value,
     );
     document.getElementById("presenteador-nome").value = "";
 
@@ -657,10 +524,10 @@ const pixTitular = wedding.pix.titular;
       // Mostrar etapa 2: instruções PIX
       document.getElementById("pix-confirm-key").textContent = pixChave;
       document.getElementById("pix-confirm-price").textContent = formatPreco(
-        selectedPresente.preco,
+        selectedPresente.value,
       );
       document.getElementById("pix-confirm-desc").textContent =
-        `Presente: ${selectedPresente.nome} (${nome})`;
+        `Presente: ${selectedPresente.title} (${nome})`;
       document.getElementById("modal-step-1").style.display = "none";
       document.getElementById("modal-step-2").style.display = "block";
     } catch (err) {
@@ -704,12 +571,11 @@ const pixTitular = wedding.pix.titular;
   // ── Fechar modal ao clicar fora ─────────────────────────── //
   document
     .getElementById("reserve-modal")
-    .addEventListener("click", function (e) {
+    ?.addEventListener("click", function (e) {
       if (e.target === this) closeModal();
     });
 
   // ── Expor funções para o HTML ───────────────────────────── //
-  window.filterByCategory = filterByCategory;
   window.openReserveModal = openReserveModal;
   window.confirmReserva = confirmReserva;
   window.closeModal = closeModal;

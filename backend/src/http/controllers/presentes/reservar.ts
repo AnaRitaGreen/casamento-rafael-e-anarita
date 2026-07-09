@@ -8,14 +8,14 @@ export async function reservarPresente(request: FastifyRequest, reply: FastifyRe
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params)
 
   const schema = z.object({
-    guest_id: z.string().uuid(),
+    nome: z.string().min(2),
   })
 
-  const { guest_id } = schema.parse(request.body)
+  const { nome } = schema.parse(request.body)
 
   const updated = await knex('gifts')
     .where({ id, reserved: false })
-    .update({ reserved: true, reserved_by: guest_id, reserved_at: new Date() })
+    .update({ reserved: true, reserved_by: nome, reserved_at: new Date() })
 
   if (!updated) {
     return reply.status(409).send({ message: 'Este presente já foi reservado por outra pessoa.' })

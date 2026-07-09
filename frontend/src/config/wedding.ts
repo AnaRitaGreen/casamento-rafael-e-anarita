@@ -53,9 +53,9 @@ export const wedding = {
   // ── PIX (Lista de Presentes) ───────────────────────────────── //
   pix: {
     /** Chave PIX (CPF, e-mail, telefone ou chave aleatória) */
-    chave: "00000000000",       // ← Coloque sua chave PIX real aqui
+    chave: "17996562005",       // ← Coloque sua chave PIX real aqui
     /** Nome exibido na tela de pagamento */
-    titular: "Rafael Santos",   // ← Coloque o nome real do titular
+    titular: "Rafael Manfrim",   // ← Coloque o nome real do titular
   },
 
 } as const;

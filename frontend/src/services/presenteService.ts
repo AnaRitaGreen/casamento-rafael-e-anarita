@@ -3,13 +3,13 @@ import { api } from '../lib/axios'
 // ── Tipos ─────────────────────────────────────────────────────── //
 
 export interface Presente {
-  id: number
-  nome: string
-  descricao?: string
-  preco: number
-  imagem_url?: string
-  reservado: boolean
-  reservado_por?: string
+  id: string
+  title: string
+  description?: string
+  value: number
+  image?: string
+  link?: string
+  reserved: boolean
 }
 
 export interface PresentesListResponse {
@@ -35,6 +35,6 @@ export async function getPresentes(): Promise<Presente[]> {
  * Reserva um presente em nome de alguém.
  * POST /api/presentes/:id/reservar
  */
-export async function reservarPresente(id: number, payload: ReservaPayload): Promise<void> {
+export async function reservarPresente(id: string, payload: ReservaPayload): Promise<void> {
   await api.post(`/api/presentes/${id}/reservar`, payload)
 }
