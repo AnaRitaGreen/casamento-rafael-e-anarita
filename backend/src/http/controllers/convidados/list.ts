@@ -15,7 +15,6 @@ export async function listGuests(_: FastifyRequest, reply: FastifyReply) {
       'g.is_child',
       'g.rsvp_status',
       'g.rsvp_responded_at',
-      'g.restriction',
     )
     .orderBy(['gr.name', 'g.name'])
 

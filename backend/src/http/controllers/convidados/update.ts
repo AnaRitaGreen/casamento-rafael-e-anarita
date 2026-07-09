@@ -11,7 +11,6 @@ export async function updateGuest(request: FastifyRequest, reply: FastifyReply) 
     name:        z.string().min(1).optional(),
     group_id:    z.string().uuid().optional(),
     is_child:    z.boolean().optional(),
-    restriction: z.string().optional(),
   })
 
   const body = schema.parse(request.body)

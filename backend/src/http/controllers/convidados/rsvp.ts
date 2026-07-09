@@ -12,11 +12,10 @@ export async function submitRsvp(request: FastifyRequest, reply: FastifyReply) {
     group_id:    z.string().uuid(),
     declined:    z.boolean().default(false),
     confirmed:   z.array(z.string().uuid()).default([]),
-    restriction: z.string().optional().default(''),
     message:     z.string().optional(),
   })
 
-  const { group_id, declined, confirmed, restriction, message } = schema.parse(request.body)
+  const { group_id, declined, confirmed, message } = schema.parse(request.body)
 
   const now = new Date()
 
@@ -35,7 +34,7 @@ export async function submitRsvp(request: FastifyRequest, reply: FastifyReply) {
     for (const guestId of confirmed) {
       await knex('guests')
         .where({ id: guestId, group_id })
-        .update({ rsvp_status: 'attending', rsvp_responded_at: now, restriction })
+        .update({ rsvp_status: 'attending', rsvp_responded_at: now })
     }
   }
 

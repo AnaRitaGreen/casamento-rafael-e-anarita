@@ -32,9 +32,8 @@ declare module 'knex/types/tables' {
     group_id: string
     name: string
     is_child: boolean
-    confirmed: boolean
-    confirmed_at: Date
-    restriction: string
+    rsvp_status: 'pending' | 'attending' | 'declined'
+    rsvp_responded_at: Date | null
     created_at: Date
     updated_at: Date
   }

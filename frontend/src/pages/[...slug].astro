@@ -281,19 +281,11 @@ const hasSlug = Boolean(slug);
             <div style="margin-bottom:1.5rem;">
               <p style="color:var(--menta-dark);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.2rem;">Seu convite</p>
               <h3 id="group-name-display" class="font-cursive" style="font-size:1.8rem;color:var(--lavanda-dark);">—</h3>
-              <p style="color:var(--texto-suave);font-size:0.9rem;margin-top:0.3rem;">Confirme quem do seu grupo irá comparecer 💜</p>
+              <p style="color:var(--texto-suave);font-size:0.9rem;margin-top:0.3rem;">Selecione a presença de cada pessoa do seu grupo 💜</p>
             </div>
             <div style="height:1px;background:linear-gradient(to right,transparent,var(--lavanda-light),transparent);margin-bottom:1.5rem;"></div>
 
-            <p style="font-size:0.82rem;font-weight:700;color:var(--texto-suave);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">Quem vai comparecer?</p>
             <div id="members-list" style="margin-bottom:1.5rem;"></div>
-
-            <div style="margin-bottom:1.25rem;">
-              <label for="food-restriction" style="display:block;font-size:0.85rem;font-weight:600;color:var(--texto-suave);margin-bottom:0.4rem;">
-                Restrição alimentar <span style="font-weight:400;opacity:0.7;">(opcional)</span>
-              </label>
-              <input id="food-restriction" type="text" class="form-input" placeholder="Ex: vegetariano, alergia a glúten..." />
-            </div>
 
             <div style="margin-bottom:2rem;">
               <label for="guest-message" style="display:block;font-size:0.85rem;font-weight:600;color:var(--texto-suave);margin-bottom:0.4rem;">
@@ -302,14 +294,12 @@ const hasSlug = Boolean(slug);
               <textarea id="guest-message" class="form-input" placeholder="Escreva algo carinhoso... 💜" style="resize:vertical;min-height:90px;"></textarea>
             </div>
 
-            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-              <button id="btn-confirm" class="btn-primary" style="flex:1;min-width:160px;justify-content:center;" onclick="handleConfirm()">
-                💌 Confirmar Presença
-              </button>
-              <button id="btn-decline" class="btn-outline" style="color:#c0504d;border-color:#e0a0a0;" onclick="handleDecline()">
-                😔 Não poderei ir
-              </button>
-            </div>
+            <button id="btn-submit" class="btn-primary" style="width:100%;justify-content:center;opacity:0.45;cursor:not-allowed;" onclick="handleSubmit()" disabled>
+              💌 Enviar Confirmação
+            </button>
+            <p id="submit-hint" style="text-align:center;font-size:0.8rem;color:var(--texto-suave);margin-top:0.6rem;">
+              Selecione a presença de todos antes de enviar
+            </p>
           </div>
 
           <!-- Confirmado -->
@@ -366,34 +356,8 @@ const hasSlug = Boolean(slug);
     0%, 100% { opacity: 0.3; transform: scale(0.8); }
     50%       { opacity: 1;   transform: scale(1.2); }
   }
-  .member-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-bottom: 0.4rem;
-    border: 1.5px solid transparent;
-  }
-  .member-row:hover { background: rgba(171,147,224,0.08); }
-  .member-row.selected {
-    background: rgba(171,147,224,0.1);
-    border-color: rgba(171,147,224,0.3);
-  }
-  .member-checkbox {
-    width: 20px; height: 20px;
-    accent-color: var(--lavanda-dark);
-    flex-shrink: 0; cursor: pointer;
-  }
-  .member-name { font-weight: 600; color: var(--texto); flex: 1; }
-  .badge-child {
-    font-size: 0.72rem;
-    background: var(--lavanda-light);
-    color: var(--lavanda-dark);
-    padding: 2px 10px; border-radius: 20px; font-weight: 600;
-  }
+
+  
 </style>
 
 <script>
@@ -441,13 +405,38 @@ const hasSlug = Boolean(slug);
   if (root) {
     const slug = root.dataset.slug ?? ''
     let groupData = null
+    // Mapa de status por guest id: 'pending' | 'attending' | 'declined'
+    const guestStatus: Record<string, string> = {}
 
-    function showState(id) {
+    function showState(id: string) {
       ;['loading','error','form','confirmed','declined'].forEach(s => {
         const el = document.getElementById(`state-${s}`)
         if (el) el.style.display = s === id ? 'block' : 'none'
       })
     }
+
+    function updateSubmitBtn() {
+      const total = Object.keys(guestStatus).length
+      const resolved = Object.values(guestStatus).filter(v => v !== 'pending').length
+      const btn = document.getElementById('btn-submit') as HTMLButtonElement
+      const hint = document.getElementById('submit-hint')
+      const allDone = total > 0 && resolved === total
+      btn.disabled = !allDone
+      btn.style.opacity = allDone ? '1' : '0.45'
+      btn.style.cursor = allDone ? 'pointer' : 'not-allowed'
+      if (hint) hint.style.display = allDone ? 'none' : 'block'
+    }
+
+    function setGuestStatus(guestId: string, status: 'attending' | 'declined') {
+      guestStatus[guestId] = status
+      const row = document.getElementById(`guest-row-${guestId}`)
+      if (row) {
+        row.classList.remove('attending', 'declined')
+        row.classList.add(status)
+      }
+      updateSubmitBtn()
+    }
+    window.setGuestStatus = setGuestStatus
 
     function renderMembers(guests) {
       const container = document.getElementById('members-list')
@@ -455,51 +444,71 @@ const hasSlug = Boolean(slug);
         container.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Nenhum convidado neste grupo.</p>'
         return
       }
-      container.innerHTML = guests.map(g => `
-        <label class="member-row ${g.rsvp_status === 'attending' ? 'selected' : ''}" for="member-${g.id}">
-          <input class="member-checkbox" type="checkbox" id="member-${g.id}" value="${g.id}" ${g.rsvp_status === 'attending' ? 'checked' : ''} />
-          <span class="member-name">${g.name}</span>
-          ${g.is_child ? '<span class="badge-child">Criança</span>' : ''}
-        </label>
-      `).join('')
-      container.querySelectorAll('.member-row').forEach(row => {
-        row.addEventListener('click', () => {
-          const cb = row.querySelector('.member-checkbox') as HTMLInputElement
-          cb.checked = !cb.checked
-          row.classList.toggle('selected', cb.checked)
-        })
-        ;(row.querySelector('.member-checkbox') as HTMLElement).addEventListener('click', e => {
-          e.stopPropagation()
-          row.classList.toggle('selected', (e.target as HTMLInputElement).checked)
+
+      // Inicializa status com o valor atual do banco
+      guests.forEach(g => { guestStatus[g.id] = g.rsvp_status ?? 'pending' })
+
+      container.innerHTML = guests.map(g => {
+        const s = g.rsvp_status ?? 'pending'
+        return `
+          <div class="guest-row ${s !== 'pending' ? s : ''}" id="guest-row-${g.id}">
+            <div class="guest-info">
+              <span class="guest-name">${g.name}</span>
+              ${g.is_child ? '<span class="badge-child">Crian\u00e7a</span>' : ''}
+            </div>
+            <div class="radio-group" role="radiogroup" aria-label="Presen\u00e7a de ${g.name}">
+              <input type="radio" class="opt-attending" name="rsvp-${g.id}" id="rsvp-${g.id}-attending" value="attending" ${s === 'attending' ? 'checked' : ''} />
+              <label class="radio-label" for="rsvp-${g.id}-attending">
+                <span class="dot"></span> Vai
+              </label>
+              <span class="radio-divider"></span>
+              <input type="radio" class="opt-declined" name="rsvp-${g.id}" id="rsvp-${g.id}-declined" value="declined" ${s === 'declined' ? 'checked' : ''} />
+              <label class="radio-label" for="rsvp-${g.id}-declined">
+                <span class="dot"></span> N\u00e3o vai
+              </label>
+            </div>
+          </div>
+        `
+      }).join('')
+
+      // Listeners nos radio inputs
+      container.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const el = e.target as HTMLInputElement
+          const guestId = el.name.replace('rsvp-', '')
+          setGuestStatus(guestId, el.value as 'attending' | 'declined')
         })
       })
+
+      updateSubmitBtn()
     }
 
-    window.handleConfirm = async function() {
-      const btn = document.getElementById('btn-confirm') as HTMLButtonElement
+    window.handleSubmit = async function() {
+      const btn = document.getElementById('btn-submit') as HTMLButtonElement
       btn.textContent = 'Enviando...'
       btn.disabled = true
-      const confirmed = [...document.querySelectorAll('.member-checkbox:checked')].map(el => (el as HTMLInputElement).value)
-      const restriction = (document.getElementById('food-restriction') as HTMLInputElement)?.value || ''
+
+      const confirmed = Object.entries(guestStatus)
+        .filter(([, v]) => v === 'attending')
+        .map(([id]) => id)
+
       const message = (document.getElementById('guest-message') as HTMLTextAreaElement)?.value || ''
+
       try {
-        await submitRsvp({ group_id: groupData.group.id, confirmed, restriction, message })
-        showState('confirmed')
+        await submitRsvp({
+          group_id: groupData.group.id,
+          confirmed,
+          declined: confirmed.length === 0,
+          message,
+        })
+        // Mostra estado correto: se alguém vai → confirmado, senão → recusado
+        showState(confirmed.length > 0 ? 'confirmed' : 'declined')
       } catch {
         alert('Ocorreu um erro. Tente novamente ou entre em contato com os noivos.')
-        btn.textContent = '💌 Confirmar Presença'
+        btn.textContent = '💌 Enviar Confirmação'
         btn.disabled = false
+        updateSubmitBtn()
       }
-    }
-
-    window.handleDecline = async function() {
-      const btn = document.getElementById('btn-decline') as HTMLButtonElement
-      btn.textContent = 'Enviando...'
-      btn.disabled = true
-      try {
-        await submitRsvp({ group_id: groupData.group.id, declined: true, confirmed: [] })
-      } catch {}
-      showState('declined')
     }
 
     async function init() {

@@ -9,7 +9,6 @@ export interface Guest {
   is_child: boolean
   rsvp_status: 'pending' | 'attending' | 'declined'
   rsvp_responded_at: string | null
-  restriction: string | null
 }
 
 export interface Group {
@@ -27,7 +26,6 @@ export interface RsvpPayload {
   group_id: string
   declined?: boolean
   confirmed: string[]
-  restriction?: string
   message?: string
 }
 

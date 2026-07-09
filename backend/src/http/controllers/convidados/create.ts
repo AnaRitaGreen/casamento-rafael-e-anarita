@@ -13,10 +13,9 @@ export async function createGuest(request: FastifyRequest, reply: FastifyReply) 
     group_name:  z.string().min(1).optional(),
     group_slug:  z.string().min(1).optional(),
     is_child:    z.boolean().default(false),
-    restriction: z.string().optional().default(''),
   })
 
-  const { name, group_id, group_name, group_slug, is_child, restriction } = schema.parse(request.body)
+  const { name, group_id, group_name, group_slug, is_child } = schema.parse(request.body)
 
   let finalGroupId = group_id ?? null
 
@@ -34,7 +33,7 @@ export async function createGuest(request: FastifyRequest, reply: FastifyReply) 
   }
 
   const [guest] = await knex('guests')
-    .insert({ id: randomUUID(), group_id: finalGroupId, name, is_child, restriction })
+    .insert({ id: randomUUID(), group_id: finalGroupId, name, is_child })
     .returning('*')
 
   return reply.status(201).send({ guest })

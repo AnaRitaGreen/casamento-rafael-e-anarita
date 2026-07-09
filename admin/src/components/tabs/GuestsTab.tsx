@@ -105,11 +105,11 @@ export function GuestsTab() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ background: 'rgba(171,147,224,0.1)', borderBottom: '2px solid rgba(171,147,224,0.2)' }}>
-                <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Nome</th>
-                <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Grupo</th>
-                <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Status</th>
-                <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Restrição</th>
-                <th style={{ padding: '1rem 1.25rem', textAlign: 'center', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Ações</th>
+                <th className="guests-th">Nome</th>
+                <th className="guests-th">Grupo</th>
+                <th className="guests-th">Status</th>
+                <th className="guests-th">Restrição</th>
+                <th className="guests-th">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -118,18 +118,20 @@ export function GuestsTab() {
               ) : (
                 pageGuests.map((g) => (
                   <tr key={g.id} style={{ transition: 'background 0.15s', borderBottom: '1px solid rgba(171, 147, 224, 0.1)' }}>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
+                    <td className="guests-td">
                       <strong>{g.name}</strong>
                       {g.is_child && <span style={{ fontSize: '0.7rem', background: 'var(--lavanda-light)', color: 'var(--lavanda-dark)', padding: '2px 7px', borderRadius: '20px', marginLeft: '4px' }}>criança</span>}
                     </td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>{g.group_name || "—"}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
+                    <td className="guests-td">{g.group_name || "—"}</td>
+                    <td className="guests-td">
                       {g.confirmed === true && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Confirmado</span>}
                       {g.confirmed === false && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 147, 147, 0.25)', color: '#c0504d' }}>❌ Não vai</span>}
                       {g.confirmed === null && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⏳ Pendente</span>}
                     </td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto-suave)', verticalAlign: 'middle' }}>{g.restriction || "—"}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle', textAlign: 'center' }}>
+                    <td className="guests-td" >
+                      {g.restriction || "—"}
+                    </td>
+                    <td className="guests-td" >
                       <button onClick={() => editGuest(g.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Editar">✏️</button>
                       <button onClick={() => deleteGuest(g.id, g.name)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '4px 8px' }} title="Remover">🗑️</button>
                     </td>
@@ -139,7 +141,7 @@ export function GuestsTab() {
             </tbody>
           </table>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.5rem', borderTop: '1px solid rgba(171,147,224,0.15)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 1rem', borderTop: '1px solid rgba(171,147,224,0.15)' }}>
           <span style={{ fontSize: '0.85rem', color: 'var(--texto-suave)' }}>Exibindo {Math.min(startIdx + 1, filteredGuests.length)}–{Math.min(startIdx + PER_PAGE, filteredGuests.length)} de {filteredGuests.length} convidados</span>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {Array.from({ length: totalPages }).map((_, i) => (
