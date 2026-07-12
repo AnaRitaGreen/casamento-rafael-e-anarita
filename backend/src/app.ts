@@ -17,6 +17,8 @@ app.register(fastifyCors, {
       'https://www.convite-casamento.digital',
       'http://convite-casamento.digital',
       'https://convite-casamento.digital',
+      'http://admin.convite-casamento.digital',
+      'https://admin.convite-casamento.digital',
 
       // ambientes de desenvolvimento
       'http://localhost',
