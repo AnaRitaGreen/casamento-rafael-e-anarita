@@ -252,12 +252,7 @@ const hasSlug = Boolean(slug);
 
       {hasSlug ? (
         <!-- ── Com slug: formulário do grupo ─────────────────── -->
-        <div
-          id="rsvp-root"
-          data-slug={slug}
-          class="reveal glass-card"
-          style="padding: 2.5rem;"
-        >
+        <div id="rsvp-root" data-slug={slug} class="reveal glass-card rsvp-card">
           <!-- Carregando -->
           <div id="state-loading" style="text-align:center; color:var(--texto-suave);">
             <div style="font-size: 2rem; margin-bottom: 1rem;">💌</div>
