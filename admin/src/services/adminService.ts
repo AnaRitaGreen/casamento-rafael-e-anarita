@@ -56,6 +56,7 @@ export interface AdminPresentePayload {
   description?: string
   value: number
   image?: string
+  link?: string
 }
 
 // ── Auth ───────────────────────────────────────────────────────── //

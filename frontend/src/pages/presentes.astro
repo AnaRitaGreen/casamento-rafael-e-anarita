@@ -226,7 +226,7 @@ const pixTitular = wedding.pix.titular;
     </div>
   </div>
 
-  <!-- ── MODAL: Reservar Presente ──────────────────────────── -->
+    <!-- ── MODAL: Reservar Presente ──────────────────────────── -->
   <div
     id="reserve-modal"
     style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;"
@@ -235,47 +235,21 @@ const pixTitular = wedding.pix.titular;
       class="modal-card"
       style="width:100%; max-width:520px; padding:2rem; animation:fadeInUp 0.3s ease; max-height:90vh; overflow-y:auto;"
     >
-      <!-- Etapa 1: Formulário -->
+      <!-- Etapa 1: Nome + Escolha do método -->
       <div id="modal-step-1">
         <div style="text-align:center; margin-bottom:1.5rem;">
-          <div
-            id="modal-gift-icon"
-            style="font-size:3rem; margin-bottom:0.5rem;"
-          >
-            🎁
-          </div>
-          <h2
-            class="font-cursive"
-            style="font-size:1.8rem; color:var(--lavanda-dark); margin-bottom:0.25rem;"
-            id="modal-gift-name"
-          >
-            Nome do Presente
-          </h2>
-          <p
-            style="color:var(--texto-suave); font-size:0.9rem;"
-            id="modal-gift-desc"
-          >
-          </p>
-          <div
-            style="margin-top:0.75rem; display:inline-block; background:linear-gradient(135deg,var(--lavanda),var(--azul)); color:white; padding:0.4rem 1.25rem; border-radius:20px; font-weight:700; font-size:1.1rem;"
-            id="modal-gift-price"
-          >
+          <div id="modal-gift-icon" style="font-size:3rem; margin-bottom:0.5rem;">🎁</div>
+          <h2 class="font-cursive" style="font-size:1.8rem; color:var(--lavanda-dark); margin-bottom:0.25rem;" id="modal-gift-name">Nome do Presente</h2>
+          <p style="color:var(--texto-suave); font-size:0.9rem;" id="modal-gift-desc"></p>
+          <div style="margin-top:0.75rem; display:inline-block; background:linear-gradient(135deg,var(--lavanda),var(--azul)); color:white; padding:0.4rem 1.25rem; border-radius:20px; font-weight:700; font-size:1.1rem;" id="modal-gift-price">
             R$ 0,00
           </div>
         </div>
 
-        <div
-          style="background:rgba(171,147,224,0.1); border-radius:12px; padding:1rem; margin-bottom:1.25rem; font-size:0.85rem; color:var(--texto-suave); line-height:1.5;"
-        >
-          ℹ️ Após confirmar, você receberá os dados do PIX para realizar o
-          pagamento. O presente será reservado em seu nome.
-        </div>
-
         <div style="margin-bottom:1.25rem;">
-          <label
-            style="display:block; font-size:0.85rem; font-weight:600; color:var(--texto-suave); margin-bottom:0.4rem;"
-            >Seu nome (ou "De: fulano & sicrana")</label
-          >
+          <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--texto-suave); margin-bottom:0.4rem;">
+            Seu nome (ou "De: fulano &amp; sicrana")
+          </label>
           <input
             type="text"
             id="presenteador-nome"
@@ -285,119 +259,100 @@ const pixTitular = wedding.pix.titular;
           />
         </div>
 
-        <div class="modal-actions">
+        <p style="font-size:0.82rem; font-weight:700; color:var(--texto-suave); margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.06em;">
+          Como você prefere presentear?
+        </p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
           <button
-            onclick="closeModal()"
+            onclick="confirmReserva('pix')"
+            id="btn-pix"
             class="btn-outline"
-            style="flex:1; justify-content:center;">Cancelar</button
+            style="flex-direction:column; padding:1rem 0.75rem; gap:0.4rem; text-align:center; line-height:1.3;"
           >
+            <span style="font-size:1.8rem;">💸</span>
+            <strong style="font-size:0.9rem;">Via PIX</strong>
+            <span style="font-size:0.75rem; opacity:0.75;">Envio o valor sugerido</span>
+          </button>
           <button
-            onclick="confirmReserva()"
-            id="confirm-btn"
-            class="btn-primary"
-            style="flex:1; justify-content:center;">🎁 Confirmar Reserva</button
+            onclick="confirmReserva('produto')"
+            id="btn-produto"
+            class="btn-outline"
+            style="flex-direction:column; padding:1rem 0.75rem; gap:0.4rem; text-align:center; line-height:1.3;"
           >
+            <span style="font-size:1.8rem;">🛒</span>
+            <strong style="font-size:0.9rem;">Comprar produto</strong>
+            <span style="font-size:0.75rem; opacity:0.75;">Eu mesmo vou comprar</span>
+          </button>
         </div>
+
+        <button onclick="closeModal()" class="btn-outline" style="width:100%; justify-content:center;">Cancelar</button>
       </div>
 
-      <!-- Etapa 2: Instruções PIX -->
-      <div id="modal-step-2" style="display:none; text-align:center;">
-        <div
-          style="font-size:3rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;"
-        >
-          ✅
-        </div>
-        <h2
-          class="font-cursive"
-          style="font-size:1.8rem; color:var(--menta-dark); margin-bottom:0.5rem;"
-        >
-          Reservado com sucesso!
-        </h2>
-        <p
-          style="color:var(--texto-suave); margin-bottom:1.5rem; font-size:0.9rem;"
-        >
-          Agora realize o PIX para concluir o presente:
-        </p>
+      <!-- Etapa 2a: Instruções PIX -->
+      <div id="modal-step-2a" style="display:none; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;">✅</div>
+        <h2 class="font-cursive" style="font-size:1.8rem; color:var(--menta-dark); margin-bottom:0.5rem;">Reservado com sucesso!</h2>
+        <p style="color:var(--texto-suave); margin-bottom:1.5rem; font-size:0.9rem;">Agora realize o PIX para concluir o presente:</p>
 
-        <div
-          style="background:linear-gradient(135deg, rgba(201,168,64,0.12), rgba(201,168,64,0.05)); border:1px solid rgba(201,168,64,0.4); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; text-align:left;"
-        >
+        <div style="background:linear-gradient(135deg, rgba(201,168,64,0.12), rgba(201,168,64,0.05)); border:1px solid rgba(201,168,64,0.4); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; text-align:left;">
           <div style="margin-bottom:0.75rem;">
-            <p
-              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
-            >
-              Chave PIX
-            </p>
-            <code
-              id="pix-confirm-key"
-              style="font-size:1.05rem; font-weight:700; color:var(--texto); word-break:break-all;"
-              >{pixChave}</code
-            >
+            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Chave PIX</p>
+            <code id="pix-confirm-key" style="font-size:1.05rem; font-weight:700; color:var(--texto); word-break:break-all;">{pixChave}</code>
           </div>
           <div style="margin-bottom:0.75rem;">
-            <p
-              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
-            >
-              Titular
-            </p>
+            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Titular</p>
             <p style="font-weight:600; color:var(--texto);">{pixTitular}</p>
           </div>
           <div style="margin-bottom:0.75rem;">
-            <p
-              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
-            >
-              Valor Sugerido
-            </p>
-            <p
-              style="font-size:1.3rem; font-weight:700; color:var(--lavanda-dark);"
-              id="pix-confirm-price"
-            >
-              R$ 0,00
-            </p>
+            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Valor Sugerido</p>
+            <p style="font-size:1.3rem; font-weight:700; color:var(--lavanda-dark);" id="pix-confirm-price">R$ 0,00</p>
           </div>
           <div>
-            <p
-              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;"
-            >
-              Descrição do PIX
-            </p>
-            <p
-              style="color:var(--texto); font-size:0.9rem;"
-              id="pix-confirm-desc"
-            >
-              Presente: — (Seu nome)
-            </p>
+            <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520; margin-bottom:0.25rem;">Descrição do PIX</p>
+            <p style="color:var(--texto); font-size:0.9rem;" id="pix-confirm-desc">Presente: — (Seu nome)</p>
           </div>
         </div>
 
-        <div
-          style="background:rgba(173,235,179,0.15); border:1px solid rgba(173,235,179,0.5); border-radius:12px; padding:1rem; margin-bottom:1.5rem; font-size:0.85rem; color:var(--texto-suave);"
-        >
-          💚 Você pode copiar a chave PIX e usar no aplicativo do seu banco. O
-          valor é uma sugestão — qualquer quantia é muito bem-vinda!
+        <div style="background:rgba(173,235,179,0.15); border:1px solid rgba(173,235,179,0.5); border-radius:12px; padding:1rem; margin-bottom:1.5rem; font-size:0.85rem; color:var(--texto-suave);">
+          💚 Você pode copiar a chave PIX e usar no aplicativo do seu banco. O valor é uma sugestão — qualquer quantia é muito bem-vinda!
         </div>
 
         <div class="modal-actions">
-          <button
-            onclick="copyPixModal()"
-            class="btn-primary"
-            style="flex:1; justify-content:center;">📋 Copiar Chave PIX</button
-          >
-          <button
-            onclick="closeModal()"
-            class="btn-outline"
-            style="flex:1; justify-content:center;">Fechar</button
-          >
+          <button onclick="copyPixModal()" class="btn-primary" style="flex:1; justify-content:center;">📋 Copiar Chave PIX</button>
+          <button onclick="closeModal()" class="btn-outline" style="flex:1; justify-content:center;">Fechar</button>
+        </div>
+        <p style="margin-top:1.25rem; color:var(--texto-suave); font-size:0.85rem;">Muito obrigados pelo carinho! 💜</p>
+      </div>
+
+      <!-- Etapa 2b: Ir ao produto -->
+      <div id="modal-step-2b" style="display:none; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:1rem; animation:float 2s ease-in-out infinite; display:inline-block;">🛒</div>
+        <h2 class="font-cursive" style="font-size:1.8rem; color:var(--menta-dark); margin-bottom:0.5rem;">Presente Reservado!</h2>
+        <p style="color:var(--texto-suave); margin-bottom:1.5rem; font-size:0.9rem;">
+          Que alegria! Clique abaixo para ir à loja e comprar o produto.
+        </p>
+
+        <a
+          id="btn-ir-produto"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+          style="display:inline-flex; justify-content:center; width:100%; margin-bottom:1rem; font-size:1rem; padding:0.85rem;"
+        >
+          🛍️ Ir para a Loja
+        </a>
+
+        <div style="background:rgba(171,147,224,0.1); border-radius:12px; padding:1rem; margin-bottom:1.5rem; font-size:0.85rem; color:var(--texto-suave); text-align:left;">
+          💡 Após a compra, é só nos avisar! Você pode entregar no dia do casamento ou combinar a entrega conosco. 💜
         </div>
 
-        <p
-          style="margin-top:1.25rem; color:var(--texto-suave); font-size:0.85rem;"
-        >
-          Muito obrigados pelo carinho! 💜
-        </p>
+        <button onclick="closeModal()" class="btn-outline" style="width:100%; justify-content:center;">Fechar</button>
+        <p style="margin-top:1.25rem; color:var(--texto-suave); font-size:0.85rem;">Muito obrigados pelo carinho! 💜</p>
       </div>
     </div>
   </div>
+
 </Layout>
 
 <script>
@@ -460,7 +415,7 @@ const pixTitular = wedding.pix.titular;
           </div>
           <div class="gift-body">
             <p class="gift-name">${p.title}</p>
-            <p class="gift-desc">${p.description || "Sem descrição"}</p>
+            <p class="gift-desc">${p.description || "Sem descri\u00e7\u00e3o"}</p>
             <div class="gift-footer">
               <span class="gift-price">${formatPreco(p.value)}</span>
               ${
@@ -484,66 +439,72 @@ const pixTitular = wedding.pix.titular;
     selectedPresente = allPresentes.find((p) => String(p.id) === String(id));
     if (!selectedPresente) return;
 
-    document.getElementById("modal-gift-name").textContent =
-      selectedPresente.title;
-    document.getElementById("modal-gift-desc").textContent =
-      selectedPresente.description || "";
-    document.getElementById("modal-gift-price").textContent = formatPreco(
-      selectedPresente.value,
-    );
+    document.getElementById("modal-gift-name").textContent = selectedPresente.title;
+    document.getElementById("modal-gift-desc").textContent = selectedPresente.description || "";
+    document.getElementById("modal-gift-price").textContent = formatPreco(selectedPresente.value);
     document.getElementById("presenteador-nome").value = "";
 
+    // Mostra/esconde o botão "Comprar produto" se o presente tem link
+    const btnProduto = document.getElementById("btn-produto");
+    if (btnProduto) {
+      btnProduto.style.opacity = selectedPresente.link ? "1" : "0.4";
+      btnProduto.disabled = !selectedPresente.link;
+      btnProduto.title = selectedPresente.link ? "" : "Este presente não tem link de compra cadastrado";
+    }
+
     document.getElementById("modal-step-1").style.display = "block";
-    document.getElementById("modal-step-2").style.display = "none";
+    document.getElementById("modal-step-2a").style.display = "none";
+    document.getElementById("modal-step-2b").style.display = "none";
     document.getElementById("reserve-modal").style.display = "flex";
   }
 
   function closeModal() {
     document.getElementById("reserve-modal").style.display = "none";
     selectedPresente = null;
-    loadPresentes(); // Recarregar para refletir estado atualizado
+    loadPresentes();
   }
 
-  async function confirmReserva() {
+  async function confirmReserva(metodo = "pix") {
     const nome = document.getElementById("presenteador-nome").value.trim();
     if (!nome) {
       document.getElementById("presenteador-nome").focus();
-      document.getElementById("presenteador-nome").style.borderColor =
-        "#e07b7b";
+      document.getElementById("presenteador-nome").style.borderColor = "#e07b7b";
       return;
     }
     document.getElementById("presenteador-nome").style.borderColor = "";
 
-    const btn = document.getElementById("confirm-btn");
-    btn.textContent = "Reservando...";
-    btn.disabled = true;
+    // Desabilita os botões de método durante o envio
+    const btnPix = document.getElementById("btn-pix");
+    const btnProduto = document.getElementById("btn-produto");
+    if (btnPix) btnPix.disabled = true;
+    if (btnProduto) btnProduto.disabled = true;
 
     try {
       await reservarPresente(selectedPresente.id, { nome });
 
-      // Mostrar etapa 2: instruções PIX
-      document.getElementById("pix-confirm-key").textContent = pixChave;
-      document.getElementById("pix-confirm-price").textContent = formatPreco(
-        selectedPresente.value,
-      );
-      document.getElementById("pix-confirm-desc").textContent =
-        `Presente: ${selectedPresente.title} (${nome})`;
       document.getElementById("modal-step-1").style.display = "none";
-      document.getElementById("modal-step-2").style.display = "block";
+
+      if (metodo === "produto" && selectedPresente.link) {
+        // Etapa 2b: ir ao produto
+        document.getElementById("btn-ir-produto").href = selectedPresente.link;
+        document.getElementById("modal-step-2b").style.display = "block";
+      } else {
+        // Etapa 2a: instruções PIX
+        document.getElementById("pix-confirm-key").textContent = pixChave;
+        document.getElementById("pix-confirm-price").textContent = formatPreco(selectedPresente.value);
+        document.getElementById("pix-confirm-desc").textContent = `Presente: ${selectedPresente.title} (${nome})`;
+        document.getElementById("modal-step-2a").style.display = "block";
+      }
     } catch (err) {
       if (err?.response?.status === 409) {
-        alert(
-          "Ops! Esse presente acabou de ser reservado por outra pessoa. Escolha outro! 😊",
-        );
+        alert("Ops! Esse presente acabou de ser reservado por outra pessoa. Escolha outro! 😊");
         closeModal();
       } else {
-        alert(
-          "Erro ao reservar. Tente novamente ou entre em contato com os noivos.",
-        );
+        alert("Erro ao reservar. Tente novamente ou entre em contato com os noivos.");
       }
     } finally {
-      btn.textContent = "🎁 Confirmar Reserva";
-      btn.disabled = false;
+      if (btnPix) btnPix.disabled = false;
+      if (btnProduto) btnProduto.disabled = false;
     }
   }
 

@@ -11,6 +11,7 @@ interface PresenteModalProps {
     description: string;
     value: number;
     image: string;
+    link: string;
   };
 }
 
@@ -21,7 +22,7 @@ export function PresenteModal({
   editingPresenteId,
   initialData
 }: PresenteModalProps) {
-  const [presenteForm, setPresenteForm] = useState({ title: '', description: '', value: '', image: '' });
+  const [presenteForm, setPresenteForm] = useState({ title: '', description: '', value: '', image: '', link: '' });
 
   useEffect(() => {
     if (isOpen) {
@@ -30,10 +31,11 @@ export function PresenteModal({
           title: initialData.title,
           description: initialData.description,
           value: String(initialData.value),
-          image: initialData.image
+          image: initialData.image,
+          link: initialData.link,
         });
       } else {
-        setPresenteForm({ title: '', description: '', value: '', image: '' });
+        setPresenteForm({ title: '', description: '', value: '', image: '', link: '' });
       }
     }
   }, [isOpen, initialData]);
@@ -41,10 +43,11 @@ export function PresenteModal({
   const savePresente = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = {
-      title: presenteForm.title,
+      title:       presenteForm.title,
       description: presenteForm.description || undefined,
-      value: Number(presenteForm.value),
-      image: presenteForm.image || undefined,
+      value:       Number(presenteForm.value),
+      image:       presenteForm.image || undefined,
+      link:        presenteForm.link || undefined,
     };
 
     try {
@@ -77,7 +80,12 @@ export function PresenteModal({
           </div>
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--texto-suave)', marginBottom: '0.35rem' }}>URL da Imagem (opcional)</label>
-            <input type="url" className="form-input" value={presenteForm.image} onChange={e => setPresenteForm({...presenteForm, image: e.target.value})} />
+            <input type="url" className="form-input" placeholder="https://..." value={presenteForm.image} onChange={e => setPresenteForm({...presenteForm, image: e.target.value})} />
+          </div>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--texto-suave)', marginBottom: '0.35rem' }}>Link de Compra (opcional)</label>
+            <input type="url" className="form-input" placeholder="https://www.amazon.com.br/..." value={presenteForm.link} onChange={e => setPresenteForm({...presenteForm, link: e.target.value})} />
+            <p style={{ fontSize: '0.75rem', color: 'var(--texto-suave)', marginTop: '0.3rem' }}>Exibido como botão "Ver Produto" na página de presentes.</p>
           </div>
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button type="button" className="btn-outline" onClick={onClose} style={{ flex: 1, justifyContent: 'center' }}>Cancelar</button>

@@ -692,11 +692,32 @@ h3 {
     color: var(--texto-suave);
     flex: 1;
     line-height: 1.5;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .gift-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--lavanda-dark);
+    background: rgba(171, 147, 224, 0.1);
+    border: 1px solid rgba(171, 147, 224, 0.3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    transition: background 0.2s, border-color 0.2s;
+    width: fit-content;
+  }
+  .gift-link-btn:hover {
+    background: rgba(171, 147, 224, 0.22);
+    border-color: var(--lavanda);
   }
 
   .gift-footer {

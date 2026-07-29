@@ -66,7 +66,8 @@ export function PresentesTab() {
       title: p.title,
       description: p.description || '',
       value: p.value,
-      image: p.image || ''
+      image: p.image || '',
+      link: p.link || '',
     });
     setIsPresenteModalOpen(true);
   };
