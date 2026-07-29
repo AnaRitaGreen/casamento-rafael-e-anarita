@@ -10,6 +10,7 @@ interface SidebarProps {
 const sidebarTabs = [
   { id: 'overview', icon: '📊', label: 'Visão Geral' },
   { id: 'guests', icon: '👥', label: 'Convidados' },
+  { id: 'groups', icon: '🏷️', label: 'Grupos' },
   { id: 'messages', icon: '💌', label: 'Mensagens' },
   { id: 'export', icon: '📥', label: 'Exportar' },
   { id: 'presentes', icon: '🎁', label: 'Presentes' }

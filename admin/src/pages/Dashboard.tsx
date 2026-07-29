@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { OverviewTab } from '../components/tabs/OverviewTab';
 import { GuestsTab } from '../components/tabs/GuestsTab';
+import { GroupsTab } from '../components/tabs/GroupsTab';
 import { MessagesTab } from '../components/tabs/MessagesTab';
 import { ExportTab } from '../components/tabs/ExportTab';
 import { PresentesTab } from '../components/tabs/PresentesTab';
@@ -18,6 +19,7 @@ export default function Dashboard() {
       <main style={{ flex: 1, padding: '2.5rem', overflowX: 'hidden' }}>
         {activeTab === 'overview' && <OverviewTab />}
         {activeTab === 'guests' && <GuestsTab />}
+        {activeTab === 'groups' && <GroupsTab />}
         {activeTab === 'messages' && <MessagesTab />}
         {activeTab === 'export' && <ExportTab />}
         {activeTab === 'presentes' && <PresentesTab />}

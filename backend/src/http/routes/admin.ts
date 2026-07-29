@@ -11,6 +11,9 @@ import { createGuest } from '../controllers/convidados/create.js'
 import { updateGuest } from '../controllers/convidados/update.js'
 import { deleteGuest } from '../controllers/convidados/delete.js'
 import { listGroups } from '../controllers/convidados/list-groups.js'
+import { createGroup } from '../controllers/convidados/create-group.js'
+import { updateGroup } from '../controllers/convidados/update-group.js'
+import { deleteGroup } from '../controllers/convidados/delete-group.js'
 import { listMessages } from '../controllers/convidados/list-messages.js'
 
 import { listPresentesAdmin } from '../controllers/presentes/list-admin.js'
@@ -31,7 +34,10 @@ export async function adminRoutes(app: FastifyInstance) {
   app.delete('/guests/:id', deleteGuest)
 
   // ── Grupos & Mensagens ────────────────────────────────────── //
-  app.get('/groups',   listGroups)
+  app.get('/groups',          listGroups)
+  app.post('/groups',         createGroup)
+  app.put('/groups/:id',      updateGroup)
+  app.delete('/groups/:id',   deleteGroup)
   app.get('/messages', listMessages)
 
   // ── Presentes ─────────────────────────────────────────────── //

@@ -26,6 +26,11 @@ export interface AdminGroup {
   slug: string
 }
 
+export interface AdminGroupPayload {
+  name: string
+  slug?: string
+}
+
 export interface AdminMessage {
   id: string
   group_id: string
@@ -93,6 +98,20 @@ export async function getAdminGroups(): Promise<AdminGroup[]> {
     { withCredentials: true }
   )
   return data.groups ?? []
+}
+
+export async function createGroup(payload: AdminGroupPayload): Promise<AdminGroup> {
+  const { data } = await api.post<{ group: AdminGroup }>('/api/admin/groups', payload, { withCredentials: true })
+  return data.group
+}
+
+export async function updateGroup(id: string, payload: AdminGroupPayload): Promise<AdminGroup> {
+  const { data } = await api.put<{ group: AdminGroup }>(`/api/admin/groups/${id}`, payload, { withCredentials: true })
+  return data.group
+}
+
+export async function deleteGroup(id: string): Promise<void> {
+  await api.delete(`/api/admin/groups/${id}`, { withCredentials: true })
 }
 
 // ── Mensagens ─────────────────────────────────────────────────── //
