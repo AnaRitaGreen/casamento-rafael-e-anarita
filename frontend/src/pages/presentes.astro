@@ -669,8 +669,36 @@ const pixTitular = wedding.pix.titular;
   }
 
   // ── Copiar PIX ──────────────────────────────────────────── //
-  function copyPix() {
-    navigator.clipboard.writeText(pixChave).then(() => {
+  async function copyTextFallback(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (err) {
+        console.warn("Clipboard API falhou, tentando fallback...", err);
+      }
+    }
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      console.error("Fallback de cópia falhou", err);
+      return false;
+    }
+  }
+
+  async function copyPix() {
+    const success = await copyTextFallback(pixChave);
+    if (success) {
       const btn = document.getElementById("copy-pix-btn");
       btn.textContent = "✅ Copiado!";
       btn.style.background = "var(--menta-dark)";
@@ -678,15 +706,20 @@ const pixTitular = wedding.pix.titular;
         btn.textContent = "📋 Copiar";
         btn.style.background = "var(--lavanda)";
       }, 2000);
-    });
+    } else {
+      alert("Não foi possível copiar. Por favor, copie a chave manualmente.");
+    }
   }
 
-  function copyPixModal() {
-    navigator.clipboard.writeText(pixChave).then(() => {
+  async function copyPixModal() {
+    const success = await copyTextFallback(pixChave);
+    if (success) {
       alert(
         "Chave PIX copiada! 📋 Abra seu banco e realize o pagamento. Muito obrigados! 💜",
       );
-    });
+    } else {
+      alert("Não foi possível copiar. Por favor, copie a chave manualmente.");
+    }
   }
 
   // ── Fechar modal ao clicar fora ─────────────────────────── //
