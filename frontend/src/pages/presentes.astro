@@ -21,7 +21,7 @@ const pixTitular = wedding.pix.titular;
     >
       <a
         href="/"
-        style="position:absolute; left:1.5rem; top:50%; transform:translateY(-50%); color:var(--lavanda-dark); text-decoration:none; font-size:0.9rem; font-weight:600; display:flex; align-items:center; gap:0.4rem; opacity:0.8;"
+        style="position:absolute; left:1.5rem; top:30%; transform:translateY(-50%); color:var(--lavanda-dark); text-decoration:none; font-size:0.9rem; font-weight:600; display:flex; align-items:center; gap:0.4rem; opacity:0.8;"
         onmouseenter="this.style.opacity='1'"
         onmouseleave="this.style.opacity='0.8'">← Voltar</a
       >
@@ -58,19 +58,15 @@ const pixTitular = wedding.pix.titular;
           class="font-cursive"
           style="font-size:clamp(1.6rem,4vw,2.4rem); color:var(--lavanda-dark); margin-bottom:1rem;"
         >
-          A sua presença é o maior presente!
+          Sua presença é <br /> o maior presente!
         </h2>
         <p
           style="color:var(--texto-suave); line-height:1.75; max-width:600px; margin:0 auto 1rem;"
         >
           Para nós, o que realmente importa é <strong
             >você estar lá conosco</strong
-          > nesse momento tão especial. Não se sinta obrigado a nos presentear — sua
-          companhia já é o melhor que poderíamos receber.
-        </p>
-        <p style="color:var(--texto-suave); font-size:0.9rem; opacity:0.8;">
-          Se ainda assim desejar nos dar um presente, seja ele um objeto, um
-          envelope ou um PIX —
+          > nesse momento tão especial. Se ainda assim desejar nos dar um presente,
+          seja ele um objeto, um envelope ou um PIX —
           <strong>receberemos com muito carinho e gratidão! 🙏</strong>
         </p>
       </div>
@@ -84,7 +80,9 @@ const pixTitular = wedding.pix.titular;
           class="glass-card"
           style="padding:1rem; border-left:4px solid var(--lavanda);"
         >
-          <div style="font-size:2rem; margin-bottom:0.75rem;">
+          <div
+            style="font-size:2rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;"
+          >
             🛍️
             <span style="font-size:1.2rem; color:var(--lavanda-dark);">
               Presentes da Lista
@@ -105,12 +103,14 @@ const pixTitular = wedding.pix.titular;
         <!-- Opção 2: Presente em Dinheiro -->
         <div
           class="glass-card"
-          style="padding:1rem; border-left:4px solid #c9a840;"
+          style="padding:1rem; border-left:4px solid var(--menta-dark);"
           id="pix-direto-card"
         >
-          <div style="font-size:2rem; margin-bottom:0.75rem;">
-            💰
-            <span style="font-size:1.2rem; color:#a88520;">
+          <div
+            style="font-size:2rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;"
+          >
+            <img src="/bolsa-de-dinheiro.png" alt="" style="width:32px;" />
+            <span style="font-size:1.2rem; color:var(--menta-dark);">
               Presente em Dinheiro
             </span>
           </div>
@@ -123,10 +123,10 @@ const pixTitular = wedding.pix.titular;
           </p>
 
           <div
-            style="background:rgba(201,168,64,0.1); border:1px solid rgba(201,168,64,0.35); border-radius:12px; padding:1rem;"
+            style="background: #adebb333; border:1px solid var(--menta); border-radius:12px; padding:1rem;"
           >
             <p
-              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#a88520;"
+              style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--menta-dark);"
             >
               Chave PIX
             </p>
@@ -156,11 +156,13 @@ const pixTitular = wedding.pix.titular;
         <!-- Opção 3: Presente Físico -->
         <div
           class="glass-card"
-          style="padding:1rem; border-left:4px solid var(--menta);"
+          style="padding:1rem; border-left:4px solid var(--azul);"
         >
-          <div style="font-size:2rem; margin-bottom:0.75rem;">
-            📦
-            <span style="font-size:1.2rem; color:var(--menta-dark);">
+          <div
+            style="font-size:2rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;"
+          >
+            <img src="/presente.png" alt="" style="width:32px;" />
+            <span style="font-size:1.2rem; color:var(--azul-dark);">
               Presente Físico
             </span>
           </div>
@@ -170,12 +172,33 @@ const pixTitular = wedding.pix.titular;
           >
             Gosta de presentear com objetos? Ótimo! Você pode entregar
             pessoalmente no dia do casamento ou combinar conosco. Qualquer gesto
-            de carinho é muito bem-vindo! 🌸
+            de carinho é muito bem-vindo!
           </p>
           <p
             style="color:var(--texto-suave); font-size:0.85rem; margin-top:1rem; font-style:italic;"
           >
-            Use a lista abaixo como inspiração de itens que precisamos. 💜
+            Deixamos uma lista abaixo com itens que precisamos.
+          </p>
+        </div>
+
+        <div
+          class="glass-card"
+          style="padding:1rem; border-left:4px solid var(--amarelo);"
+        >
+          <div
+            style="font-size:2rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.75rem;"
+          >
+            <img src="/aviso.png" alt="" style="width:32px;" />
+            <span style="font-size:1.2rem; color:var(--amarelo-dark);">
+              Atenção
+            </span>
+          </div>
+
+          <p
+            style="color:var(--texto-suave); font-size:0.9rem; line-height:1.65;"
+          >
+            Por gentileza, reserve somente os presentes físicos escolhidos e
+            para melhor organização compre diretamente nos link indicados.
           </p>
         </div>
       </div>

@@ -21,7 +21,6 @@ const hasSlug = Boolean(slug);
     id="hero"
     style="
     min-height: 100vh;
-    background: url('/bg.png') center/cover no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -202,10 +201,10 @@ const hasSlug = Boolean(slug);
       >
         <div style="position:absolute; top:-15px; right:-15px; font-size:6rem; opacity:0.06; pointer-events:none;">💜</div>
         <p style="font-size:1.2rem; font-weight:700; color:var(--lavanda-dark); margin-bottom:0.75rem;">
-          💜 Sua presença é o nosso maior presente!
+          Sua presença é o nosso maior presente!
         </p>
         <p style="color:var(--texto-suave); line-height:1.7; font-size:0.95rem;">
-          Para quem deseja nos dar um presente — seja um objeto, um PIX ou qualquer gesto de carinho — preparamos uma lista de sugestões, mas <strong>nada disso é obrigatório</strong>. O que realmente importa é estar ao nosso lado nesse dia especial. 🥺💜
+          Para quem deseja nos presentear — seja um objeto ou em PIX — preparamos uma lista de sugestões, mas <strong>nada disso é obrigatório</strong>. O que realmente importa é estar ao nosso lado nesse dia especial. 💜
         </p>
       </div>
 
@@ -347,12 +346,20 @@ const hasSlug = Boolean(slug);
 </Layout>
 
 <style>
+  #hero {
+    background: url('/bg.png') center/cover no-repeat;
+  }
+
+  @media (max-width: 1079px) {
+    #hero {
+      background: url('/bg-mobile.png') center/cover no-repeat;
+    }
+  }
+
   @keyframes pulse-dot {
     0%, 100% { opacity: 0.3; transform: scale(0.8); }
     50%       { opacity: 1;   transform: scale(1.2); }
   }
-
-  
 </style>
 
 <script>
