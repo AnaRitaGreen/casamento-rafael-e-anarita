@@ -5,7 +5,7 @@ import { knex } from '@/database'
 // Lista pública: não expõe reserved_by
 export async function listPresentes(_: FastifyRequest, reply: FastifyReply) {
   const presentes = await knex('gifts')
-    .select('id', 'title', 'description', 'link', 'image', 'value', 'reserved')
+    .select('id', 'title', 'description', 'link', 'image', 'value', 'reserved', 'reserved_by_slug')
     .orderBy('title')
 
   return reply.send({ presentes })

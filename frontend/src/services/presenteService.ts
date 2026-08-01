@@ -10,6 +10,7 @@ export interface Presente {
   image?: string
   link?: string
   reserved: boolean
+  reserved_by_slug: string | null
 }
 
 export interface PresentesListResponse {
@@ -18,6 +19,7 @@ export interface PresentesListResponse {
 
 export interface ReservaPayload {
   nome: string
+  slug?: string
 }
 
 // ── Endpoints ─────────────────────────────────────────────────── //

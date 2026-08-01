@@ -10,13 +10,14 @@ export async function reservarPresente(request: FastifyRequest, reply: FastifyRe
 
   const schema = z.object({
     nome: z.string().min(2),
+    slug: z.string().optional(),
   })
 
-  const { nome } = schema.parse(request.body)
+  const { nome, slug } = schema.parse(request.body)
 
   const updated = await knex('gifts')
     .where({ id, reserved: false })
-    .update({ reserved: true, reserved_by: nome, reserved_at: new Date() })
+    .update({ reserved: true, reserved_by: nome, reserved_by_slug: slug ?? null, reserved_at: new Date() })
 
   if (!updated) {
     return reply.status(409).send({ message: 'Este presente já foi reservado por outra pessoa.' })
@@ -30,7 +31,8 @@ export async function reservarPresente(request: FastifyRequest, reply: FastifyRe
   sendTelegramMessage(
     `🎁 <b>Presente reservado!</b>\n\n` +
     `👤 <b>Quem:</b> ${nome}\n` +
-    `📦 <b>Presente:</b> ${titulo}`,
+    `📦 <b>Presente:</b> ${titulo}` +
+    (slug ? `\n🔗 <b>Grupo:</b> ${slug}` : ''),
   )
 
   return reply.send({ message: 'Presente reservado com sucesso.' })
