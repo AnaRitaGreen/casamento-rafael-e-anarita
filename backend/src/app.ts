@@ -36,6 +36,10 @@ app.register(fastifyCors, {
       'http://192.168.0.115:3000',
       'http://192.168.0.115:4321',
       'http://192.168.0.115:5173',
+      'http://192.168.0.109',
+      'http://192.168.0.109:3000',
+      'http://192.168.0.109:4321',
+      'http://192.168.0.109:5173',
     ]
 
     // Em chamadas sem Origin (ex: curl/postman), pode permitir

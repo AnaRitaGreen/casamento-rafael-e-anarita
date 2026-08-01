@@ -21,6 +21,9 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   ALLOWED_ORIGIN: z.string(),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
+  // Telegram (opcionais — servidor sobe normalmente sem elas)
+  TELEGRAM_BOT_TOKEN: z.string().optional(),
+  TELEGRAM_CHAT_ID: z.string().optional(),
 })
 
 const { success, data, error } = envSchema.safeParse(process.env)
