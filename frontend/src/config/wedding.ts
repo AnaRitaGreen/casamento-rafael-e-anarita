@@ -48,7 +48,7 @@ export const wedding = {
     description: "Celebre conosco o nosso grande dia! Confirme sua presença e fique por dentro de todos os detalhes do casamento de Rafael e Ana Rita.",
   },
 
-  frase_rodape: "\"E não há em mim outro amor — você é sempre o meu mais.\"",
+  frase_rodape: "\"Contagem regressiva iniciada! Estamos prontos para viver o começo do nosso para sempre...\"",
 
   // ── PIX (Lista de Presentes) ───────────────────────────────── //
   pix: {
