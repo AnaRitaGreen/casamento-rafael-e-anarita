@@ -123,7 +123,7 @@ export function PresentesTab() {
                   </td>
                   <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
                     <a
-                        href={p.link}
+                        href={p.link || ''}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ color: 'var(--lavanda-dark)', fontSize: '0.82rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
