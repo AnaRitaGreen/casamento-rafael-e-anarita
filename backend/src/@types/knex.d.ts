@@ -23,6 +23,7 @@ declare module 'knex/types/tables' {
     id: string
     name: string
     slug: string
+    invite_sent: boolean
     created_at: Date
     updated_at: Date
   }

@@ -20,6 +20,7 @@ export async function updateGroup(request: FastifyRequest, reply: FastifyReply) 
   const schema = z.object({
     name: z.string().min(2).max(128).optional(),
     slug: z.string().optional(),
+    invite_sent: z.boolean().optional(),
   })
 
   const body = schema.parse(request.body)
@@ -31,6 +32,7 @@ export async function updateGroup(request: FastifyRequest, reply: FastifyReply) 
 
   const updatedName = body.name ?? group.name
   const updatedSlug = body.slug?.trim() ? slugify(body.slug) : slugify(updatedName)
+  const updatedInviteSent = body.invite_sent ?? group.invite_sent
 
   if (updatedSlug !== group.slug) {
     const conflict = await knex('groups').where({ slug: updatedSlug }).whereNot({ id }).first()
@@ -41,8 +43,8 @@ export async function updateGroup(request: FastifyRequest, reply: FastifyReply) 
 
   const [updated] = await knex('groups')
     .where({ id })
-    .update({ name: updatedName, slug: updatedSlug })
-    .returning(['id', 'name', 'slug'])
+    .update({ name: updatedName, slug: updatedSlug, invite_sent: updatedInviteSent })
+    .returning(['id', 'name', 'slug', 'invite_sent'])
 
   return reply.send({ group: updated })
 }

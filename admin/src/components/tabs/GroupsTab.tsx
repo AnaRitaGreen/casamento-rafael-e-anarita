@@ -160,6 +160,15 @@ export function GroupsTab() {
     }
   }
 
+  const handleToggleInvite = async (group: AdminGroup) => {
+    try {
+      await updateGroup(group.id, { name: group.name, invite_sent: !group.invite_sent })
+      loadGroups()
+    } catch (err: any) {
+      alert('Erro ao atualizar status do convite.')
+    }
+  }
+
   const openEdit = (group: AdminGroup) => {
     setEditing(group)
     setIsModalOpen(true)
@@ -204,6 +213,7 @@ export function GroupsTab() {
                 <th className="guests-th">Nome</th>
                 <th className="guests-th">Slug (URL)</th>
                 <th className="guests-th">Link do Convite</th>
+                <th className="guests-th" style={{ textAlign: 'center' }}>Enviado?</th>
                 <th className="guests-th">Convidados</th>
                 <th className="guests-th">Ações</th>
               </tr>
@@ -211,7 +221,7 @@ export function GroupsTab() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--texto-suave)' }}>
+                  <td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--texto-suave)' }}>
                     Nenhum grupo encontrado.
                   </td>
                 </tr>
@@ -235,6 +245,15 @@ export function GroupsTab() {
                       >
                         🔗 /{g.slug}
                       </a>
+                    </td>
+                    <td className="guests-td" style={{ textAlign: 'center' }}>
+                      <input 
+                        type="checkbox" 
+                        checked={g.invite_sent || false} 
+                        onChange={() => handleToggleInvite(g)}
+                        style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: 'var(--lavanda-dark)' }}
+                        title={g.invite_sent ? 'Convite já enviado' : 'Marcar como enviado'}
+                      />
                     </td>
                     <td className="guests-td">
                       <div style={{ display: 'flex', gap: '0.25rem', fontSize: '0.85rem' }}>

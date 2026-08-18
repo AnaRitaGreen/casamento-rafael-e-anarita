@@ -24,6 +24,7 @@ export interface AdminGroup {
   id: string
   name: string
   slug: string
+  invite_sent: boolean
   total_guests?: number
   attending_guests?: number
   declined_guests?: number
@@ -32,6 +33,7 @@ export interface AdminGroup {
 export interface AdminGroupPayload {
   name: string
   slug?: string
+  invite_sent?: boolean
 }
 
 export interface AdminMessage {
