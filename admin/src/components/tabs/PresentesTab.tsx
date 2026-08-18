@@ -104,6 +104,7 @@ export function PresentesTab() {
               <tr style={{ background: 'rgba(171,147,224,0.1)', borderBottom: '2px solid rgba(171,147,224,0.2)' }}>
                 <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Presente</th>
                 <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Preço</th>
+                <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Link</th>
                 <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Status</th>
                 <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Quem Reservou</th>
                 <th style={{ padding: '1rem 1.25rem', textAlign: 'center', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--lavanda-dark)' }}>Ações</th>
@@ -119,6 +120,16 @@ export function PresentesTab() {
                   </td>
                   <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--lavanda-dark)', verticalAlign: 'middle', fontWeight: 700 }}>
                     {Number(p.value).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  </td>
+                  <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', color: 'var(--texto)', verticalAlign: 'middle' }}>
+                    <a
+                        href={p.link || ''}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--lavanda-dark)', fontSize: '0.82rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
+                      >
+                        🔗 /link
+                      </a>
                   </td>
                   <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.9rem', verticalAlign: 'middle' }}>
                     {p.reserved ? <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(173, 235, 179, 0.35)', color: 'var(--menta-dark)' }}>✅ Reservado</span> : <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(224, 192, 123, 0.3)', color: '#9a7820' }}>⬜ Disponível</span>}
