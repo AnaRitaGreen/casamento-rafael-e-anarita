@@ -238,9 +238,9 @@ export function GroupsTab() {
                     </td>
                     <td className="guests-td">
                       <div style={{ display: 'flex', gap: '0.25rem', fontSize: '0.85rem' }}>
-                        <span style={{ background: 'rgba(171,147,224,0.1)', color: 'var(--lavanda-dark)', padding: '2px', borderRadius: '4px', fontWeight: 500 }} title="Total de Convidados">{g.total_guests || 0}</span>
-                        <span style={{ background: 'rgba(76,175,80,0.1)', color: '#4caf50', padding: '2px', borderRadius: '4px', fontWeight: 500 }} title="Confirmados (Irão)">{g.attending_guests || 0}</span>
-                        <span style={{ background: 'rgba(244,67,54,0.1)', color: '#f44336', padding: '2px', borderRadius: '4px', fontWeight: 500 }} title="Recusados (Não irão)">{g.declined_guests || 0}</span>
+                        <span style={{ color: 'var(--lavanda-dark)', fontWeight: 500 }} title="Total de Convidados">{g.total_guests || 0}</span>/
+                        <span style={{ color: '#4caf50', fontWeight: 500 }} title="Confirmados (Irão)">{g.attending_guests || 0}</span>/
+                        <span style={{ color: '#f44336', fontWeight: 500 }} title="Recusados (Não irão)">{g.declined_guests || 0}</span>
                       </div>
                     </td>
                     <td className="guests-td">
