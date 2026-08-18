@@ -24,6 +24,9 @@ export interface AdminGroup {
   id: string
   name: string
   slug: string
+  total_guests?: number
+  attending_guests?: number
+  declined_guests?: number
 }
 
 export interface AdminGroupPayload {

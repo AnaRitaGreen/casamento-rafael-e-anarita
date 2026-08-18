@@ -204,13 +204,14 @@ export function GroupsTab() {
                 <th className="guests-th">Nome</th>
                 <th className="guests-th">Slug (URL)</th>
                 <th className="guests-th">Link do Convite</th>
+                <th className="guests-th">Convidados</th>
                 <th className="guests-th">Ações</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={4} style={{ textAlign: 'center', padding: '2rem', color: 'var(--texto-suave)' }}>
+                  <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--texto-suave)' }}>
                     Nenhum grupo encontrado.
                   </td>
                 </tr>
@@ -234,6 +235,13 @@ export function GroupsTab() {
                       >
                         🔗 /{g.slug}
                       </a>
+                    </td>
+                    <td className="guests-td">
+                      <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.85rem' }}>
+                        <span style={{ background: 'rgba(171,147,224,0.1)', color: 'var(--lavanda-dark)', padding: '2px 6px', borderRadius: '4px', fontWeight: 500 }} title="Total de Convidados">{g.total_guests || 0} Total</span>
+                        <span style={{ background: 'rgba(76,175,80,0.1)', color: '#4caf50', padding: '2px 6px', borderRadius: '4px', fontWeight: 500 }} title="Confirmados (Irão)">{g.attending_guests || 0} Irão</span>
+                        <span style={{ background: 'rgba(244,67,54,0.1)', color: '#f44336', padding: '2px 6px', borderRadius: '4px', fontWeight: 500 }} title="Recusados (Não irão)">{g.declined_guests || 0} Não Irão</span>
+                      </div>
                     </td>
                     <td className="guests-td">
                       <button
