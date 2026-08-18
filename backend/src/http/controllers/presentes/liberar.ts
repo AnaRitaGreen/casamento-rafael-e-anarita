@@ -9,7 +9,7 @@ export async function liberarReserva(request: FastifyRequest, reply: FastifyRepl
 
   const updated = await knex('gifts')
     .where({ id, reserved: true })
-    .update({ reserved: false, reserved_by: undefined, reserved_at: undefined, updated_at: new Date() })
+    .update({ reserved: false, reserved_by: null, reserved_at: null, updated_at: new Date() })
 
   if (!updated) {
     return reply.status(404).send({ message: 'Presente não encontrado ou já está disponível.' })
