@@ -146,6 +146,27 @@ function TableColumn({
   )
 }
 
+function UnseatedContainer({ unseatedGuests }: { unseatedGuests: AdminGuest[] }) {
+  const { setNodeRef } = useSortable({
+    id: 'unseated',
+    data: { type: 'Unseated' },
+  })
+
+  return (
+    <Box ref={setNodeRef} minH="400px" pb="20">
+      <SortableContext
+        id="unseated"
+        items={unseatedGuests.map(g => g.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {unseatedGuests.map(g => (
+          <SortableGuestItem key={g.id} guest={g} />
+        ))}
+      </SortableContext>
+    </Box>
+  )
+}
+
 // ── Main Page ───────────────────────────────────────────────────────────── //
 
 export function Tables() {
@@ -382,17 +403,7 @@ export function Tables() {
               {unseatedGuests.length} convidados aguardando
             </Text>
 
-            <SortableContext
-              id="unseated"
-              items={unseatedGuests.map(g => g.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              <Box minH="400px" pb="20">
-                {unseatedGuests.map(g => (
-                  <SortableGuestItem key={g.id} guest={g} />
-                ))}
-              </Box>
-            </SortableContext>
+            <UnseatedContainer unseatedGuests={unseatedGuests} />
           </Box>
 
           {/* Right Panel: Tables Grid */}
