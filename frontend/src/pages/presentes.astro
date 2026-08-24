@@ -322,8 +322,15 @@ const pixTitular = wedding.pix.titular;
       <div id="modal-step-15" style="display:none;">
         <div style="text-align:center; margin-bottom:1.5rem;">
           <div style="font-size:2.5rem; margin-bottom:0.5rem;">✅</div>
-          <h3 class="font-cursive" style="font-size:1.5rem; color:var(--menta-dark); margin-bottom:0.25rem;">Reservado!</h3>
-          <p style="color:var(--texto-suave); font-size:0.9rem;">Como você prefere presentear?</p>
+          <h3
+            class="font-cursive"
+            style="font-size:1.5rem; color:var(--menta-dark); margin-bottom:0.25rem;"
+          >
+            Reservado!
+          </h3>
+          <p style="color:var(--texto-suave); font-size:0.9rem;">
+            Como você prefere presentear?
+          </p>
         </div>
         <div class="modal-method-grid">
           <button
@@ -572,7 +579,7 @@ const pixTitular = wedding.pix.titular;
                     class="btn-primary"
                     style="padding:0.45rem 1rem; font-size:0.85rem;"
                     onclick="openReserveModal('${p.id}')"
-                   >🎁 Presentear</button>`
+                   >🎁 Ver Presente</button>`
               }
             </div>
           </div>
@@ -642,7 +649,10 @@ const pixTitular = wedding.pix.titular;
     document.getElementById("presenteador-nome").style.borderColor = "";
 
     const btnReservar = document.getElementById("btn-reservar");
-    if (btnReservar) { btnReservar.disabled = true; btnReservar.textContent = "Reservando..."; }
+    if (btnReservar) {
+      btnReservar.disabled = true;
+      btnReservar.textContent = "Reservando...";
+    }
 
     try {
       await reservarPresente(selectedPresente.id, { nome });
@@ -671,7 +681,10 @@ const pixTitular = wedding.pix.titular;
         );
       }
     } finally {
-      if (btnReservar) { btnReservar.disabled = false; btnReservar.textContent = "🎁 Reservar"; }
+      if (btnReservar) {
+        btnReservar.disabled = false;
+        btnReservar.textContent = "🎁 Reservar";
+      }
     }
   }
 

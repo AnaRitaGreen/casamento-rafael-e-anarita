@@ -22,6 +22,11 @@ import { updatePresente } from '../controllers/presentes/update.js'
 import { deletePresente } from '../controllers/presentes/delete.js'
 import { liberarReserva } from '../controllers/presentes/liberar.js'
 
+import { listTables } from '../controllers/tables/list.js'
+import { generateTables } from '../controllers/tables/generate.js'
+import { updateTable } from '../controllers/tables/update.js'
+import { deleteTable } from '../controllers/tables/delete.js'
+import { assignGuestToTable } from '../controllers/tables/assign-guest.js'
 export async function adminRoutes(app: FastifyInstance) {
   app.patch('/token/refresh', refreshAccessToken)
   app.get('/me', data)
@@ -46,4 +51,11 @@ export async function adminRoutes(app: FastifyInstance) {
   app.put('/presentes/:id',          updatePresente)
   app.delete('/presentes/:id',       deletePresente)
   app.post('/presentes/:id/liberar', liberarReserva)
+
+  // ── Mesas ─────────────────────────────────────────────────── //
+  app.get('/tables',                 listTables)
+  app.post('/tables/generate',       generateTables)
+  app.put('/tables/:id/capacity',    updateTable)
+  app.delete('/tables/:id',          deleteTable)
+  app.put('/guests/:id/table',       assignGuestToTable)
 }

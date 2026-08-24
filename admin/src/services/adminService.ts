@@ -1,4 +1,4 @@
-import { api } from '../lib/axios'
+import { api } from '@/lib/axios'
 
 // ── Tipos ─────────────────────────────────────────────────────── //
 
@@ -62,6 +62,17 @@ export interface AdminPresentePayload {
   value: number
   image?: string
   link?: string
+}
+
+export interface AdminTable {
+  id: string
+  table_number: number
+  capacity: number
+  guests?: AdminGuest[]
+}
+
+export interface AdminTableUpdate {
+  capacity: number
 }
 
 // ── Auth ───────────────────────────────────────────────────────── //
@@ -166,4 +177,27 @@ export async function deletePresente(id: string): Promise<void> {
 
 export async function liberarReservaPresente(id: string): Promise<void> {
   await api.post(`/api/admin/presentes/${id}/liberar`, {}, { withCredentials: true })
+}
+
+// ── Mesas ─────────────────────────────────────────────────────── //
+
+export async function getAdminTables(): Promise<{ tables: AdminTable[]; unseated_guests: AdminGuest[] }> {
+  const { data } = await api.get('/api/admin/tables', { withCredentials: true })
+  return data
+}
+
+export async function generateTables(count: number, capacity: number): Promise<void> {
+  await api.post('/api/admin/tables/generate', { count, capacity }, { withCredentials: true })
+}
+
+export async function updateTableCapacity(id: string, capacity: number): Promise<void> {
+  await api.put(`/api/admin/tables/${id}/capacity`, { capacity }, { withCredentials: true })
+}
+
+export async function deleteTable(id: string): Promise<void> {
+  await api.delete(`/api/admin/tables/${id}`, { withCredentials: true })
+}
+
+export async function assignGuestToTable(guestId: string, table_id: string | null): Promise<void> {
+  await api.put(`/api/admin/guests/${guestId}/table`, { table_id }, { withCredentials: true })
 }

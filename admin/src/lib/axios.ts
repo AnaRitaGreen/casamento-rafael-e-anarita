@@ -65,7 +65,7 @@ api.interceptors.response.use(
             failedRequestsQueue = []
             Cookies.remove('convite-casamento.access')
             Cookies.remove('convite-casamento.refresh')
-            window.location.href = '/admin/login'
+            window.location.href = '/login'
           })
           .finally(() => {
             isRefreshing = false
