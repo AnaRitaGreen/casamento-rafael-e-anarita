@@ -24,7 +24,6 @@ import {
 } from '@dnd-kit/core'
 import {
   SortableContext,
-  arrayMove,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   useSortable,
@@ -228,7 +227,7 @@ export function Tables() {
     }
   }
 
-  const handleDragOver = (event: DragOverEvent) => {
+  const handleDragOver = (_event: DragOverEvent) => {
     // Only handle optimistic UI updates here if needed, but we'll do the actual move in DragEnd
   }
 

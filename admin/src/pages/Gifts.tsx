@@ -19,6 +19,8 @@ import {
 import { PresenteModal } from '@/components/modal/PresenteModal'
 import { useNavigate } from 'react-router-dom'
 
+const ABox = Box as any;
+
 export function Gifts() {
   const [presentes, setPresentes] = useState<AdminPresente[]>([])
   const [presentesMetrics, setPresentesMetrics] = useState({ total: 0, reservados: 0, disponiveis: 0 })
@@ -167,7 +169,7 @@ export function Gifts() {
                     {Number(p.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </Table.Cell>
                   <Table.Cell px="5" py="3">
-                    <Box
+                    <ABox
                       as="a"
                       href={p.link || ''}
                       target="_blank"
@@ -177,7 +179,7 @@ export function Gifts() {
                       _hover={{ textDecoration: 'underline' }}
                     >
                       🔗 /link
-                    </Box>
+                    </ABox>
                   </Table.Cell>
                   <Table.Cell px="5" py="3">
                     {p.reserved ? (

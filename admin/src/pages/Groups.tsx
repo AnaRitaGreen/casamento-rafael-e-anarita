@@ -18,6 +18,8 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { GroupModal } from '@/components/modal/GroupModal'
 
+const ABox = Box as any;
+
 export function Groups() {
   const [groups, setGroups] = useState<AdminGroup[]>([])
   const [search, setSearch] = useState('')
@@ -139,7 +141,7 @@ export function Groups() {
                       </Badge>
                     </Table.Cell>
                     <Table.Cell px="5" py="3">
-                      <Box
+                      <ABox
                         as="a"
                         href={`https://convite-casamento.digital/${g.slug}`}
                         target="_blank"
@@ -149,7 +151,7 @@ export function Groups() {
                         _hover={{ textDecoration: 'underline' }}
                       >
                         🔗 /{g.slug}
-                      </Box>
+                      </ABox>
                     </Table.Cell>
                     <Table.Cell px="5" py="3" textAlign="center">
                       <input

@@ -13,6 +13,8 @@ import { getAdminGuests, deleteGuest as deleteGuestApi, type AdminGuest } from '
 import { GuestModal } from '@/components/modal/GuestModal'
 import { useNavigate } from 'react-router-dom'
 
+const SelectBox = Box as any;
+
 export function Guests() {
   const [allGuests, setAllGuests] = useState<AdminGuest[]>([])
   const [filteredGuests, setFilteredGuests] = useState<AdminGuest[]>([])
@@ -124,7 +126,7 @@ export function Guests() {
           value={guestSearch}
           onChange={(e) => setGuestSearch(e.target.value)}
         />
-        <Box
+        <SelectBox
           as="select"
           px="4"
           py="2"
@@ -141,7 +143,7 @@ export function Guests() {
           <option value="attending">✅ Confirmados</option>
           <option value="declined">❌ Não vão</option>
           <option value="pending">⏳ Pendentes</option>
-        </Box>
+        </SelectBox>
       </Flex>
 
       <Box

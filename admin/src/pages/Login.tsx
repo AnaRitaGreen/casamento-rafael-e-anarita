@@ -11,6 +11,10 @@ import {
 import { Eye, EyeOff } from 'lucide-react'
 import { adminLogin } from '@/services/adminService'
 
+const LabelText = Text as any;
+const ButtonFlex = Flex as any;
+const ABox = Box as any;
+
 export function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -71,7 +75,7 @@ export function Login() {
 
         <form onSubmit={handleLogin}>
           <Box mb="5">
-            <Text
+            <LabelText
               as="label"
               htmlFor="username"
               display="block"
@@ -81,7 +85,7 @@ export function Login() {
               mb="1.5"
             >
               Usuário
-            </Text>
+            </LabelText>
             <Input
               type="text"
               id="username"
@@ -99,7 +103,7 @@ export function Login() {
           </Box>
 
           <Box mb="7">
-            <Text
+            <LabelText
               as="label"
               htmlFor="password"
               display="block"
@@ -109,7 +113,7 @@ export function Login() {
               mb="1.5"
             >
               Senha
-            </Text>
+            </LabelText>
             <Box position="relative">
               <Input
                 type={showPassword ? 'text' : 'password'}
@@ -126,7 +130,7 @@ export function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Flex
+              <ButtonFlex
                 as="button"
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -145,7 +149,7 @@ export function Login() {
                 aria-label="Mostrar/ocultar senha"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </Flex>
+              </ButtonFlex>
             </Box>
           </Box>
 
@@ -178,7 +182,7 @@ export function Login() {
         </form>
 
         <Text textAlign="center" mt="6">
-          <Box
+          <ABox
             as="a"
             href="/"
             color="purple.500"
@@ -188,7 +192,7 @@ export function Login() {
             _hover={{ opacity: 1 }}
           >
             ← Voltar ao site
-          </Box>
+          </ABox>
         </Text>
       </Box>
     </Flex>

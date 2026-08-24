@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Box, Button, Flex, Heading, Input, Text } from '@chakra-ui/react'
 import { createGuest, updateGuest, getAdminGroups, type AdminGroup } from '@/services/adminService'
 
+const SelectBox = Box as any;
+const LabelText = Text as any;
+
 interface GuestModalProps {
   isOpen: boolean
   onClose: () => void
@@ -34,7 +37,7 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
     try {
       const data = await getAdminGroups()
       setGroups(data)
-    } catch {}
+    } catch { }
   }
 
   const saveGuest = async (e: React.FormEvent) => {
@@ -100,7 +103,7 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
             <Text fontSize="sm" fontWeight="600" color="gray.600" mb="1.5">
               Grupo Familiar
             </Text>
-            <Box
+            <SelectBox
               as="select"
               w="100%"
               px="4"
@@ -114,12 +117,12 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
               onChange={(e: any) => setGuestForm({ ...guestForm, group_id: e.target.value })}
             >
               <option value="">— Sem grupo / criar novo —</option>
-              {groups.map((g) => (
+              {groups.map((g: AdminGroup) => (
                 <option key={g.id} value={g.id}>
                   {g.name}
                 </option>
               ))}
-            </Box>
+            </SelectBox>
           </Box>
           <Box mb="4">
             <Text fontSize="sm" fontWeight="600" color="gray.600" mb="1.5">
@@ -141,9 +144,9 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
               checked={guestForm.is_child}
               onChange={(e) => setGuestForm({ ...guestForm, is_child: e.target.checked })}
             />
-            <Text as="label" htmlFor="g-crianca" fontSize="sm" cursor="pointer">
+            <LabelText as="label" htmlFor="g-crianca" fontSize="sm" cursor="pointer">
               É criança?
-            </Text>
+            </LabelText>
           </Flex>
           <Flex gap="3">
             <Button type="button" flex="1" variant="outline" borderRadius="full" onClick={onClose}>
