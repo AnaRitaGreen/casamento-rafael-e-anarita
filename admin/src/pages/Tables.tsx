@@ -401,7 +401,7 @@ export function Tables() {
   }
 
   return (
-    <Box>
+    <Box userSelect="none">
       <Flex justify="space-between" align="flex-start" flexWrap="wrap" gap="4" mb="6">
         <Box>
           <Heading as="h1" size="3xl" color="purple.600" mb="1">
@@ -451,7 +451,11 @@ export function Tables() {
             borderRadius="xl"
             borderWidth="1px"
             borderColor="gray.200"
-            minH="500px"
+            minH="calc(100vh - 200px)"
+            position={{ base: 'static', lg: 'sticky' }}
+            top="-24px"
+            maxH="calc(100vh - 200px)"
+            overflowY="auto"
           >
             <Heading size="md" mb="2" color="gray.700">Sem Mesa</Heading>
             <Text fontSize="sm" color="gray.500" mb="4">

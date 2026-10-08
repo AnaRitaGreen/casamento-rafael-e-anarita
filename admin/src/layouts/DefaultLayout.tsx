@@ -10,7 +10,7 @@ function LayoutInner() {
   const isDark = colorMode === 'dark'
 
   return (
-    <Flex minH="100vh">
+    <Flex h="100vh" overflow="hidden">
       <Sidebar />
       <Flex direction="column" flex="1" minW="0">
         {/* Mobile top bar */}
@@ -45,6 +45,7 @@ function LayoutInner() {
           p={{ base: '4', md: '6' }}
           gap="4"
           overflowX="auto"
+          overflowY="auto"
         >
           <Outlet />
         </Flex>
