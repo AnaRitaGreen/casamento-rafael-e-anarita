@@ -143,10 +143,9 @@ export async function getAdminMessages(): Promise<AdminMessage[]> {
 
 // ── Exportação ────────────────────────────────────────────────── //
 
-export async function exportGuestsCSV(onlyConfirmed = false): Promise<Blob> {
-  const params = onlyConfirmed ? { status: 'confirmed' } : {}
-  const { data } = await api.get<Blob>('/api/admin/export/csv', {
-    params,
+export async function exportGuestsPDF(type: 'all' | 'confirmed' | 'tables' = 'all'): Promise<Blob> {
+  const { data } = await api.get<Blob>('/api/admin/export/pdf', {
+    params: { type },
     responseType: 'blob',
     withCredentials: true,
   })

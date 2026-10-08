@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Button, Flex, Grid, Heading, Text, Spinner } from '@chakra-ui/react'
 import { Download } from 'lucide-react'
-import { exportGuestsCSV, getAdminGuests } from '@/services/adminService'
+import { exportGuestsPDF, getAdminGuests } from '@/services/adminService'
 import { useNavigate } from 'react-router-dom'
 import { StatCard } from '@/components/StatCard'
 
@@ -14,12 +14,12 @@ export function Dashboard() {
     loadOverview()
   }, [])
 
-  const exportCSVData = async (type: string) => {
+  const exportPDFData = async (type: 'all' | 'confirmed' | 'tables') => {
     try {
-      const blob = await exportGuestsCSV(type === 'confirmed')
+      const blob = await exportGuestsPDF(type)
       const a = document.createElement('a')
       a.href = URL.createObjectURL(blob)
-      a.download = `convidados_${type}_${new Date().toISOString().slice(0, 10)}.csv`
+      a.download = `convidados_${type}_${new Date().toISOString().slice(0, 10)}.pdf`
       a.click()
     } catch {
       alert('Erro ao exportar. Verifique se o backend está rodando.')
@@ -139,20 +139,20 @@ export function Dashboard() {
             boxShadow="sm"
           >
             <Heading as="h3" size="lg" color="purple.600" mb="2">
-              📊 Lista Completa (CSV)
+              📄 Lista Completa (PDF)
             </Heading>
             <Text color="gray.500" fontSize="sm" mb="5">
-              Todos os convidados com nome, grupo, status e restrições alimentares.
+              Todos os convidados com nome, grupo e status.
             </Text>
             <Button
               w="100%"
               colorPalette="purple"
-              onClick={() => exportCSVData('all')}
+              onClick={() => exportPDFData('all')}
               size="lg"
               borderRadius="full"
             >
               <Download size={16} />
-              Baixar CSV Completo
+              Baixar Todos
             </Button>
           </Box>
           <Box
@@ -164,7 +164,7 @@ export function Dashboard() {
             boxShadow="sm"
           >
             <Heading as="h3" size="lg" color="green.600" mb="2">
-              ✅ Apenas Confirmados (CSV)
+              ✅ Apenas Confirmados (PDF)
             </Heading>
             <Text color="gray.500" fontSize="sm" mb="5">
               Somente os convidados que confirmaram presença.
@@ -173,12 +173,38 @@ export function Dashboard() {
               w="100%"
               variant="outline"
               colorPalette="green"
-              onClick={() => exportCSVData('confirmed')}
+              onClick={() => exportPDFData('confirmed')}
               size="lg"
               borderRadius="full"
             >
               <Download size={16} />
               Baixar Confirmados
+            </Button>
+          </Box>
+          <Box
+            bg="bg.panel"
+            borderRadius="2xl"
+            p="6"
+            borderWidth="1px"
+            borderColor="border"
+            boxShadow="sm"
+          >
+            <Heading as="h3" size="lg" color="blue.600" mb="2">
+              🪑 Confirmados por Mesa (PDF)
+            </Heading>
+            <Text color="gray.500" fontSize="sm" mb="5">
+              Lista dos convidados confirmados, agrupados e ordenados por mesa.
+            </Text>
+            <Button
+              w="100%"
+              variant="outline"
+              colorPalette="blue"
+              onClick={() => exportPDFData('tables')}
+              size="lg"
+              borderRadius="full"
+            >
+              <Download size={16} />
+              Baixar por Mesas
             </Button>
           </Box>
         </Grid>

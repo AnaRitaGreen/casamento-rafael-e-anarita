@@ -5,6 +5,7 @@ import { verifyJWT } from '../middlewares/verify-jwt.js'
 import { logoutAdmin } from '../controllers/admin/logout.js'
 import { refreshAccessToken } from '../controllers/admin/refresh-access-token.js'
 import { data } from '../controllers/admin/data.js'
+import { exportGuestsPDF } from '../controllers/admin/export-pdf.js'
 
 import { listGuests } from '../controllers/convidados/list.js'
 import { createGuest } from '../controllers/convidados/create.js'
@@ -32,6 +33,7 @@ export async function adminRoutes(app: FastifyInstance) {
   app.patch('/token/refresh', refreshAccessToken)
   app.get('/me', data)
   app.post('/logout', logoutAdmin)
+  app.get('/export/pdf', exportGuestsPDF)
 
   // ── Convidados ────────────────────────────────────────────── //
   app.get('/guests',    listGuests)
