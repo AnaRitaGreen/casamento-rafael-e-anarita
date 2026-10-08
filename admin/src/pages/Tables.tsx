@@ -36,6 +36,7 @@ import {
   updateTableCapacity,
   deleteTable,
   assignGuestToTable,
+  swapTables,
   type AdminTable,
   type AdminGuest,
 } from '@/services/adminService'
@@ -86,11 +87,19 @@ function TableColumn({
   guests,
   onDelete,
   onUpdateCapacity,
+  swapSourceTableId,
+  onStartSwap,
+  onCancelSwap,
+  onCompleteSwap,
 }: {
   table: AdminTable
   guests: AdminGuest[]
   onDelete: (id: string) => void
   onUpdateCapacity: (id: string, cap: number) => void
+  swapSourceTableId: string | null
+  onStartSwap: (id: string) => void
+  onCancelSwap: () => void
+  onCompleteSwap: (id: string) => void
 }) {
   const isFull = guests.length >= table.capacity
 
@@ -99,13 +108,16 @@ function TableColumn({
     data: { type: 'Table', tableId: table.id },
   })
 
+  const isSwapSource = swapSourceTableId === table.id
+  const isSwapping = swapSourceTableId !== null
+
   return (
     <Box
       bg="bg.panel"
       p="4"
       borderRadius="xl"
-      borderWidth="1px"
-      borderColor={isFull ? 'red.200' : 'purple.200'}
+      borderWidth={isSwapSource ? '2px' : '1px'}
+      borderColor={isSwapSource ? 'purple.500' : (isFull ? 'red.200' : 'purple.200')}
       boxShadow="sm"
       display="flex"
       flexDirection="column"
@@ -116,13 +128,32 @@ function TableColumn({
           {guests.length} / {table.capacity}
         </Badge>
       </Flex>
-      <Flex justify="space-between" mb="3">
-        <Button size="xs" variant="ghost" onClick={() => {
-          const cap = prompt('Nova capacidade:', String(table.capacity))
-          if (cap && !isNaN(Number(cap))) onUpdateCapacity(table.id, Number(cap))
-        }}>
-          ✏️ Cap.
-        </Button>
+      <Flex justify="space-between" mb="3" wrap="wrap" gap="2">
+        <Flex gap="2">
+          <Button size="xs" variant="ghost" onClick={() => {
+            const cap = prompt('Nova capacidade:', String(table.capacity))
+            if (cap && !isNaN(Number(cap))) onUpdateCapacity(table.id, Number(cap))
+          }}>
+            ✏️ Cap.
+          </Button>
+          {!isSwapping && (
+            <Button size="xs" variant="ghost" colorPalette="blue" onClick={() => onStartSwap(table.id)}>
+              🔄 Trocar
+            </Button>
+          )}
+          {isSwapping && isSwapSource && (
+            <Button size="xs" variant="solid" colorPalette="red" onClick={onCancelSwap}>
+              ❌ Cancelar Troca
+            </Button>
+          )}
+          {isSwapping && !isSwapSource && (
+            <Button size="xs" variant="solid" colorPalette="blue" onClick={() => onCompleteSwap(table.id)}>
+              ✅ Escolher
+            </Button>
+          )}
+
+        </Flex>
+
         <Button size="xs" variant="ghost" colorPalette="red" onClick={() => onDelete(table.id)}>
           🗑️
         </Button>
@@ -183,6 +214,9 @@ export function Tables() {
   const [genCount, setGenCount] = useState('10')
   const [genCap, setGenCap] = useState('8')
 
+  // Swap state
+  const [swapSourceTableId, setSwapSourceTableId] = useState<string | null>(null)
+
   useEffect(() => {
     loadData()
   }, [])
@@ -231,6 +265,27 @@ export function Tables() {
       await loadData()
     } catch {
       alert('Erro ao deletar mesa')
+    }
+  }
+
+  const handleStartSwap = (id: string) => {
+    setSwapSourceTableId(id)
+  }
+
+  const handleCancelSwap = () => {
+    setSwapSourceTableId(null)
+  }
+
+  const handleCompleteSwap = async (targetId: string) => {
+    if (!swapSourceTableId) return
+    setLoading(true)
+    try {
+      await swapTables(swapSourceTableId, targetId)
+      setSwapSourceTableId(null)
+      await loadData()
+    } catch (err: any) {
+      alert(err?.response?.data?.message || 'Erro ao trocar mesas')
+      setLoading(false)
     }
   }
 
@@ -415,6 +470,10 @@ export function Tables() {
                 guests={table.guests || []}
                 onDelete={handleDelete}
                 onUpdateCapacity={handleUpdateCapacity}
+                swapSourceTableId={swapSourceTableId}
+                onStartSwap={handleStartSwap}
+                onCancelSwap={handleCancelSwap}
+                onCompleteSwap={handleCompleteSwap}
               />
             ))}
           </Grid>
