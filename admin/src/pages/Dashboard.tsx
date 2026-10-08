@@ -129,7 +129,7 @@ export function Dashboard() {
         <Text color="gray.500" mb="6">
           Baixe a lista de convidados para compartilhar com o cerimonial
         </Text>
-        <Grid gap="5" templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}>
+        <Grid gap="5" templateColumns={{ base: '1fr', lg: 'repeat(3, 1fr)' }}>
           <Box
             bg="bg.panel"
             borderRadius="2xl"
