@@ -27,6 +27,7 @@ import { generateTables } from '../controllers/tables/generate.js'
 import { updateTable } from '../controllers/tables/update.js'
 import { deleteTable } from '../controllers/tables/delete.js'
 import { assignGuestToTable } from '../controllers/tables/assign-guest.js'
+import { swapTables } from '../controllers/tables/swap.js'
 export async function adminRoutes(app: FastifyInstance) {
   app.patch('/token/refresh', refreshAccessToken)
   app.get('/me', data)
@@ -55,6 +56,7 @@ export async function adminRoutes(app: FastifyInstance) {
   // ── Mesas ─────────────────────────────────────────────────── //
   app.get('/tables',                 listTables)
   app.post('/tables/generate',       generateTables)
+  app.post('/tables/swap',           swapTables)
   app.put('/tables/:id/capacity',    updateTable)
   app.delete('/tables/:id',          deleteTable)
   app.put('/guests/:id/table',       assignGuestToTable)

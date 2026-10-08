@@ -201,3 +201,7 @@ export async function deleteTable(id: string): Promise<void> {
 export async function assignGuestToTable(guestId: string, table_id: string | null): Promise<void> {
   await api.put(`/api/admin/guests/${guestId}/table`, { table_id }, { withCredentials: true })
 }
+
+export async function swapTables(table1_id: string, table2_id: string): Promise<void> {
+  await api.post('/api/admin/tables/swap', { table1_id, table2_id }, { withCredentials: true })
+}
