@@ -11,7 +11,7 @@ export async function generateTables(request: FastifyRequest, reply: FastifyRepl
 
   const { count, capacity } = schema.parse(request.body)
 
-  const currentMax = await knex('tables').max('table_number as max').first()
+  const currentMax = await knex('tables').max('table_number as max').first() as { max: string | number } | undefined
   let nextNumber = currentMax?.max ? Number(currentMax.max) + 1 : 1
 
   const tablesToInsert = []

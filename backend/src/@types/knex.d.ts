@@ -31,6 +31,7 @@ declare module 'knex/types/tables' {
   export interface Guests {
     id: string
     group_id: string
+    table_id: string | null
     name: string
     is_child: boolean
     rsvp_status: 'pending' | 'attending' | 'declined'
@@ -47,8 +48,9 @@ declare module 'knex/types/tables' {
     image: string
     value: number
     reserved: boolean
-    reserved_by: string
-    reserved_at: Date
+    reserved_by: string | null
+    reserved_by_slug: string | null
+    reserved_at: Date | null
     created_at: Date
     updated_at: Date
   }
@@ -61,6 +63,14 @@ declare module 'knex/types/tables' {
     updated_at: Date
   }
 
+  export interface Table {
+    id: string
+    table_number: number
+    capacity: number
+    created_at: Date
+    updated_at: Date
+  }
+
   export interface Tables {
     admins: Admin
     admin_refresh_tokens: AdminsRefreshTokens
@@ -68,5 +78,6 @@ declare module 'knex/types/tables' {
     guests: Guests
     gifts: Gifts
     group_messages: GroupMessages
+    tables: Table
   }
 }

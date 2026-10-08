@@ -21,7 +21,7 @@ export async function assignGuestToTable(request: FastifyRequest, reply: Fastify
       return reply.status(404).send({ message: 'Mesa não encontrada' })
     }
 
-    const currentGuests = await knex('guests').where({ table_id }).count('id as count').first()
+    const currentGuests = await knex('guests').where({ table_id }).count('id as count').first() as { count: string | number } | undefined
     if (Number(currentGuests?.count) >= table.capacity) {
       // Check if we are just moving the guest from same table, if not, it's full
       const guest = await knex('guests').where({ id }).first()

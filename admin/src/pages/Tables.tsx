@@ -41,10 +41,13 @@ import {
   type AdminGuest,
 } from '@/services/adminService'
 import { useNavigate } from 'react-router-dom'
+import { useTheme } from 'next-themes'
 
 // ── Components ──────────────────────────────────────────────────────────── //
 
 function SortableGuestItem({ guest }: { guest: AdminGuest }) {
+  const { theme } = useTheme()
+
   const {
     attributes,
     listeners,
@@ -68,9 +71,9 @@ function SortableGuestItem({ guest }: { guest: AdminGuest }) {
       {...listeners}
       p="3"
       mb="2"
-      bg="white"
+      bg={theme === "light" ? "white" : "gray.800"}
       borderWidth="1px"
-      borderColor="gray.200"
+      borderColor={theme === "light" ? "gray.200" : "gray.600"}
       borderRadius="md"
       boxShadow="sm"
       cursor="grab"
@@ -111,19 +114,35 @@ function TableColumn({
   const isSwapSource = swapSourceTableId === table.id
   const isSwapping = swapSourceTableId !== null
 
+  const { theme } = useTheme()
+
+  let cardBgColor = undefined
+  let cardBorderColor = undefined
+
+  switch (theme) {
+    case "light":
+      cardBgColor = isFull ? 'red.50' : 'purple.50'
+      cardBorderColor = isFull ? 'red.200' : 'purple.200'
+      break
+    case "dark":
+      cardBgColor = isFull ? 'red.900' : '#2f055369'
+      cardBorderColor = isFull ? 'red.600' : 'purple.600'
+      break
+  }
+
   return (
     <Box
       bg="bg.panel"
       p="4"
       borderRadius="xl"
-      borderWidth={isSwapSource ? '2px' : '1px'}
-      borderColor={isSwapSource ? 'purple.500' : (isFull ? 'red.200' : 'purple.200')}
+      borderWidth='1px'
+      borderColor={isSwapSource ? 'purple.500' : cardBorderColor}
       boxShadow="sm"
       display="flex"
       flexDirection="column"
     >
       <Flex justify="space-between" align="center" mb="3">
-        <Heading size="md" color="purple.700">Mesa {table.table_number}</Heading>
+        <Heading size="md" color={theme === "light" ? "purple.700" : "purple.400"}>Mesa {table.table_number}</Heading>
         <Badge colorPalette={isFull ? 'red' : 'purple'} variant="subtle">
           {guests.length} / {table.capacity}
         </Badge>
@@ -162,7 +181,7 @@ function TableColumn({
       <Box
         ref={setNodeRef}
         flex="1"
-        bg={isFull ? 'red.50' : 'purple.50'}
+        bg={cardBgColor}
         borderRadius="md"
         p="2"
         minH="150px"
@@ -216,6 +235,8 @@ export function Tables() {
 
   // Swap state
   const [swapSourceTableId, setSwapSourceTableId] = useState<string | null>(null)
+
+  const { theme } = useTheme()
 
   useEffect(() => {
     loadData()
@@ -457,8 +478,8 @@ export function Tables() {
             maxH="calc(100vh - 200px)"
             overflowY="auto"
           >
-            <Heading size="md" mb="2" color="gray.700">Sem Mesa</Heading>
-            <Text fontSize="sm" color="gray.500" mb="4">
+            <Heading size="md" mb="2" color={theme === "light" ? "gray.700" : "gray.300"}>Sem Mesa</Heading>
+            <Text fontSize="sm" color={theme === "light" ? "gray.500" : "gray.400"} mb="4">
               {unseatedGuests.length} convidados aguardando
             </Text>
 

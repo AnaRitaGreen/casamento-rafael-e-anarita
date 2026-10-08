@@ -12,7 +12,7 @@ export async function deleteGroup(request: FastifyRequest, reply: FastifyReply) 
   }
 
   // Verifica se há convidados vinculados
-  const guestsCount = await knex('guests').where({ group_id: id }).count('id as count').first()
+  const guestsCount = await knex('guests').where({ group_id: id }).count('id as count').first() as { count: string | number } | undefined
   if (Number(guestsCount?.count) > 0) {
     return reply.status(400).send({ message: 'Não é possível remover um grupo que possui convidados.' })
   }
