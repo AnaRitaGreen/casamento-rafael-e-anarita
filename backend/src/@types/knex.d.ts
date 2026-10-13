@@ -34,6 +34,7 @@ declare module 'knex/types/tables' {
     table_id: string | null
     name: string
     is_child: boolean
+    buffet_status: 'isento' | 'meia' | 'inteira'
     rsvp_status: 'pending' | 'attending' | 'declined'
     rsvp_responded_at: Date | null
     created_at: Date

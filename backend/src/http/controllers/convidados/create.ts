@@ -16,11 +16,11 @@ export async function createGuest(
     group_name: z.string().min(1).optional(),
     group_slug: z.string().min(1).optional(),
     is_child: z.boolean().default(false),
+    buffet_status: z.enum(['isento', 'meia', 'inteira']).default('inteira'),
   })
 
-  const { name, group_id, group_name, group_slug, is_child } = schema.parse(
-    request.body,
-  )
+  const { name, group_id, group_name, group_slug, is_child, buffet_status } =
+    schema.parse(request.body)
 
   let finalGroupId = group_id ?? null
 
@@ -45,7 +45,13 @@ export async function createGuest(
   }
 
   const [guest] = await knex('guests')
-    .insert({ id: randomUUID(), group_id: finalGroupId, name, is_child })
+    .insert({
+      id: randomUUID(),
+      group_id: finalGroupId,
+      name,
+      is_child,
+      buffet_status,
+    })
     .returning('*')
 
   return reply.status(201).send({ guest })

@@ -15,19 +15,44 @@ interface GuestModalProps {
     group_id: string
     group_name: string
     is_child: boolean
+    buffet_status?: 'isento' | 'meia' | 'inteira'
   }
 }
 
 export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialData }: GuestModalProps) {
-  const [guestForm, setGuestForm] = useState({ name: '', group_id: '', group_name: '', is_child: false })
+  const [guestForm, setGuestForm] = useState<{
+    name: string
+    group_id: string
+    group_name: string
+    is_child: boolean
+    buffet_status: 'isento' | 'meia' | 'inteira'
+  }>({
+    name: '',
+    group_id: '',
+    group_name: '',
+    is_child: false,
+    buffet_status: 'inteira',
+  })
   const [groups, setGroups] = useState<AdminGroup[]>([])
 
   useEffect(() => {
     if (isOpen) {
       if (initialData) {
-        setGuestForm(initialData)
+        setGuestForm({
+          name: initialData.name,
+          group_id: initialData.group_id,
+          group_name: initialData.group_name,
+          is_child: initialData.is_child,
+          buffet_status: initialData.buffet_status || 'inteira',
+        })
       } else {
-        setGuestForm({ name: '', group_id: '', group_name: '', is_child: false })
+        setGuestForm({
+          name: '',
+          group_id: '',
+          group_name: '',
+          is_child: false,
+          buffet_status: 'inteira',
+        })
       }
       loadGroups()
     }
@@ -47,6 +72,7 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
       group_id: guestForm.group_id || undefined,
       group_name: guestForm.group_name || undefined,
       is_child: guestForm.is_child,
+      buffet_status: guestForm.buffet_status,
     }
 
     try {
@@ -58,9 +84,7 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
     }
   }
 
-  if (!isOpen) return null
-
-  return (
+  return !isOpen ? null : (
     <Flex
       position="fixed"
       inset="0"
@@ -136,6 +160,32 @@ export function GuestModal({ isOpen, onClose, onSave, editingGuestId, initialDat
               onChange={(e) => setGuestForm({ ...guestForm, group_name: e.target.value })}
             />
           </Box>
+
+          {/* Seletor de Tipo de Buffet */}
+          <Box mb="4">
+            <Text fontSize="sm" fontWeight="600" color="gray.600" mb="1.5">
+              Cobrança no Buffet *
+            </Text>
+            <SelectBox
+              as="select"
+              w="100%"
+              px="4"
+              py="2.5"
+              borderRadius="xl"
+              borderWidth="1px"
+              borderColor="purple.200"
+              bg="white"
+              fontSize="sm"
+              fontWeight="500"
+              value={guestForm.buffet_status}
+              onChange={(e: any) => setGuestForm({ ...guestForm, buffet_status: e.target.value })}
+            >
+              <option value="inteira">Inteira (Padrão)</option>
+              <option value="meia">Paga Meia</option>
+              <option value="isento">Isento</option>
+            </SelectBox>
+          </Box>
+
           <Flex mb="6" align="center" gap="3">
             <input
               type="checkbox"

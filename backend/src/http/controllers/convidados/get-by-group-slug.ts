@@ -20,7 +20,7 @@ export async function getByGroupSlug(
 
   const guests = await knex('guests')
     .where({ group_id: group.id })
-    .select('id', 'name', 'is_child', 'rsvp_status', 'rsvp_responded_at')
+    .select('id', 'name', 'is_child', 'buffet_status', 'rsvp_status', 'rsvp_responded_at')
     .orderBy('name')
 
   return reply.send({

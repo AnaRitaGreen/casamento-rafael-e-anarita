@@ -13,6 +13,7 @@ export async function listTables(_: FastifyRequest, reply: FastifyReply) {
       'g.name',
       'g.table_id',
       'g.is_child',
+      'g.buffet_status',
       'g.rsvp_status',
       'gr.name as group_name',
     )

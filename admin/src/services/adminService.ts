@@ -9,6 +9,7 @@ export interface AdminGuest {
   group_slug: string | null
   name: string
   is_child: boolean
+  buffet_status?: 'isento' | 'meia' | 'inteira'
   rsvp_status: 'pending' | 'attending' | 'declined'
   rsvp_responded_at: string | null
 }
@@ -18,6 +19,7 @@ export interface AdminGuestPayload {
   group_id?: string
   group_name?: string
   is_child: boolean
+  buffet_status?: 'isento' | 'meia' | 'inteira'
 }
 
 export interface AdminGroup {

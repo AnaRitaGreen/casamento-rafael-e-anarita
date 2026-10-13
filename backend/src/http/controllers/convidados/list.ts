@@ -13,6 +13,7 @@ export async function listGuests(_: FastifyRequest, reply: FastifyReply) {
       'gr.slug as group_slug',
       'g.name',
       'g.is_child',
+      'g.buffet_status',
       'g.rsvp_status',
       'g.rsvp_responded_at',
     )

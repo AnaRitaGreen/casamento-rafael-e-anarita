@@ -14,6 +14,7 @@ export async function updateGuest(
     name: z.string().min(1).optional(),
     group_id: z.string().uuid().optional(),
     is_child: z.boolean().optional(),
+    buffet_status: z.enum(['isento', 'meia', 'inteira']).optional(),
   })
 
   const body = schema.parse(request.body)

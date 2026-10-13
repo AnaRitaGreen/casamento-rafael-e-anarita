@@ -20,6 +20,7 @@ export function Guests() {
   const [filteredGuests, setFilteredGuests] = useState<AdminGuest[]>([])
   const [guestSearch, setGuestSearch] = useState('')
   const [guestFilterStatus, setGuestFilterStatus] = useState('')
+  const [guestFilterBuffet, setGuestFilterBuffet] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const PER_PAGE = 15
 
@@ -50,11 +51,12 @@ export function Guests() {
         g.name.toLowerCase().includes(search) ||
         (g.group_name ?? '').toLowerCase().includes(search)
       const matchStatus = guestFilterStatus === '' ? true : g.rsvp_status === guestFilterStatus
-      return matchName && matchStatus
+      const matchBuffet = guestFilterBuffet === '' ? true : (g.buffet_status || 'inteira') === guestFilterBuffet
+      return matchName && matchStatus && matchBuffet
     })
     setFilteredGuests(filtered)
     setCurrentPage(1)
-  }, [guestSearch, guestFilterStatus, allGuests])
+  }, [guestSearch, guestFilterStatus, guestFilterBuffet, allGuests])
 
   const deleteGuest = async (id: string, name: string) => {
     if (!window.confirm(`Remover "${name}" da lista?`)) return
@@ -81,6 +83,7 @@ export function Guests() {
       group_id: g.group_id ?? '',
       group_name: '',
       is_child: g.is_child,
+      buffet_status: g.buffet_status || 'inteira',
     })
     setIsGuestModalOpen(true)
   }
@@ -99,6 +102,18 @@ export function Guests() {
         return <Badge colorPalette="yellow" variant="subtle">⏳ Pendente</Badge>
       default:
         return null
+    }
+  }
+
+  const buffetBadge = (buffetStatus?: string) => {
+    switch (buffetStatus) {
+      case 'isento':
+        return <Badge colorPalette="green" variant="subtle">👶 Isento</Badge>
+      case 'meia':
+        return <Badge colorPalette="yellow" variant="subtle">🧒 Paga Meia</Badge>
+      case 'inteira':
+      default:
+        return <Badge colorPalette="purple" variant="subtle">Inteira</Badge>
     }
   }
 
@@ -144,6 +159,24 @@ export function Guests() {
           <option value="declined">❌ Não vão</option>
           <option value="pending">⏳ Pendentes</option>
         </SelectBox>
+        <SelectBox
+          as="select"
+          px="4"
+          py="2"
+          borderRadius="xl"
+          borderWidth="1px"
+          borderColor="purple.200"
+          bg="white"
+          minW="160px"
+          fontSize="sm"
+          value={guestFilterBuffet}
+          onChange={(e: any) => setGuestFilterBuffet(e.target.value)}
+        >
+          <option value="">Todos os tipos de buffet</option>
+          <option value="inteira">Inteira</option>
+          <option value="meia">🧒 Paga Meia</option>
+          <option value="isento">👶 Isento</option>
+        </SelectBox>
       </Flex>
 
       <Box
@@ -160,6 +193,7 @@ export function Guests() {
               <Table.Row>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Nome</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Grupo</Table.ColumnHeader>
+                <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Buffet</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Status</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Respondido em</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Ações</Table.ColumnHeader>
@@ -168,7 +202,7 @@ export function Guests() {
             <Table.Body>
               {pageGuests.length === 0 ? (
                 <Table.Row>
-                  <Table.Cell colSpan={5} textAlign="center" py="8" color="gray.400">
+                  <Table.Cell colSpan={6} textAlign="center" py="8" color="gray.400">
                     Nenhum convidado encontrado.
                   </Table.Cell>
                 </Table.Row>
@@ -185,6 +219,9 @@ export function Guests() {
                     </Table.Cell>
                     <Table.Cell px="5" py="3" fontSize="sm" color="gray.600">
                       {g.group_name || '—'}
+                    </Table.Cell>
+                    <Table.Cell px="5" py="3">
+                      {buffetBadge(g.buffet_status)}
                     </Table.Cell>
                     <Table.Cell px="5" py="3">
                       {statusBadge(g.rsvp_status)}
