@@ -5,6 +5,7 @@ import { reservarPresente } from '../controllers/presentes/reservar.js'
 import { authenticateAdmin } from '../controllers/admin/authenticate.js'
 import { getByGroupSlug } from '../controllers/convidados/get-by-group-slug.js'
 import { submitRsvp } from '../controllers/convidados/rsvp.js'
+import { getBuffetSettings } from '../controllers/settings/get-buffet-settings.js'
 
 export async function publicRoutes(app: FastifyInstance) {
   app.post('/admin/login', authenticateAdmin)
@@ -14,4 +15,6 @@ export async function publicRoutes(app: FastifyInstance) {
 
   app.get('/convidados/:group_slug', getByGroupSlug)
   app.post('/rsvp', submitRsvp)
+
+  app.get('/settings/buffet', getBuffetSettings)
 }

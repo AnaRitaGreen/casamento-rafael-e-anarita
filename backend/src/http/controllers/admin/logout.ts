@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { knex } from "@/database";
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { knex } from '@/database'
 
 export async function logoutAdmin(
   request: FastifyRequest,

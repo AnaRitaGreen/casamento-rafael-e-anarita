@@ -3,15 +3,20 @@ import { z } from 'zod'
 import { knex } from '@/database'
 import { randomUUID } from 'crypto'
 
-export async function generateTables(request: FastifyRequest, reply: FastifyReply) {
+export async function generateTables(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const schema = z.object({
     count: z.number().min(1),
-    capacity: z.number().min(1)
+    capacity: z.number().min(1),
   })
 
   const { count, capacity } = schema.parse(request.body)
 
-  const currentMax = await knex('tables').max('table_number as max').first() as { max: string | number } | undefined
+  const currentMax = (await knex('tables')
+    .max('table_number as max')
+    .first()) as { max: string | number } | undefined
   let nextNumber = currentMax?.max ? Number(currentMax.max) + 1 : 1
 
   const tablesToInsert = []
@@ -19,7 +24,7 @@ export async function generateTables(request: FastifyRequest, reply: FastifyRepl
     tablesToInsert.push({
       id: randomUUID(),
       table_number: nextNumber++,
-      capacity
+      capacity,
     })
   }
 

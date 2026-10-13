@@ -15,7 +15,10 @@ function slugify(text: string): string {
     .replace(/-+/g, '-')
 }
 
-export async function createGroup(request: FastifyRequest, reply: FastifyReply) {
+export async function createGroup(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const schema = z.object({
     name: z.string().min(2).max(128),
     slug: z.string().optional(),
@@ -27,7 +30,9 @@ export async function createGroup(request: FastifyRequest, reply: FastifyReply) 
 
   const existing = await knex('groups').where({ slug: finalSlug }).first()
   if (existing) {
-    return reply.status(409).send({ message: 'Já existe um grupo com esse slug.' })
+    return reply
+      .status(409)
+      .send({ message: 'Já existe um grupo com esse slug.' })
   }
 
   const [group] = await knex('groups')

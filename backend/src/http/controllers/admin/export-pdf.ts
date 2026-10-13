@@ -3,9 +3,12 @@ import { z } from 'zod'
 import PDFDocument from 'pdfkit'
 import { knex } from '@/database'
 
-export async function exportGuestsPDF(request: FastifyRequest, reply: FastifyReply) {
+export async function exportGuestsPDF(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const querySchema = z.object({
-    type: z.enum(['all', 'confirmed', 'tables']).default('all')
+    type: z.enum(['all', 'confirmed', 'tables']).default('all'),
   })
 
   const { type } = querySchema.parse(request.query)
@@ -23,7 +26,10 @@ export async function exportGuestsPDF(request: FastifyRequest, reply: FastifyRep
 
   if (type === 'tables') {
     // Order by table number first, then guest name
-    query = query.clearOrder().orderByRaw('tables.table_number ASC NULLS LAST').orderBy('guests.name', 'asc')
+    query = query
+      .clearOrder()
+      .orderByRaw('tables.table_number ASC NULLS LAST')
+      .orderBy('guests.name', 'asc')
   }
 
   const guests = await query
@@ -31,7 +37,10 @@ export async function exportGuestsPDF(request: FastifyRequest, reply: FastifyRep
   const doc = new PDFDocument({ margin: 36 })
 
   reply.header('Content-Type', 'application/pdf')
-  reply.header('Content-Disposition', `attachment; filename="convidados_${type}.pdf"`)
+  reply.header(
+    'Content-Disposition',
+    `attachment; filename="convidados_${type}.pdf"`,
+  )
 
   // Title
   let title = 'Lista de Convidados'
@@ -42,7 +51,7 @@ export async function exportGuestsPDF(request: FastifyRequest, reply: FastifyRep
 
   // Generate content
   if (type === 'tables') {
-    let currentTable: number | null | undefined = undefined
+    let currentTable: number | null | undefined
 
     const startX = 36
     const colWidths = [350, 120]
@@ -63,17 +72,26 @@ export async function exportGuestsPDF(request: FastifyRequest, reply: FastifyRep
         checkPageEnd(80)
 
         doc.moveDown(1.5)
-        doc.fontSize(16).fillColor('purple').font('Helvetica-Bold').text(currentTable ? `Mesa ${currentTable}` : 'Sem Mesa', startX)
+        doc
+          .fontSize(16)
+          .fillColor('purple')
+          .font('Helvetica-Bold')
+          .text(currentTable ? `Mesa ${currentTable}` : 'Sem Mesa', startX)
         doc.moveDown(0.5)
 
         // Header
         const startY = doc.y
-        doc.rect(startX, startY, colWidths[0] + colWidths[1], rowHeight).fillAndStroke('#f3f4f6', '#d1d5db')
+        doc
+          .rect(startX, startY, colWidths[0] + colWidths[1], rowHeight)
+          .fillAndStroke('#f3f4f6', '#d1d5db')
         doc.fillColor('#374151').fontSize(8).font('Helvetica-Bold')
         doc.text('NOME DO CONVIDADO', startX + 10, startY + 8)
         doc.text('ENTROU', startX + colWidths[0] + 10, startY + 8)
 
-        doc.moveTo(startX + colWidths[0], startY).lineTo(startX + colWidths[0], startY + rowHeight).stroke('#d1d5db')
+        doc
+          .moveTo(startX + colWidths[0], startY)
+          .lineTo(startX + colWidths[0], startY + rowHeight)
+          .stroke('#d1d5db')
 
         doc.y = startY + rowHeight
       }
@@ -81,29 +99,57 @@ export async function exportGuestsPDF(request: FastifyRequest, reply: FastifyRep
       if (checkPageEnd(rowHeight)) {
         // Redraw header if page breaks inside a table
         const startY = doc.y
-        doc.rect(startX, startY, colWidths[0] + colWidths[1], rowHeight).fillAndStroke('#f3f4f6', '#d1d5db')
+        doc
+          .rect(startX, startY, colWidths[0] + colWidths[1], rowHeight)
+          .fillAndStroke('#f3f4f6', '#d1d5db')
         doc.fillColor('#374151').fontSize(8).font('Helvetica-Bold')
         doc.text('NOME DO CONVIDADO', startX + 10, startY + 8)
         doc.text('ENTROU', startX + colWidths[0] + 10, startY + 8)
-        doc.moveTo(startX + colWidths[0], startY).lineTo(startX + colWidths[0], startY + rowHeight).stroke('#d1d5db')
+        doc
+          .moveTo(startX + colWidths[0], startY)
+          .lineTo(startX + colWidths[0], startY + rowHeight)
+          .stroke('#d1d5db')
         doc.y = startY + rowHeight
       }
 
       const startY = doc.y
-      doc.rect(startX, startY, colWidths[0] + colWidths[1], rowHeight).stroke('#d1d5db')
+      doc
+        .rect(startX, startY, colWidths[0] + colWidths[1], rowHeight)
+        .stroke('#d1d5db')
       doc.fillColor('#111827').fontSize(8).font('Helvetica')
-      doc.text(guest.name, startX + 10, startY + 7, { width: colWidths[0] - 20, height: 12, ellipsis: true })
+      doc.text(guest.name, startX + 10, startY + 7, {
+        width: colWidths[0] - 20,
+        height: 12,
+        ellipsis: true,
+      })
 
-      doc.moveTo(startX + colWidths[0], startY).lineTo(startX + colWidths[0], startY + rowHeight).stroke('#d1d5db')
+      doc
+        .moveTo(startX + colWidths[0], startY)
+        .lineTo(startX + colWidths[0], startY + rowHeight)
+        .stroke('#d1d5db')
 
       doc.y = startY + rowHeight
     }
   } else {
     doc.font('Helvetica')
     for (const guest of guests) {
-      const status = guest.rsvp_status === 'attending' ? '✅ Confirmado' : guest.rsvp_status === 'declined' ? '❌ Recusado' : '⏳ Pendente'
-      const tableInfo = guest.table_number ? ` - Mesa ${guest.table_number}` : ''
-      doc.fontSize(12).fillColor('black').text(`• ${guest.name} (${guest.group_name || 'Sem grupo'}) - ${status}${tableInfo}`)
+      const status =
+        guest.rsvp_status === 'attending'
+          ? '✅ Confirmado'
+          : guest.rsvp_status === 'declined'
+          ? '❌ Recusado'
+          : '⏳ Pendente'
+      const tableInfo = guest.table_number
+        ? ` - Mesa ${guest.table_number}`
+        : ''
+      doc
+        .fontSize(12)
+        .fillColor('black')
+        .text(
+          `• ${guest.name} (${
+            guest.group_name || 'Sem grupo'
+          }) - ${status}${tableInfo}`,
+        )
     }
   }
 

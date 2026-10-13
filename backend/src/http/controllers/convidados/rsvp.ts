@@ -9,10 +9,10 @@ import { knex } from '@/database'
 // POST /api/rsvp — confirmação de presença pública
 export async function submitRsvp(request: FastifyRequest, reply: FastifyReply) {
   const schema = z.object({
-    group_id:    z.string().uuid(),
-    declined:    z.boolean().default(false),
-    confirmed:   z.array(z.string().uuid()).default([]),
-    message:     z.string().optional(),
+    group_id: z.string().uuid(),
+    declined: z.boolean().default(false),
+    confirmed: z.array(z.string().uuid()).default([]),
+    message: z.string().optional(),
   })
 
   const { group_id, declined, confirmed, message } = schema.parse(request.body)

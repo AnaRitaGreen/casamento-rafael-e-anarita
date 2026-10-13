@@ -7,6 +7,7 @@ import { Groups } from '@/pages/Groups'
 import { Messages } from '@/pages/Messages'
 import { Gifts } from '@/pages/Gifts'
 import { Tables } from '@/pages/Tables'
+import { Settings } from '@/pages/Settings'
 
 export const appRoutes = [
   {
@@ -42,6 +43,11 @@ export const appRoutes = [
         path: '/mesas',
         component: <Tables />,
         name: 'Mesas',
+      },
+      {
+        path: '/configuracoes',
+        component: <Settings />,
+        name: 'Configurações',
       },
     ],
   },

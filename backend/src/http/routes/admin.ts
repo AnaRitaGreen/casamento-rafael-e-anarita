@@ -29,6 +29,10 @@ import { updateTable } from '../controllers/tables/update.js'
 import { deleteTable } from '../controllers/tables/delete.js'
 import { assignGuestToTable } from '../controllers/tables/assign-guest.js'
 import { swapTables } from '../controllers/tables/swap.js'
+
+import { getBuffetSettings } from '../controllers/settings/get-buffet-settings.js'
+import { updateBuffetSettings } from '../controllers/settings/update-buffet-settings.js'
+
 export async function adminRoutes(app: FastifyInstance) {
   app.patch('/token/refresh', refreshAccessToken)
   app.get('/me', data)
@@ -36,30 +40,34 @@ export async function adminRoutes(app: FastifyInstance) {
   app.get('/export/pdf', exportGuestsPDF)
 
   // ── Convidados ────────────────────────────────────────────── //
-  app.get('/guests',    listGuests)
-  app.post('/guests',   createGuest)
-  app.put('/guests/:id',    updateGuest)
+  app.get('/guests', listGuests)
+  app.post('/guests', createGuest)
+  app.put('/guests/:id', updateGuest)
   app.delete('/guests/:id', deleteGuest)
 
   // ── Grupos & Mensagens ────────────────────────────────────── //
-  app.get('/groups',          listGroups)
-  app.post('/groups',         createGroup)
-  app.put('/groups/:id',      updateGroup)
-  app.delete('/groups/:id',   deleteGroup)
+  app.get('/groups', listGroups)
+  app.post('/groups', createGroup)
+  app.put('/groups/:id', updateGroup)
+  app.delete('/groups/:id', deleteGroup)
   app.get('/messages', listMessages)
 
   // ── Presentes ─────────────────────────────────────────────── //
-  app.get('/presentes',              listPresentesAdmin)
-  app.post('/presentes',             createPresente)
-  app.put('/presentes/:id',          updatePresente)
-  app.delete('/presentes/:id',       deletePresente)
+  app.get('/presentes', listPresentesAdmin)
+  app.post('/presentes', createPresente)
+  app.put('/presentes/:id', updatePresente)
+  app.delete('/presentes/:id', deletePresente)
   app.post('/presentes/:id/liberar', liberarReserva)
 
   // ── Mesas ─────────────────────────────────────────────────── //
-  app.get('/tables',                 listTables)
-  app.post('/tables/generate',       generateTables)
-  app.post('/tables/swap',           swapTables)
-  app.put('/tables/:id/capacity',    updateTable)
-  app.delete('/tables/:id',          deleteTable)
-  app.put('/guests/:id/table',       assignGuestToTable)
+  app.get('/tables', listTables)
+  app.post('/tables/generate', generateTables)
+  app.post('/tables/swap', swapTables)
+  app.put('/tables/:id/capacity', updateTable)
+  app.delete('/tables/:id', deleteTable)
+  app.put('/guests/:id/table', assignGuestToTable)
+
+  // ── Configurações ─────────────────────────────────────────── //
+  app.get('/settings/buffet', getBuffetSettings)
+  app.put('/settings/buffet', updateBuffetSettings)
 }

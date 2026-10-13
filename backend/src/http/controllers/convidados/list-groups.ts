@@ -11,14 +11,18 @@ export async function listGroups(_: FastifyRequest, reply: FastifyReply) {
       'groups.slug',
       'groups.invite_sent',
       knex.raw('COUNT(guests.id) as total_guests'),
-      knex.raw(`SUM(CASE WHEN guests.rsvp_status = 'attending' THEN 1 ELSE 0 END) as attending_guests`),
-      knex.raw(`SUM(CASE WHEN guests.rsvp_status = 'declined' THEN 1 ELSE 0 END) as declined_guests`)
+      knex.raw(
+        `SUM(CASE WHEN guests.rsvp_status = 'attending' THEN 1 ELSE 0 END) as attending_guests`,
+      ),
+      knex.raw(
+        `SUM(CASE WHEN guests.rsvp_status = 'declined' THEN 1 ELSE 0 END) as declined_guests`,
+      ),
     )
     .leftJoin('guests', 'groups.id', 'guests.group_id')
     .groupBy('groups.id', 'groups.name', 'groups.slug', 'groups.invite_sent')
     .orderBy('groups.name')
 
-  const groups = groupsData.map(group => ({
+  const groups = groupsData.map((group) => ({
     id: group.id,
     name: group.name,
     slug: group.slug,

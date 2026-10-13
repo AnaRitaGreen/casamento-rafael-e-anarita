@@ -4,13 +4,16 @@ import { randomUUID } from 'crypto'
 
 import { knex } from '@/database'
 
-export async function createPresente(request: FastifyRequest, reply: FastifyReply) {
+export async function createPresente(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const schema = z.object({
-    title:       z.string().min(1),
+    title: z.string().min(1),
     description: z.string().optional().default(''),
-    image:       z.string().optional().default(''),
-    link:        z.string().url().optional().or(z.literal('')),
-    value:       z.number().nonnegative().default(0),
+    image: z.string().optional().default(''),
+    link: z.string().url().optional().or(z.literal('')),
+    value: z.number().nonnegative().default(0),
   })
 
   const body = schema.parse(request.body)

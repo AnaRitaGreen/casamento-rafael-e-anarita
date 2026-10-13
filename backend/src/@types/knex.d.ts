@@ -71,6 +71,13 @@ declare module 'knex/types/tables' {
     updated_at: Date
   }
 
+  export interface Setting {
+    key: string
+    value: string
+    created_at: Date
+    updated_at: Date
+  }
+
   export interface Tables {
     admins: Admin
     admin_refresh_tokens: AdminsRefreshTokens
@@ -79,5 +86,6 @@ declare module 'knex/types/tables' {
     gifts: Gifts
     group_messages: GroupMessages
     tables: Table
+    settings: Setting
   }
 }

@@ -79,7 +79,7 @@ app.register(adminRoutes, { prefix: '/api/admin' })
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
-    reply.status(400).send({
+    return reply.status(400).send({
       message: 'Corpo da requisição inválido',
       issues: error.format(),
     })

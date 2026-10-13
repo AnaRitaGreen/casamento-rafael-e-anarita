@@ -10,11 +10,10 @@ export async function authenticateAdmin(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const authenticateAdminBodySchema = z
-    .object({
-      username: z.string().nonempty(),
-      password: z.string().min(6),
-    })
+  const authenticateAdminBodySchema = z.object({
+    username: z.string().nonempty(),
+    password: z.string().min(6),
+  })
 
   const { username, password } = authenticateAdminBodySchema.parse(request.body)
 

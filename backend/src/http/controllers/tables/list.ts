@@ -14,23 +14,23 @@ export async function listTables(_: FastifyRequest, reply: FastifyReply) {
       'g.table_id',
       'g.is_child',
       'g.rsvp_status',
-      'gr.name as group_name'
+      'gr.name as group_name',
     )
     .where('g.rsvp_status', 'attending')
     .orderBy(['gr.name', 'g.name'])
 
   // Group guests by table_id
-  const unseatedGuests = guests.filter(g => !g.table_id)
-  
-  const tablesWithGuests = tables.map(t => {
+  const unseatedGuests = guests.filter((g) => !g.table_id)
+
+  const tablesWithGuests = tables.map((t) => {
     return {
       ...t,
-      guests: guests.filter(g => g.table_id === t.id)
+      guests: guests.filter((g) => g.table_id === t.id),
     }
   })
 
   return reply.send({
     tables: tablesWithGuests,
-    unseated_guests: unseatedGuests
+    unseated_guests: unseatedGuests,
   })
 }

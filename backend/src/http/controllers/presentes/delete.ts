@@ -3,7 +3,10 @@ import { z } from 'zod'
 
 import { knex } from '@/database'
 
-export async function deletePresente(request: FastifyRequest, reply: FastifyReply) {
+export async function deletePresente(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params)
 
   const deleted = await knex('gifts').where({ id }).delete()

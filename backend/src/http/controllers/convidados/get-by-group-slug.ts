@@ -4,8 +4,13 @@ import { z } from 'zod'
 import { knex } from '@/database'
 
 // GET /api/convidados/:group_slug — rota pública usada pelo formulário RSVP
-export async function getByGroupSlug(request: FastifyRequest, reply: FastifyReply) {
-  const { group_slug } = z.object({ group_slug: z.string() }).parse(request.params)
+export async function getByGroupSlug(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const { group_slug } = z
+    .object({ group_slug: z.string() })
+    .parse(request.params)
 
   const group = await knex('groups').where({ slug: group_slug }).first()
 

@@ -4,6 +4,7 @@ import { Download } from 'lucide-react'
 import { exportGuestsPDF, getAdminGuests } from '@/services/adminService'
 import { useNavigate } from 'react-router-dom'
 import { StatCard } from '@/components/StatCard'
+import { AxiosError } from 'axios'
 
 export function Dashboard() {
   const [loading, setLoading] = useState(false)
@@ -11,6 +12,26 @@ export function Dashboard() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const loadOverview = async () => {
+      setLoading(true)
+      try {
+        const guestsData = await getAdminGuests()
+        const total = guestsData.length
+        const confirmed = guestsData.filter((g) => g.rsvp_status === 'attending').length
+        const declined = guestsData.filter((g) => g.rsvp_status === 'declined').length
+        const pending = guestsData.filter((g) => g.rsvp_status === 'pending').length
+        const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0
+        setMetrics({ total, confirmed, declined, pending, pct })
+      } catch (err: unknown) {
+        const axiosError = err as AxiosError
+        if (axiosError?.response?.status === 401) {
+          navigate('/login')
+        }
+      } finally {
+        setLoading(false)
+      }
+    }
+
     loadOverview()
   }, [])
 
@@ -23,25 +44,6 @@ export function Dashboard() {
       a.click()
     } catch {
       alert('Erro ao exportar. Verifique se o backend está rodando.')
-    }
-  }
-
-  const loadOverview = async () => {
-    setLoading(true)
-    try {
-      const guestsData = await getAdminGuests()
-      const total = guestsData.length
-      const confirmed = guestsData.filter((g) => g.rsvp_status === 'attending').length
-      const declined = guestsData.filter((g) => g.rsvp_status === 'declined').length
-      const pending = guestsData.filter((g) => g.rsvp_status === 'pending').length
-      const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0
-      setMetrics({ total, confirmed, declined, pending, pct })
-    } catch (err: any) {
-      if (err?.response?.status === 401) {
-        navigate('/login')
-      }
-    } finally {
-      setLoading(false)
     }
   }
 

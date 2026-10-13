@@ -204,3 +204,36 @@ export async function assignGuestToTable(guestId: string, table_id: string | nul
 export async function swapTables(table1_id: string, table2_id: string): Promise<void> {
   await api.post('/api/admin/tables/swap', { table1_id, table2_id }, { withCredentials: true })
 }
+
+// ── Configurações ─────────────────────────────────────────────── //
+
+export interface BuffetSettings {
+  free_max_age: number
+  half_max_age: number
+}
+
+export interface BuffetSettingsPayload {
+  free_max_age: number
+  half_max_age: number
+}
+
+export async function getBuffetSettings(): Promise<BuffetSettings> {
+  const { data } = await api.get<BuffetSettings>('/api/admin/settings/buffet', {
+    withCredentials: true,
+  })
+  return data
+}
+
+export async function updateBuffetSettings(
+  payload: BuffetSettingsPayload,
+): Promise<{ message: string; free_max_age: number; half_max_age: number }> {
+  const { data } = await api.put<{
+    message: string
+    free_max_age: number
+    half_max_age: number
+  }>('/api/admin/settings/buffet', payload, {
+    withCredentials: true,
+  })
+  return data
+}
+

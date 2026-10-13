@@ -3,15 +3,18 @@ import { z } from 'zod'
 
 import { knex } from '@/database'
 
-export async function updatePresente(request: FastifyRequest, reply: FastifyReply) {
+export async function updatePresente(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params)
 
   const schema = z.object({
-    title:       z.string().min(1).optional(),
+    title: z.string().min(1).optional(),
     description: z.string().optional(),
-    link:        z.string().url().optional().or(z.literal('')),
-    image:       z.string().optional(),
-    value:       z.number().nonnegative().optional(),
+    link: z.string().url().optional().or(z.literal('')),
+    image: z.string().optional(),
+    value: z.number().nonnegative().optional(),
   })
 
   const body = schema.parse(request.body)

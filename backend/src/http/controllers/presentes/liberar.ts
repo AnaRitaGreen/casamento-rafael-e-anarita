@@ -4,15 +4,23 @@ import { z } from 'zod'
 import { knex } from '@/database'
 
 // Admin: libera a reserva de um presente
-export async function liberarReserva(request: FastifyRequest, reply: FastifyReply) {
+export async function liberarReserva(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params)
 
-  const updated = await knex('gifts')
-    .where({ id, reserved: true })
-    .update({ reserved: false, reserved_by: null, reserved_at: null, updated_at: new Date() })
+  const updated = await knex('gifts').where({ id, reserved: true }).update({
+    reserved: false,
+    reserved_by: null,
+    reserved_at: null,
+    updated_at: new Date(),
+  })
 
   if (!updated) {
-    return reply.status(404).send({ message: 'Presente não encontrado ou já está disponível.' })
+    return reply
+      .status(404)
+      .send({ message: 'Presente não encontrado ou já está disponível.' })
   }
 
   return reply.send({ message: 'Reserva liberada com sucesso.' })

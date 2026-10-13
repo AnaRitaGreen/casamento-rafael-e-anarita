@@ -7,6 +7,7 @@ import {
   MessageCircleHeart,
   Gift,
   Grid,
+  Settings,
   LogOut,
 } from 'lucide-react'
 import { adminLogout } from '@/services/adminService'
@@ -19,6 +20,7 @@ const navItems = [
   { to: '/mensagens', icon: MessageCircleHeart, label: 'Mensagens' },
   { to: '/presentes', icon: Gift, label: 'Presentes' },
   { to: '/mesas', icon: Grid, label: 'Mesas' },
+  { to: '/configuracoes', icon: Settings, label: 'Configurações' },
 ]
 
 export function SidebarNav() {

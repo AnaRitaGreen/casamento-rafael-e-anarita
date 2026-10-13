@@ -4,7 +4,10 @@ import { z } from 'zod'
 import { knex } from '@/database'
 
 // DELETE /api/admin/guests/:id
-export async function deleteGuest(request: FastifyRequest, reply: FastifyReply) {
+export async function deleteGuest(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params)
 
   const deleted = await knex('guests').where({ id }).delete()

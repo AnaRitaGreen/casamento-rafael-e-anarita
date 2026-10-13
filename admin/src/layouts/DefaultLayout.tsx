@@ -4,6 +4,7 @@ import { Sidebar, SidebarToggle } from '@/components/Sidebar'
 import { SidebarProvider } from '@/contexts/SidebarContext'
 import { ColorModeButton } from '@/components/ui/color-mode'
 import { useColorMode } from '@/components/ui/color-mode'
+import { Toaster } from '@/components/ui/toaster'
 
 function LayoutInner() {
   const { colorMode } = useColorMode()
@@ -11,6 +12,7 @@ function LayoutInner() {
 
   return (
     <Flex h="100vh" overflow="hidden">
+      <Toaster />
       <Sidebar />
       <Flex direction="column" flex="1" minW="0">
         {/* Mobile top bar */}
