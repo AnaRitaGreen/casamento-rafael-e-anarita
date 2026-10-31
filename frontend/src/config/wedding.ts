@@ -17,7 +17,7 @@ export const wedding = {
   dataCerimonia: "2026-11-21T17:00:00",
 
   /** Data limite para confirmar presença (exibida no site). */
-  dataLimiteRsvp: "2026-10-31T23:59:59",
+  dataLimiteRsvp: "2026-11-07T23:59:59",
 
   // ── Cerimônia ──────────────────────────────────────────────── //
   cerimonia: {
