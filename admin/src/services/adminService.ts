@@ -27,6 +27,8 @@ export interface AdminGroup {
   name: string
   slug: string
   invite_sent: boolean
+  gave_gift: boolean
+  gift_description: string | null
   total_guests?: number
   attending_guests?: number
   declined_guests?: number
@@ -36,6 +38,8 @@ export interface AdminGroupPayload {
   name: string
   slug?: string
   invite_sent?: boolean
+  gave_gift?: boolean
+  gift_description?: string | null
 }
 
 export interface AdminMessage {

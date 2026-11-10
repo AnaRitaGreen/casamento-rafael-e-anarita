@@ -61,6 +61,15 @@ export function Groups() {
     }
   }
 
+  const handleToggleGift = async (group: AdminGroup) => {
+    try {
+      await updateGroup(group.id, { name: group.name, gave_gift: !group.gave_gift })
+      loadGroups()
+    } catch {
+      alert('Erro ao atualizar status do presente.')
+    }
+  }
+
   const openEdit = (group: AdminGroup) => {
     setEditing(group)
     setIsModalOpen(true)
@@ -74,7 +83,8 @@ export function Groups() {
   const filtered = groups.filter(
     (g) =>
       g.name.toLowerCase().includes(search.toLowerCase()) ||
-      g.slug.toLowerCase().includes(search.toLowerCase()),
+      g.slug.toLowerCase().includes(search.toLowerCase()) ||
+      (g.gift_description ?? '').toLowerCase().includes(search.toLowerCase()),
   )
 
   return (
@@ -93,7 +103,7 @@ export function Groups() {
 
       <Box mb="5">
         <Input
-          placeholder="Buscar por nome ou slug..."
+          placeholder="Buscar por nome, slug ou presente..."
           borderRadius="xl"
           borderColor="purple.200"
           maxW="360px"
@@ -118,6 +128,8 @@ export function Groups() {
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Slug (URL)</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Link do Convite</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3" textAlign="center">Enviado?</Table.ColumnHeader>
+                <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3" textAlign="center">Deu Presente?</Table.ColumnHeader>
+                <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Presente</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Convidados</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="700" textTransform="uppercase" fontSize="xs" letterSpacing="wider" color="purple.700" px="5" py="3">Ações</Table.ColumnHeader>
               </Table.Row>
@@ -125,7 +137,7 @@ export function Groups() {
             <Table.Body>
               {filtered.length === 0 ? (
                 <Table.Row>
-                  <Table.Cell colSpan={6} textAlign="center" py="8" color="gray.400">
+                  <Table.Cell colSpan={8} textAlign="center" py="8" color="gray.400">
                     Nenhum grupo encontrado.
                   </Table.Cell>
                 </Table.Row>
@@ -161,6 +173,35 @@ export function Groups() {
                         style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: '#7c3aed' }}
                         title={g.invite_sent ? 'Convite já enviado' : 'Marcar como enviado'}
                       />
+                    </Table.Cell>
+                    <Table.Cell px="5" py="3" textAlign="center">
+                      <input
+                        type="checkbox"
+                        checked={g.gave_gift || false}
+                        onChange={() => handleToggleGift(g)}
+                        style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: '#16a34a' }}
+                        title={g.gave_gift ? 'Grupo deu presente' : 'Marcar que deu presente'}
+                      />
+                    </Table.Cell>
+                    <Table.Cell
+                      px="5"
+                      py="3"
+                      fontSize="sm"
+                      cursor="pointer"
+                      onClick={() => openEdit(g)}
+                      title="Clique para editar o presente"
+                    >
+                      {g.gift_description ? (
+                        <Badge colorPalette="green" variant="subtle" fontSize="xs">
+                          🎁 {g.gift_description}
+                        </Badge>
+                      ) : g.gave_gift ? (
+                        <Text fontSize="xs" color="gray.500" _hover={{ textDecoration: 'underline', color: 'purple.600' }}>
+                          + Informar presente
+                        </Text>
+                      ) : (
+                        <Text color="gray.400">—</Text>
+                      )}
                     </Table.Cell>
                     <Table.Cell px="5" py="3">
                       <Flex gap="1" fontSize="sm">

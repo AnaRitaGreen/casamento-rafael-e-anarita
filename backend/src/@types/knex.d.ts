@@ -24,6 +24,8 @@ declare module 'knex/types/tables' {
     name: string
     slug: string
     invite_sent: boolean
+    gave_gift: boolean
+    gift_description: string | null
     created_at: Date
     updated_at: Date
   }

@@ -10,6 +10,8 @@ export async function listGroups(_: FastifyRequest, reply: FastifyReply) {
       'groups.name',
       'groups.slug',
       'groups.invite_sent',
+      'groups.gave_gift',
+      'groups.gift_description',
       knex.raw('COUNT(guests.id) as total_guests'),
       knex.raw(
         `SUM(CASE WHEN guests.rsvp_status = 'attending' THEN 1 ELSE 0 END) as attending_guests`,
@@ -19,7 +21,14 @@ export async function listGroups(_: FastifyRequest, reply: FastifyReply) {
       ),
     )
     .leftJoin('guests', 'groups.id', 'guests.group_id')
-    .groupBy('groups.id', 'groups.name', 'groups.slug', 'groups.invite_sent')
+    .groupBy(
+      'groups.id',
+      'groups.name',
+      'groups.slug',
+      'groups.invite_sent',
+      'groups.gave_gift',
+      'groups.gift_description',
+    )
     .orderBy('groups.name')
 
   const groups = groupsData.map((group) => ({
@@ -27,6 +36,8 @@ export async function listGroups(_: FastifyRequest, reply: FastifyReply) {
     name: group.name,
     slug: group.slug,
     invite_sent: Boolean(group.invite_sent),
+    gave_gift: Boolean(group.gave_gift),
+    gift_description: group.gift_description ?? null,
     total_guests: Number(group.total_guests || 0),
     attending_guests: Number(group.attending_guests || 0),
     declined_guests: Number(group.declined_guests || 0),

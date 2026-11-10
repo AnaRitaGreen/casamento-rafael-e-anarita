@@ -24,6 +24,8 @@ export async function updateGroup(
     name: z.string().min(2).max(128).optional(),
     slug: z.string().optional(),
     invite_sent: z.boolean().optional(),
+    gave_gift: z.boolean().optional(),
+    gift_description: z.string().max(255).nullable().optional(),
   })
 
   const body = schema.parse(request.body)
@@ -38,6 +40,11 @@ export async function updateGroup(
     ? slugify(body.slug)
     : slugify(updatedName)
   const updatedInviteSent = body.invite_sent ?? group.invite_sent
+  const updatedGaveGift = body.gave_gift ?? group.gave_gift
+  const updatedGiftDescription =
+    body.gift_description !== undefined
+      ? body.gift_description?.trim() || null
+      : group.gift_description
 
   if (updatedSlug !== group.slug) {
     const conflict = await knex('groups')
@@ -57,8 +64,17 @@ export async function updateGroup(
       name: updatedName,
       slug: updatedSlug,
       invite_sent: updatedInviteSent,
+      gave_gift: updatedGaveGift,
+      gift_description: updatedGiftDescription,
     })
-    .returning(['id', 'name', 'slug', 'invite_sent'])
+    .returning([
+      'id',
+      'name',
+      'slug',
+      'invite_sent',
+      'gave_gift',
+      'gift_description',
+    ])
 
   return reply.send({ group: updated })
 }

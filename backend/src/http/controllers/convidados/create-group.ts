@@ -22,9 +22,11 @@ export async function createGroup(
   const schema = z.object({
     name: z.string().min(2).max(128),
     slug: z.string().optional(),
+    gave_gift: z.boolean().optional(),
+    gift_description: z.string().max(255).nullable().optional(),
   })
 
-  const { name, slug } = schema.parse(request.body)
+  const { name, slug, gave_gift, gift_description } = schema.parse(request.body)
 
   const finalSlug = slug?.trim() ? slugify(slug) : slugify(name)
 
@@ -36,8 +38,21 @@ export async function createGroup(
   }
 
   const [group] = await knex('groups')
-    .insert({ id: randomUUID(), name, slug: finalSlug })
-    .returning(['id', 'name', 'slug'])
+    .insert({
+      id: randomUUID(),
+      name,
+      slug: finalSlug,
+      gave_gift: gave_gift ?? false,
+      gift_description: gift_description?.trim() || null,
+    })
+    .returning([
+      'id',
+      'name',
+      'slug',
+      'invite_sent',
+      'gave_gift',
+      'gift_description',
+    ])
 
   return reply.status(201).send({ group })
 }

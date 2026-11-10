@@ -20,9 +20,13 @@ interface GroupModalProps {
   editing: AdminGroup | null
 }
 
+const LabelText = Text as any
+
 export function GroupModal({ isOpen, onClose, onSave, editing }: GroupModalProps) {
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')
+  const [gaveGift, setGaveGift] = useState(false)
+  const [giftDescription, setGiftDescription] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -30,6 +34,8 @@ export function GroupModal({ isOpen, onClose, onSave, editing }: GroupModalProps
     if (isOpen) {
       setName(editing?.name ?? '')
       setSlug(editing?.slug ?? '')
+      setGaveGift(Boolean(editing?.gave_gift))
+      setGiftDescription(editing?.gift_description ?? '')
       setError('')
     }
   }, [isOpen, editing])
@@ -50,16 +56,29 @@ export function GroupModal({ isOpen, onClose, onSave, editing }: GroupModalProps
     }
   }
 
+  const handleGiftDescriptionChange = (val: string) => {
+    setGiftDescription(val)
+    if (val.trim() && !gaveGift) {
+      setGaveGift(true)
+    }
+  }
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim()) return
     setSaving(true)
     setError('')
     try {
+      const payload = {
+        name: name.trim(),
+        slug: slug.trim() || undefined,
+        gave_gift: gaveGift,
+        gift_description: giftDescription.trim() || null,
+      }
       if (editing) {
-        await updateGroup(editing.id, { name: name.trim(), slug: slug.trim() || undefined })
+        await updateGroup(editing.id, payload)
       } else {
-        await createGroup({ name: name.trim(), slug: slug.trim() || undefined })
+        await createGroup(payload)
       }
       onSave()
     } catch (err: any) {
@@ -113,7 +132,7 @@ export function GroupModal({ isOpen, onClose, onSave, editing }: GroupModalProps
             />
           </Box>
 
-          <Box mb="6">
+          <Box mb="4">
             <Text fontSize="sm" fontWeight="600" color="gray.600" mb="1.5">
               Slug (URL personalizada)
             </Text>
@@ -127,6 +146,39 @@ export function GroupModal({ isOpen, onClose, onSave, editing }: GroupModalProps
             <Text fontSize="xs" color="gray.500" mt="1">
               Link do convite: <strong>/nome-do-slug</strong>
             </Text>
+          </Box>
+
+          <Flex mb="4" align="center" gap="3">
+            <input
+              type="checkbox"
+              id="group-gave-gift"
+              style={{ width: '18px', height: '18px', accentColor: '#7c3aed', cursor: 'pointer' }}
+              checked={gaveGift}
+              onChange={(e) => setGaveGift(e.target.checked)}
+            />
+            <LabelText
+              as="label"
+              htmlFor="group-gave-gift"
+              fontSize="sm"
+              fontWeight="600"
+              color="gray.700"
+              cursor="pointer"
+            >
+              Confirmar que o grupo deu presente 🎁
+            </LabelText>
+          </Flex>
+
+          <Box mb="6">
+            <Text fontSize="sm" fontWeight="600" color="gray.600" mb="1.5">
+              Qual presente foi? (opcional)
+            </Text>
+            <Input
+              borderRadius="xl"
+              borderColor="purple.200"
+              value={giftDescription}
+              onChange={(e) => handleGiftDescriptionChange(e.target.value)}
+              placeholder="Ex: PIX R$ 200, Jogo de jantar..."
+            />
           </Box>
 
           {error && (

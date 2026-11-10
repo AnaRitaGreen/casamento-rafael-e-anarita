@@ -9,10 +9,12 @@ import {
   nomesCasal,
   dataCerimoniaFormatada,
   dataLimiteRsvpFormatada,
+  isPrazoRsvpExpirado,
 } from "../config/wedding";
 
 const slug = Astro.params.slug ?? null; // undefined para "/" → null
 const hasSlug = Boolean(slug);
+const rsvpExpirado = isPrazoRsvpExpirado();
 ---
 
 <Layout title={wedding.seo.title} description={wedding.seo.description}>
@@ -98,9 +100,33 @@ const hasSlug = Boolean(slug);
 
       <div
         class="hero-buttons animate-fade-up"
-        style="opacity: 0; animation-delay: 0.52s;"
+        style="opacity: 0; animation-delay: 0.52s; display: flex; flex-direction: column; align-items: center; gap: 0.6rem;"
       >
-        <a href="#rsvp" class="btn-primary"> 💌 Confirmar Presença </a>
+        {rsvpExpirado ? (
+          <>
+            <button
+              type="button"
+              id="hero-rsvp-btn"
+              class="btn-primary"
+              disabled
+              style="opacity: 0.55; cursor: not-allowed; box-shadow: none; filter: grayscale(0.2);"
+              title="O prazo de confirmações expirou"
+              aria-disabled="true"
+            >
+              💌 Confirmar Presença
+            </button>
+            <span
+              id="hero-rsvp-expired-badge"
+              style="font-size: 0.88rem; font-weight: 600; color: #b91c1c; background: rgba(254, 242, 242, 0.95); border: 1px solid #fecaca; padding: 0.35rem 1rem; border-radius: 9999px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 0.4rem;"
+            >
+              ⏰ O prazo de confirmações expirou
+            </span>
+          </>
+        ) : (
+          <a id="hero-rsvp-btn" href="#rsvp" class="btn-primary">
+            💌 Confirmar Presença
+          </a>
+        )}
       </div>
     </div>
   </section>
@@ -246,7 +272,15 @@ const hasSlug = Boolean(slug);
       <h2 class="section-title reveal">Confirme sua Presença</h2>
       <div class="ornament reveal"><span style="font-size: 1.4rem;">💌</span></div>
       <p class="section-subtitle reveal">
-        Confirme até <strong>{dataLimiteRsvpFormatada}</strong>. Sua presença é o nosso maior presente!
+        {rsvpExpirado ? (
+          <span style="color: #b91c1c; font-weight: 600;">
+            O prazo de confirmações expirou em {dataLimiteRsvpFormatada}.
+          </span>
+        ) : (
+          <>
+            Confirme até <strong>{dataLimiteRsvpFormatada}</strong>. Sua presença é o nosso maior presente!
+          </>
+        )}
       </p>
 
       {hasSlug ? (
@@ -275,8 +309,20 @@ const hasSlug = Boolean(slug);
             <div style="margin-bottom:1.5rem;">
               <p style="color:var(--menta-dark);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.2rem;">Seu convite</p>
               <h3 id="group-name-display" class="font-cursive" style="font-size:1.8rem;color:var(--lavanda-dark);">—</h3>
-              <p style="color:var(--texto-suave);font-size:0.9rem;margin-top:0.3rem;">Selecione a presença de cada pessoa do seu grupo 💜</p>
+              <p style="color:var(--texto-suave);font-size:0.9rem;margin-top:0.3rem;">
+                {rsvpExpirado ? "Visualização do seu convite (confirmações encerradas)" : "Selecione a presença de cada pessoa do seu grupo 💜"}
+              </p>
             </div>
+
+            {rsvpExpirado && (
+              <div
+                id="rsvp-expired-box"
+                style="margin-bottom: 1.5rem; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 0.9rem 1.25rem; border-radius: 12px; font-weight: 600; text-align: center; font-size: 0.95rem;"
+              >
+                ⏰ O prazo de confirmações expirou. Não é mais possível confirmar ou alterar a presença.
+              </div>
+            )}
+
             <div style="height:1px;background:linear-gradient(to right,transparent,var(--lavanda-light),transparent);margin-bottom:1.5rem;"></div>
 
             <div id="members-list" style="margin-bottom:1.5rem;"></div>
@@ -285,14 +331,20 @@ const hasSlug = Boolean(slug);
               <label for="guest-message" style="display:block;font-size:0.85rem;font-weight:600;color:var(--texto-suave);margin-bottom:0.4rem;">
                 Mensagem para os noivos <span style="font-weight:400;opacity:0.7;">(opcional)</span>
               </label>
-              <textarea id="guest-message" class="form-input" placeholder="Caso deseje escrever algo…" style="resize:vertical;min-height:90px;"></textarea>
+              <textarea id="guest-message" class="form-input" placeholder="Caso deseje escrever algo…" style="resize:vertical;min-height:90px;" disabled={rsvpExpirado}></textarea>
             </div>
 
-            <button id="btn-submit" class="btn-primary" style="width:100%;justify-content:center;opacity:0.45;cursor:not-allowed;" onclick="handleSubmit()" disabled>
-              💌 Enviar Confirmação
+            <button
+              id="btn-submit"
+              class="btn-primary"
+              style="width:100%;justify-content:center;opacity:0.45;cursor:not-allowed;"
+              onclick="handleSubmit()"
+              disabled
+            >
+              {rsvpExpirado ? "⏰ O prazo de confirmações expirou" : "💌 Enviar Confirmação"}
             </button>
             <p id="submit-hint" style="text-align:center;font-size:0.8rem;color:var(--texto-suave);margin-top:0.6rem;">
-              Selecione a presença de todos antes de enviar
+              {rsvpExpirado ? `O prazo de confirmações expirou em ${dataLimiteRsvpFormatada}` : "Selecione a presença de todos antes de enviar"}
             </p>
           </div>
 
@@ -314,9 +366,15 @@ const hasSlug = Boolean(slug);
         <!-- ── Sem slug: aviso de link personalizado ──────────── -->
         <div class="reveal glass-card" style="padding: 2.5rem; text-align: center; background: linear-gradient(135deg, var(--lavanda-light) 0%, var(--azul-light) 100%);">
           <div style="font-size: 2rem; margin-bottom: 1rem;">💌</div>
-          <p style="font-size: 1rem; color: var(--texto-suave); line-height: 1.7; max-width: 440px; margin: 0 auto;">
-            Cada convidado recebe um <strong>link personalizado</strong> com seu convite. Se você ainda não recebeu o seu, entre em contato com os noivos. 💜
-          </p>
+          {rsvpExpirado ? (
+            <p style="font-size: 1rem; color: #b91c1c; font-weight: 600; line-height: 1.7; max-width: 440px; margin: 0 auto;">
+              O prazo de confirmações expirou em {dataLimiteRsvpFormatada}. Para dúvidas ou informações, entre em contato com os noivos. 💜
+            </p>
+          ) : (
+            <p style="font-size: 1rem; color: var(--texto-suave); line-height: 1.7; max-width: 440px; margin: 0 auto;">
+              Cada convidado recebe um <strong>link personalizado</strong> com seu convite. Se você ainda não recebeu o seu, entre em contato com os noivos. 💜
+            </p>
+          )}
         </div>
       )}
     </div>
@@ -364,6 +422,32 @@ const hasSlug = Boolean(slug);
 
 <script>
   import { getGroupBySlug, submitRsvp } from '../services/guestService.ts'
+  import { isPrazoRsvpExpirado, dataLimiteRsvpFormatada } from '../config/wedding.ts'
+
+  // ── Bloqueio do botão de confirmar presença se prazo expirou ── //
+  const isExpired = isPrazoRsvpExpirado()
+  const heroBtn = document.getElementById('hero-rsvp-btn')
+  if (isExpired && heroBtn) {
+    if (heroBtn.tagName === 'A') {
+      heroBtn.setAttribute('role', 'button')
+      heroBtn.setAttribute('aria-disabled', 'true')
+      heroBtn.removeAttribute('href')
+    }
+    heroBtn.setAttribute('disabled', 'true')
+    heroBtn.style.opacity = '0.55'
+    heroBtn.style.cursor = 'not-allowed'
+    heroBtn.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+    })
+    if (!document.getElementById('hero-rsvp-expired-badge')) {
+      const badge = document.createElement('span')
+      badge.id = 'hero-rsvp-expired-badge'
+      badge.style.cssText = 'font-size: 0.88rem; font-weight: 600; color: #b91c1c; background: rgba(254, 242, 242, 0.95); border: 1px solid #fecaca; padding: 0.35rem 1rem; border-radius: 9999px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.6rem;'
+      badge.textContent = '⏰ O prazo de confirmações expirou'
+      heroBtn.parentElement?.appendChild(badge)
+    }
+  }
 
   // ── Countdown ─────────────────────────────────────────── //
   function updateCountdown() {
@@ -418,10 +502,25 @@ const hasSlug = Boolean(slug);
     }
 
     function updateSubmitBtn() {
-      const total = Object.keys(guestStatus).length
-      const resolved = Object.values(guestStatus).filter(v => v !== 'pending').length
       const btn = document.getElementById('btn-submit') as HTMLButtonElement
       const hint = document.getElementById('submit-hint')
+      if (isExpired) {
+        if (btn) {
+          btn.disabled = true
+          btn.style.opacity = '0.45'
+          btn.style.cursor = 'not-allowed'
+          btn.textContent = '⏰ O prazo de confirmações expirou'
+        }
+        if (hint) {
+          hint.textContent = `O prazo de confirmações expirou em ${dataLimiteRsvpFormatada}`
+          hint.style.color = '#b91c1c'
+          hint.style.fontWeight = '600'
+          hint.style.display = 'block'
+        }
+        return
+      }
+      const total = Object.keys(guestStatus).length
+      const resolved = Object.values(guestStatus).filter(v => v !== 'pending').length
       const allDone = total > 0 && resolved === total
       btn.disabled = !allDone
       btn.style.opacity = allDone ? '1' : '0.45'
@@ -430,6 +529,7 @@ const hasSlug = Boolean(slug);
     }
 
     function setGuestStatus(guestId: string, status: 'attending' | 'declined') {
+      if (isExpired) return
       guestStatus[guestId] = status
       const row = document.getElementById(`guest-row-${guestId}`)
       if (row) {
@@ -459,13 +559,13 @@ const hasSlug = Boolean(slug);
               ${g.is_child ? '<span class="badge-child">Crian\u00e7a</span>' : ''}
             </div>
             <div class="radio-group" role="radiogroup" aria-label="Presen\u00e7a de ${g.name}">
-              <input type="radio" class="opt-attending" name="rsvp-${g.id}" id="rsvp-${g.id}-attending" value="attending" ${s === 'attending' ? 'checked' : ''} />
-              <label class="radio-label" for="rsvp-${g.id}-attending">
+              <input type="radio" class="opt-attending" name="rsvp-${g.id}" id="rsvp-${g.id}-attending" value="attending" ${s === 'attending' ? 'checked' : ''} ${isExpired ? 'disabled style="cursor:not-allowed;"' : ''} />
+              <label class="radio-label" for="rsvp-${g.id}-attending" ${isExpired ? 'style="cursor:not-allowed;opacity:0.75;"' : ''}>
                 <span class="dot"></span> Vou
               </label>
               <span class="radio-divider"></span>
-              <input type="radio" class="opt-declined" name="rsvp-${g.id}" id="rsvp-${g.id}-declined" value="declined" ${s === 'declined' ? 'checked' : ''} />
-              <label class="radio-label" for="rsvp-${g.id}-declined">
+              <input type="radio" class="opt-declined" name="rsvp-${g.id}" id="rsvp-${g.id}-declined" value="declined" ${s === 'declined' ? 'checked' : ''} ${isExpired ? 'disabled style="cursor:not-allowed;"' : ''} />
+              <label class="radio-label" for="rsvp-${g.id}-declined" ${isExpired ? 'style="cursor:not-allowed;opacity:0.75;"' : ''}>
                 <span class="dot"></span> N\u00e3o vou
               </label>
             </div>
@@ -473,19 +573,26 @@ const hasSlug = Boolean(slug);
         `
       }).join('')
 
-      // Listeners nos radio inputs
-      container.querySelectorAll('input[type="radio"]').forEach(input => {
-        input.addEventListener('change', (e) => {
-          const el = e.target as HTMLInputElement
-          const guestId = el.name.replace('rsvp-', '')
-          setGuestStatus(guestId, el.value as 'attending' | 'declined')
+      if (!isExpired) {
+        // Listeners nos radio inputs
+        container.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.addEventListener('change', (e) => {
+            const el = e.target as HTMLInputElement
+            const guestId = el.name.replace('rsvp-', '')
+            setGuestStatus(guestId, el.value as 'attending' | 'declined')
+          })
         })
-      })
+      }
 
       updateSubmitBtn()
     }
 
     window.handleSubmit = async function() {
+      if (isExpired) {
+        alert('O prazo de confirmações expirou.')
+        return
+      }
+
       const btn = document.getElementById('btn-submit') as HTMLButtonElement
       btn.textContent = 'Enviando...'
       btn.disabled = true
@@ -518,6 +625,13 @@ const hasSlug = Boolean(slug);
       try {
         groupData = await getGroupBySlug(slug)
         document.getElementById('group-name-display').textContent = groupData.group.name
+        if (isExpired) {
+          const msgInput = document.getElementById('guest-message') as HTMLTextAreaElement
+          if (msgInput) {
+            msgInput.disabled = true
+            msgInput.style.cursor = 'not-allowed'
+          }
+        }
         renderMembers(groupData.guests)
         showState('form')
       } catch {

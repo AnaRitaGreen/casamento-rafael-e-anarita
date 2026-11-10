@@ -101,14 +101,22 @@ h3 {
   letter-spacing: 0.02em;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled):not([aria-disabled="true"]) {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(171, 147, 224, 0.55);
   filter: brightness(1.05);
 }
 
-.btn-primary:active {
+.btn-primary:active:not(:disabled):not([aria-disabled="true"]) {
   transform: translateY(0);
+}
+
+.btn-primary:disabled,
+.btn-primary[aria-disabled="true"] {
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
 
 .btn-outline {

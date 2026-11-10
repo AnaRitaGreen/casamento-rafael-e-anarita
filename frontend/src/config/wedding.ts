@@ -62,13 +62,34 @@ export const wedding = {
 
 // ── Helpers ────────────────────────────────────────────────────── //
 
+/** Converte uma data em string (YYYY-MM-DDTHH:mm:ss) para Date local sem problemas de fuso horário */
+export function parseIsoDate(dateStr: string): Date {
+  const parts = dateStr.split(/[-T:]/);
+  if (parts.length >= 3) {
+    return new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2]),
+      Number(parts[3] || 0),
+      Number(parts[4] || 0),
+      Number(parts[5] || 0)
+    );
+  }
+  return new Date(dateStr);
+}
+
 /** Retorna "Rafael & Ana Rita" */
 export const nomesCasal = `${wedding.noivo} & ${wedding.noiva}`;
 
 /** Retorna a data formatada em pt-BR: "21 de novembro de 2026" */
-export const dataCerimoniaFormatada = new Date(wedding.dataCerimonia)
+export const dataCerimoniaFormatada = parseIsoDate(wedding.dataCerimonia)
   .toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
 
-/** Retorna a data de limite de RSVP formatada em pt-BR: "31 de Outubro de 2026" */
-export const dataLimiteRsvpFormatada = new Date(wedding.dataLimiteRsvp)
-  .toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" }); 
+/** Retorna a data de limite de RSVP formatada em pt-BR: "7 de novembro de 2026" */
+export const dataLimiteRsvpFormatada = parseIsoDate(wedding.dataLimiteRsvp)
+  .toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+
+/** Verifica se o prazo limite de confirmação de presença já expirou */
+export function isPrazoRsvpExpirado(agora: Date = new Date()): boolean {
+  return agora.getTime() > parseIsoDate(wedding.dataLimiteRsvp).getTime();
+} 
