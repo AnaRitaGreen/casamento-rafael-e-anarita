@@ -15,13 +15,23 @@ export async function updateGuest(
     group_id: z.string().uuid().optional(),
     is_child: z.boolean().optional(),
     buffet_status: z.enum(['isento', 'meia', 'inteira']).optional(),
+    checked_in: z.boolean().optional(),
   })
 
   const body = schema.parse(request.body)
 
+  const updateData: Record<string, unknown> = {
+    ...body,
+    updated_at: new Date(),
+  }
+
+  if (body.checked_in !== undefined) {
+    updateData.checked_in_at = body.checked_in ? new Date() : null
+  }
+
   const [guest] = await knex('guests')
     .where({ id })
-    .update({ ...body, updated_at: new Date() })
+    .update(updateData)
     .returning('*')
 
   if (!guest) {

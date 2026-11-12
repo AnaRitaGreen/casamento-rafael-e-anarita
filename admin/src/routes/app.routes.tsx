@@ -8,6 +8,7 @@ import { Messages } from '@/pages/Messages'
 import { Gifts } from '@/pages/Gifts'
 import { Tables } from '@/pages/Tables'
 import { Settings } from '@/pages/Settings'
+import { CheckIn } from '@/pages/CheckIn'
 
 export const appRoutes = [
   {
@@ -18,6 +19,11 @@ export const appRoutes = [
         path: '/',
         component: <Dashboard />,
         name: 'Dashboard',
+      },
+      {
+        path: '/recepcao',
+        component: <CheckIn />,
+        name: 'Recepção / Check-in',
       },
       {
         path: '/convidados',

@@ -39,6 +39,8 @@ declare module 'knex/types/tables' {
     buffet_status: 'isento' | 'meia' | 'inteira'
     rsvp_status: 'pending' | 'attending' | 'declined'
     rsvp_responded_at: Date | null
+    checked_in: boolean
+    checked_in_at: Date | null
     created_at: Date
     updated_at: Date
   }

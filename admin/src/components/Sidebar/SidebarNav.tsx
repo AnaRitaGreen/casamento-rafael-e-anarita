@@ -2,6 +2,7 @@ import { Box, Flex, Icon, Text } from '@chakra-ui/react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard,
+  UserCheck,
   Users,
   FolderOpen,
   MessageCircleHeart,
@@ -15,6 +16,7 @@ import { useColorMode } from '@/components/ui/color-mode'
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', exact: true },
+  { to: '/recepcao', icon: UserCheck, label: 'Recepção (Evento)' },
   { to: '/convidados', icon: Users, label: 'Convidados' },
   { to: '/grupos', icon: FolderOpen, label: 'Grupos' },
   { to: '/mensagens', icon: MessageCircleHeart, label: 'Mensagens' },

@@ -7,19 +7,24 @@ export interface AdminGuest {
   group_id: string | null
   group_name: string | null
   group_slug: string | null
+  table_id?: string | null
+  table_number?: number | null
   name: string
   is_child: boolean
   buffet_status?: 'isento' | 'meia' | 'inteira'
   rsvp_status: 'pending' | 'attending' | 'declined'
   rsvp_responded_at: string | null
+  checked_in?: boolean
+  checked_in_at?: string | null
 }
 
 export interface AdminGuestPayload {
-  name: string
+  name?: string
   group_id?: string
   group_name?: string
-  is_child: boolean
+  is_child?: boolean
   buffet_status?: 'isento' | 'meia' | 'inteira'
+  checked_in?: boolean
 }
 
 export interface AdminGroup {
@@ -107,6 +112,10 @@ export async function createGuest(payload: AdminGuestPayload): Promise<void> {
 
 export async function updateGuest(id: string, payload: AdminGuestPayload): Promise<void> {
   await api.put(`/api/admin/guests/${id}`, payload, { withCredentials: true })
+}
+
+export async function toggleGuestCheckIn(id: string, checked_in: boolean): Promise<void> {
+  await api.put(`/api/admin/guests/${id}`, { checked_in }, { withCredentials: true })
 }
 
 export async function deleteGuest(id: string): Promise<void> {
